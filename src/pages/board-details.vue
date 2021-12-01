@@ -63,16 +63,18 @@
             openAddingInput() {
                 this.isAddClicked = !this.isAddClicked;
             },
-            addGroup() {
-                const newGroup = boardService.getEmptyGroup();
-                newGroup.title = this.groupTitle;
-                this.board.groups.push(newGroup);
+            async addGroup() {
                 try {
-                    this.$store.dispatch({
+                    await this.$store.dispatch({
                         // const group = JSON.parse(JSON.stringify(this.newGroup));
-                        type: 'updateBoard',
-                        board: this.board,
+                        type: 'addGroup',
+                        boardId: this.board._id,
+                        groupTitle: this.groupTitle,
                     });
+                    console.log(
+                        `Group Added Successfully in ${this.board._id}`
+                    );
+                    this.loadBoard();
                 } catch (err) {
                     console.log(
                         'Error in Adding a Group (board-details):',

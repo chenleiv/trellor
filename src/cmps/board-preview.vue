@@ -2,7 +2,7 @@
     <router-link :to="`/board/${board._id}`">
         <div class="board-preview" :style="board._id.style">
             <h4 class="board-preview-title">{{ board.title }}</h4>
-            <!-- <button @click="dele">delete</button> -->
+            <!-- <button @click="removeBoard">...</button> -->
         </div>
     </router-link>
 

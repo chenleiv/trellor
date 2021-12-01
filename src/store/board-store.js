@@ -93,7 +93,7 @@ export const boardStore = {
         },
         async updateGroup({ commit }, { boardId, group }) {
             try {
-                const savedBoard = await boardService.updateGroup(group, boardId)
+                const savedBoard = await boardService.updateGroup(boardId, group)
                 commit({ type: 'updateBoard', board: savedBoard })
                 return savedBoard;
             } catch (err) {
@@ -101,15 +101,25 @@ export const boardStore = {
                 throw err;
             }
         },
-        // async addGroup({ commit }, { boardId }) {
-        //     try {
-        //         const savedGroup = await boardService.save(board);
-        //         commit({ type: 'addGroup', savedBoard })
-        //         return savedBoard;
-        //     } catch {
-        //         console.log("Adding Error (Store):", err);
-        //         throw err;
-        //     }
-        // },
+        async removeGroup({ commit }, { boardId, groupId }) {
+            try {
+                const savedBoard = await boardService.removeGroup(boardId, groupId);
+                commit({ type: 'updateBoard', board: savedBoard })
+                return savedBoard;
+            } catch (err) {
+                console.log('Removing Error (Store):', err);
+                throw err;
+            }
+        },
+        async addGroup({ commit }, { boardId, groupTitle }) {
+            try {
+                const savedBoard = await boardService.addGroup(boardId, groupTitle);
+                commit({ type: 'updateBoard', board: savedBoard })
+                return savedBoard;
+            } catch {
+                console.log("Adding Error (Store):", err);
+                throw err;
+            }
+        },
     }
 }

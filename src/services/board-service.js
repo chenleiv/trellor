@@ -7,7 +7,10 @@ export const boardService = {
     remove,
     save,
     getEmptyGroup,
-    updateGroup
+    updateGroup,
+    removeGroup,
+    getEmptyTask,
+    addGroup
 }
 const BOARD_KEY = 'boardsDB'
 
@@ -41,7 +44,49 @@ function getEmptyGroup() {
     }
 }
 
-async function updateGroup(newGroup, boardId) {
+function getEmptyTask() {
+    return {
+        id: utilService.makeId(),
+        title: '',
+        description: '',
+        comments: [],
+        checklists: [],
+        members: [],
+        labelIds: [],
+        createdAt: '',
+        dueDate: '',
+        byMember: {},
+        coverStyle: { 'color': '' }
+    }
+}
+
+async function addTask() {
+    try {
+        const board = await getById(boardId);
+        const newGroup = getEmptyGroup();
+        newGroup.title = title;
+        board.groups.push(newGroup);
+        return save(board);
+    } catch (err) {
+        console.log('Error in addGroup (board-service):', err);
+        throw err;
+    }
+}
+
+async function addGroup(boardId, title) {
+    try {
+        const board = await getById(boardId);
+        const newGroup = getEmptyGroup();
+        newGroup.title = title;
+        board.groups.push(newGroup);
+        return save(board);
+    } catch (err) {
+        console.log('Error in addGroup (board-service):', err);
+        throw err;
+    }
+}
+
+async function updateGroup(boardId, newGroup) {
     try {
         const board = await getById(boardId);
         const idx = board.groups.findIndex(group => group.id === newGroup.id);
@@ -49,6 +94,18 @@ async function updateGroup(newGroup, boardId) {
         return save(board);
     } catch (err) {
         console.log('Error in updateGroup (board-service):', err);
+        throw err;
+    }
+}
+
+async function removeGroup(boardId, groupId) {
+    try {
+        const board = await getById(boardId);
+        const idx = board.groups.findIndex(group => group.id === groupId);
+        board.groups.splice(idx, 1);
+        return save(board);
+    } catch (err) {
+        console.log('Error in removeGroup (board-service):', err);
         throw err;
     }
 }
