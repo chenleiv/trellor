@@ -1,0 +1,109 @@
+<template>
+    <section v-if="board" class="board-details">
+        <!-- <board-header /> -->
+        <header>
+            {{ board.title }}
+            <aside-menu />
+        </header>
+
+        <div v-for="group in board.groups" :key="group.id">
+            <group-preview :group="group" @loadBoard="loadBoard" />
+        </div>
+
+        <div v-if="!isAddClicked">
+            <button @click="openAddingInput">Add another group</button>
+        </div>
+        <div v-else>
+            <input
+                v-model="groupTitle"
+                type="text"
+                placeholder="Enter group title..."
+            />
+            <button @click="addGroup">Add group</button>
+            <button @click="openAddingInput">X</button>
+        </div>
+    </section>
+</template>
+
+<script>
+    import groupPreview from '@/cmps/group-preview.vue';
+    import asideMenu from '@/cmps/aside-menu.vue';
+    import { boardService } from '@/services/board-service.js';
+
+    export default {
+        name: 'boardDetails',
+
+        data() {
+            return {
+                board: null,
+                isAddClicked: false,
+                groupTitle: '',
+            };
+        },
+
+        created() {
+            this.loadBoard();
+        },
+
+        methods: {
+            async loadBoard() {
+                const { boardId } = this.$route.params;
+                try {
+                    const board = await this.$store.dispatch({
+                        type: 'getBoard',
+                        boardId,
+                    });
+                    this.board = board;
+                    // this.toyToEdit = JSON.parse(JSON.stringify(toy));
+                } catch (err) {
+                    console.log('Board Loading Error (board-details):', err);
+                    throw err;
+                }
+            },
+            openAddingInput() {
+                this.isAddClicked = !this.isAddClicked;
+            },
+            addGroup() {
+                const newGroup = boardService.getEmptyGroup();
+                newGroup.title = this.groupTitle;
+                this.board.groups.push(newGroup);
+                try {
+                    this.$store.dispatch({
+                        // const group = JSON.parse(JSON.stringify(this.newGroup));
+                        type: 'updateBoard',
+                        board: this.board,
+                    });
+                } catch (err) {
+                    console.log(
+                        'Error in Adding a Group (board-details):',
+                        err
+                    );
+                    throw err;
+                } finally {
+                    this.groupTitle = '';
+                }
+            },
+        },
+
+        computed: {
+            // getBoard
+        },
+
+        //ask Avior if nessecery
+        // watch: {
+        //   "$route.params.BoardId": {
+        //     handler() {
+        //       let toyId = this.$route.params.BoardId;
+        //       console.log("Changed to", BoardId);
+        //       this.$store.dispatch({ type: "setCurrToy", BoardId });
+        //     },
+        //     immediate: true,
+        //   },
+        // },
+
+        components: {
+            groupPreview,
+            asideMenu,
+        },
+    };
+</script>
