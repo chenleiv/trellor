@@ -1,15 +1,36 @@
 .workspace {
-    // display: grid;
-    // grid-template-columns: $layoutPadding 1fr $layoutPadding;
-    ul {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat( auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    .add-board-btn {
+        border: 1px solid gray;
         display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 0;
-        li {
-            height: 80px;
-            width: 120px;
-            background-color: rgb(63, 63, 163);
-        }
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+    .board-modal {
+        border: 2px solid gray;
+        height: 150px;
+    }
+    .modal-background {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgb(92 92 92 / 76%);
+    }
+    .add-board-modal {
+        box-shadow: 0 0 0 0 transparent, 0 0 0 0 transparent, 0 2px 15px rgb(0 0 0 / 30%);
+        padding: 15px;
+        text-align: center;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 0.8px solid rgb(211 211 211);
+        // border-radius: 0.5rem;
     }
 }

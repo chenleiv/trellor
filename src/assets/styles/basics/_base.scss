@@ -10,18 +10,21 @@ html {
 body {
     margin: 0;
     a {
-        color: #fff;
+        color: #0e1111;
         text-decoration: none;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 0;
     }
 }
 
 // body {
 //     margin: 0;
-// }
-// h1, h2, h3, h4, h5, h6 {
-//     font-family: GreatVibes;
-//     font-weight: 500;
-//     margin: 0 0 1rem;
 // }
 // h1 {
 //     font-size: rem(60px);
