@@ -11,7 +11,8 @@ export const boardService = {
     updateGroup,
     removeGroup,
     getEmptyTask,
-    addTask
+    addTask,
+    updateTask
 }
 
 const BOARD_KEY = 'boardsDB'
@@ -72,6 +73,21 @@ async function addTask(boardId, groupId, title) {
         return save(board);
     } catch (err) {
         console.log('Error in addTask (board-service):', err);
+        throw err;
+    }
+
+}
+
+async function updateTask(boardId, groupId, task, description) {
+    try {
+        const board = await getById(boardId);
+        const groupIdx = board.groups.findIndex(g => g.id === groupId)
+        const taskIdx = board.groups[groupIdx].tasks.findIndex(t => t === task)
+        task.description = description;
+        board.groups[groupIdx].tasks.splice(taskIdx, 1, task);
+        return save(board);
+    } catch (err) {
+        console.log('Error in updateTask (board-service):', err);
         throw err;
     }
 }
@@ -153,7 +169,7 @@ function _createBoard() {
         ],
         groups: [{
             id: 'g101',
-            title: 'Group 1',
+            title: 'Backlog',
             tasks: [{
                 id: 't101',
                 title: 'Do that',

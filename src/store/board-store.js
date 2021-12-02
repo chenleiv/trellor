@@ -131,5 +131,15 @@ export const boardStore = {
                 throw err;
             }
         },
+        async updateTask({ commit }, { boardId, groupId, task, taskDescription }) {
+            try {
+                const savedBoard = await boardService.updateTask(boardId, groupId, task, taskDescription);
+                commit({ type: 'updateBoard', board: savedBoard })
+                return savedBoard;
+            } catch {
+                console.log("updateTask Error (Store):", err);
+                throw err;
+            }
+        },
     }
 }

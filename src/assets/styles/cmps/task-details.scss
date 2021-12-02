@@ -1,0 +1,47 @@
+.task-details-container {
+    h1 {
+        margin-bottom: 0;
+    }
+    p {
+        margin: 1px;
+    }
+    .description-container {
+        margin-top: 30px;
+        article {
+            margin: auto;
+            width: 30%;
+            height: 60px;
+            background-color: rgb(236, 236, 236);
+            cursor: pointer;
+            p {
+                display: inline;
+            }
+        }
+        article:hover {
+            background-color: rgb(219, 219, 219);
+        }
+        div {
+            display: flex;
+            flex-direction: column;
+            width: 30%;
+            margin: auto;
+            textarea {
+                margin-bottom: 10px;
+            }
+            button {
+                cursor: pointer;
+            }
+        }
+    }
+    .activities-container {
+        h4 {
+            margin-bottom: 5px;
+        }
+        ul {
+            display: inline;
+        }
+        li {
+            list-style: none;
+        }
+    }
+}
