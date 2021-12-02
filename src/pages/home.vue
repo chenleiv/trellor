@@ -1,6 +1,7 @@
 <template>
     <div class="home">
-        <img alt="Vue logo" src="../assets/logo.png" />
+        <router-link to="/workspace">Get started </router-link><br />
+        <router-link to="/">Login </router-link>
     </div>
 </template>
 
