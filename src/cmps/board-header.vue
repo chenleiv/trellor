@@ -1,14 +1,16 @@
 <template>
     <section class="board-header">
         <!-- drop-dawn menu (board,map,calender) -->
-        <el-select v-model="value" placeholder="Select">
-            <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-            >
-            </el-option>
+        <el-select
+            class="el-select"
+            v-model="value"
+            collapse-tags
+            style="margin-left: 20px"
+            placeholder="select"
+        >
+            <el-option value="Board">Board</el-option>
+            <el-option value="Map"> Map</el-option>
+            <el-option value="Calendar">Calendar</el-option>
         </el-select>
 
         {{ board.title }}
@@ -39,20 +41,6 @@
         data() {
             return {
                 isMenuOpen: false,
-                options: [
-                    {
-                        value: 'board',
-                        label: 'board',
-                    },
-                    {
-                        value: 'Map',
-                        label: 'Map',
-                    },
-                    {
-                        value: 'Calender',
-                        label: 'Calender',
-                    },
-                ],
                 value: '',
             };
         },
