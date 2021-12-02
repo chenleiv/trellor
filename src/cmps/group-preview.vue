@@ -83,6 +83,7 @@
                 this.$nextTick(() => {
                     if (this.isInputVisible) this.$refs.titleInput.focus();
                 });
+                // TODO: Clearing textarea Input
             },
 
             async editTitle() {
@@ -129,6 +130,7 @@
             },
 
             async saveTask() {
+                if (!this.taskTitle) return;
                 this.toggleAddTaskInput();
                 try {
                     await this.$store.dispatch({
@@ -144,6 +146,8 @@
                 } catch (err) {
                     console.log('Error in saveTask (group-preview):', err);
                     throw err;
+                } finally {
+                    this.groupTitle = '';
                 }
             },
 
