@@ -1,11 +1,7 @@
 <template>
     <section v-if="board" class="board-details">
-        <!-- <board-header /> -->
-        <header class="board-header">
-            {{ board.title }}
-            <button class="menu-btn" @click="openMenu">Show menu</button>
-        </header>
-        <aside-menu :class="menuVisibility" />
+        <board-header :board="board" />
+
         <main class="groups-container">
             <div v-for="group in board.groups" :key="group.id">
                 <group-preview :group="group" @loadBoard="loadBoard" />
@@ -29,8 +25,7 @@
 
 <script>
     import groupPreview from '@/cmps/group-preview.vue';
-    import asideMenu from '@/cmps/aside-menu.vue';
-    import { boardService } from '@/services/board-service.js';
+    import boardHeader from '@/cmps/board-header.vue';
 
     export default {
         name: 'boardDetails',
@@ -40,7 +35,6 @@
                 board: null,
                 isAddClicked: false,
                 groupTitle: '',
-                isMenuOpen: false,
             };
         },
 
@@ -88,16 +82,10 @@
                     this.groupTitle = '';
                 }
             },
-            openMenu() {
-                this.isMenuOpen = !this.isMenuOpen;
-            },
         },
 
         computed: {
             // getBoard
-            menuVisibility() {
-                return { 'aside-menu-open': this.isMenuOpen };
-            },
         },
 
         //ask Avior if nessecery
@@ -114,7 +102,7 @@
 
         components: {
             groupPreview,
-            asideMenu,
+            boardHeader,
         },
     };
 </script>

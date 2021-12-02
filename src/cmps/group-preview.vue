@@ -1,5 +1,6 @@
 <template>
     <section class="group-preview">
+        <button @click="removeGroup">...</button>
         <h4 v-if="!isInputVisible" @click="toggleEditMode">
             {{ group.title }}
         </h4>
@@ -12,13 +13,17 @@
             ref="titleInput"
         />
 
-        <ul>
-            <li v-for="task in group.tasks" :key="task.id">
-                <task-preview :task="task" />
-            </li>
-        </ul>
-
-        <button @click="removeGroup">...</button>
+        <!-- <ul> -->
+        <!-- <li > -->
+        <draggable>
+            <task-preview
+                v-for="task in group.tasks"
+                :key="task.id"
+                :task="task"
+            />
+        </draggable>
+        <!-- </li> -->
+        <!-- </ul> -->
 
         <section>
             <div v-if="!isAddTaskClicked" @click="toggleAddTaskInput">
@@ -43,6 +48,7 @@
 
 <script>
     import taskPreview from '@/cmps/task-preview.vue';
+    import draggable from 'vuedraggable';
 
     export default {
         name: 'groupPreview',
@@ -140,7 +146,7 @@
                         taskTitle: this.taskTitle,
                     });
                     console.log(
-                        `Task Succefully Added in GroupId ${this.group.id}`
+                        `Task Successfully Added in GroupId ${this.group.id}`
                     );
                     this.$emit('loadBoard');
                 } catch (err) {
@@ -161,6 +167,7 @@
 
         components: {
             taskPreview,
+            draggable,
         },
     };
 </script>
