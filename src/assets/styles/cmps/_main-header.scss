@@ -1,0 +1,12 @@
+.main-header {
+    height: 10vh;
+    padding: 6px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #026aa7;
+    color: #fff;
+    .logo h1 {
+        margin: 0
+    }
+}

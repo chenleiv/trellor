@@ -1,6 +1,5 @@
 <template>
     <div class="workspace">
-        <h1>This is an workspace page</h1>
         <ul>
             <li v-for="board in boards" :key="board._id">
                 <!-- <router-link :to="`/board/${board._id}`"> -->

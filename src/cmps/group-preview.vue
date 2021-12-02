@@ -30,11 +30,10 @@
                     oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                     type="text"
                     placeholder="Enter a title for this task..."
-                    @blur="saveTask"
                     ref="saveTaskInput"
                 />
 
-                <button @click="log">Add Task</button>
+                <button @click="saveTask">Add Task</button>
                 <button @click="toggleAddTaskInput">X</button>
             </div>
         </section>

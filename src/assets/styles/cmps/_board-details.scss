@@ -1,0 +1,17 @@
+.board-details {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(186, 186, 183);
+    .board-header {
+        background-color: grey;
+        display: flex;
+        justify-content: space-between;
+        // &.menu-btn {
+        //     justify-self: flex-end;
+        // }
+    }
+    .groups-container {
+        display: flex;
+    }
+}

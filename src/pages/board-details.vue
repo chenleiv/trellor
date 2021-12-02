@@ -1,27 +1,29 @@
 <template>
     <section v-if="board" class="board-details">
         <!-- <board-header /> -->
-        <header>
+        <header class="board-header">
             {{ board.title }}
-            <aside-menu />
+            <button class="menu-btn" @click="openMenu">Show menu</button>
         </header>
+        <aside-menu :class="menuVisibility" />
+        <main class="groups-container">
+            <div v-for="group in board.groups" :key="group.id">
+                <group-preview :group="group" @loadBoard="loadBoard" />
+            </div>
 
-        <div v-for="group in board.groups" :key="group.id">
-            <group-preview :group="group" @loadBoard="loadBoard" />
-        </div>
-
-        <div v-if="!isAddClicked">
-            <button @click="openAddingInput">Add another group</button>
-        </div>
-        <div v-else>
-            <input
-                v-model="groupTitle"
-                type="text"
-                placeholder="Enter group title..."
-            />
-            <button @click="addGroup">Add group</button>
-            <button @click="openAddingInput">X</button>
-        </div>
+            <div v-if="!isAddClicked">
+                <button @click="openAddingInput">Add another group</button>
+            </div>
+            <div v-else>
+                <input
+                    v-model="groupTitle"
+                    type="text"
+                    placeholder="Enter group title..."
+                />
+                <button @click="addGroup">Add group</button>
+                <button @click="openAddingInput">X</button>
+            </div>
+        </main>
     </section>
 </template>
 
@@ -38,6 +40,7 @@
                 board: null,
                 isAddClicked: false,
                 groupTitle: '',
+                isMenuOpen: false,
             };
         },
 
@@ -85,10 +88,16 @@
                     this.groupTitle = '';
                 }
             },
+            openMenu() {
+                this.isMenuOpen = !this.isMenuOpen;
+            },
         },
 
         computed: {
             // getBoard
+            menuVisibility() {
+                return { 'aside-menu-open': this.isMenuOpen };
+            },
         },
 
         //ask Avior if nessecery

@@ -1,7 +1,7 @@
 <template>
     <section class="main-header">
         <div class="logo">
-            <h1>LOGO</h1>
+            <h1>Trellor</h1>
         </div>
         <div class="main-header-links">
             <router-link to="/">Home</router-link> |
