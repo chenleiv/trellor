@@ -67,7 +67,7 @@ export const boardStore = {
                 commit({ type: 'addBoard', savedBoard })
                 return savedBoard;
             } catch {
-                console.log("Adding Error (Store):", err);
+                console.log("addBoard (Store):", err);
                 throw err;
             }
         },
@@ -77,7 +77,7 @@ export const boardStore = {
                 commit({ type: 'updateBoard', board: savedBoard })
                 return savedBoard;
             } catch (err) {
-                console.log('Editing Error (Store):', err);
+                console.log('updateBoard (Store):', err);
                 throw err;
             }
         },
@@ -87,7 +87,7 @@ export const boardStore = {
                 commit({ type: 'removeBoard', boardId });
                 return removedBoardId;
             } catch (err) {
-                console.log('Removing Error (Store):', err);
+                console.log('removeBoard (Store):', err);
                 throw err;
             }
         },
@@ -97,7 +97,7 @@ export const boardStore = {
                 commit({ type: 'updateBoard', board: savedBoard })
                 return savedBoard;
             } catch (err) {
-                console.log("Adding Error (Store):", err);
+                console.log("updateGroup (Store):", err);
                 throw err;
             }
         },
@@ -107,7 +107,7 @@ export const boardStore = {
                 commit({ type: 'updateBoard', board: savedBoard })
                 return savedBoard;
             } catch (err) {
-                console.log('Removing Error (Store):', err);
+                console.log('removeGroup (Store):', err);
                 throw err;
             }
         },
@@ -117,7 +117,17 @@ export const boardStore = {
                 commit({ type: 'updateBoard', board: savedBoard })
                 return savedBoard;
             } catch {
-                console.log("Adding Error (Store):", err);
+                console.log("addGroup (Store):", err);
+                throw err;
+            }
+        },
+        async addTask({ commit }, { boardId, groupId, taskTitle }) {
+            try {
+                const savedBoard = await boardService.addTask(boardId, groupId, taskTitle);
+                commit({ type: 'updateBoard', board: savedBoard })
+                return savedBoard;
+            } catch {
+                console.log("addTask Error (Store):", err);
                 throw err;
             }
         },

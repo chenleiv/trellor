@@ -27,6 +27,7 @@
 
             <div v-else>
                 <textarea
+                    v-model="taskTitle"
                     oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                     type="text"
                     placeholder="Enter a title for this task..."
@@ -63,6 +64,7 @@
                 board: null,
                 boardId: '',
                 isAddTaskClicked: false,
+                taskTitle: '',
             };
         },
 
@@ -102,24 +104,47 @@
             },
 
             async removeGroup() {
-                try {
-                    await this.$store.dispatch({
-                        type: 'removeGroup',
-                        boardId: this.boardId,
-                        groupId: this.group.id,
-                    });
-                    console.log(
-                        `Group Removed Successfully in ${this.boardId}`
-                    );
-                    this.$emit('loadBoard');
-                } catch (err) {
-                    console.log('Error in removeGroup (group-preview):', err);
-                    throw err;
+                const toDelete = confirm(
+                    'Are you sure you want to delete this Group?'
+                );
+                if (toDelete) {
+                    try {
+                        await this.$store.dispatch({
+                            type: 'removeGroup',
+                            boardId: this.boardId,
+                            groupId: this.group.id,
+                        });
+                        console.log(
+                            `Group Removed Successfully in BoardId ${this.boardId}`
+                        );
+                        this.$emit('loadBoard');
+                    } catch (err) {
+                        console.log(
+                            'Error in removeGroup (group-preview):',
+                            err
+                        );
+                        throw err;
+                    }
                 }
             },
 
-            saveTask() {
+            async saveTask() {
                 this.toggleAddTaskInput();
+                try {
+                    await this.$store.dispatch({
+                        type: 'addTask',
+                        boardId: this.boardId,
+                        groupId: this.group.id,
+                        taskTitle: this.taskTitle,
+                    });
+                    console.log(
+                        `Task Succefully Added in GroupId ${this.group.id}`
+                    );
+                    this.$emit('loadBoard');
+                } catch (err) {
+                    console.log('Error in saveTask (group-preview):', err);
+                    throw err;
+                }
             },
 
             toggleAddTaskInput() {
