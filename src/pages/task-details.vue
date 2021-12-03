@@ -1,38 +1,55 @@
 <template>
-    <section v-if="task" class="task-details-container">
-        <h1>{{ task.title }}</h1>
-        <p>in group {{ group.title }}</p>
+    <section v-if="task">
+        <router-link :to="`/board/${board._id}`">
+            <div class="modal-background"></div>
+        </router-link>
 
-        <section class="description-container">
-            <h4>Description</h4>
-            <article v-if="!isTextAreaVisible" @click="toggleTextArea">
-                <p>{{ descriptionToShow }}</p>
-            </article>
-            <div v-else>
-                <textarea
-                    v-model="description"
-                    type="text"
-                    @blur="addDescription"
-                    cols="40"
-                    rows="6"
-                    placeholder="Add a more detailed description..."
-                    ref="descriptionInput"
-                ></textarea>
-                <button @click="addDescription">Save</button>
-                <button @click="cancelDescAdding">X</button>
-            </div>
-        </section>
+        <section class="task-details-container">
+            <header>
+                <button class="close-modal-btn" @click="backToBoard"></button>
+                <h1>{{ task.title }}</h1>
+                <p>
+                    in group
+                    <span>{{ group.title }}</span>
+                </p>
+            </header>
+            <main>
+                <section class="description-container">
+                    <h4>Description</h4>
+                    <article v-if="!isTextAreaVisible" @click="toggleTextArea">
+                        <p>{{ descriptionToShow }}</p>
+                    </article>
+                    <div v-else>
+                        <textarea
+                            v-model="description"
+                            type="text"
+                            @blur="addDescription"
+                            cols="40"
+                            rows="6"
+                            placeholder="Add a more detailed description..."
+                            ref="descriptionInput"
+                        ></textarea>
+                        <button @click="addDescription">Save</button>
+                        <button @click="cancelDescAdding">X</button>
+                    </div>
+                </section>
 
-        <section class="activities-container">
-            <h4>Activity</h4>
-            <input type="text" placeholder="Write a comment..." />
-            <!-- Need to get the activities from the specific task -->
-            <main class="activities-list">
-                <ul>
-                    <li v-for="activity in board.activities" :key="activity.id">
-                        {{ activity.byMember.fullname }} {{ activity.txt }}
-                    </li>
-                </ul>
+                <section class="activities-container">
+                    <h4>Activity</h4>
+                    <input type="text" placeholder="Write a comment..." />
+                    <!-- Need to get the activities from the specific task -->
+                    <main class="activities-list">
+                        <ul>
+                            <li
+                                v-for="activity in board.activities"
+                                :key="activity.id"
+                            >
+                                {{ activity.byMember.fullname }}
+                                {{ activity.txt }}
+                            </li>
+                        </ul>
+                    </main>
+                </section>
             </main>
         </section>
     </section>
@@ -116,6 +133,10 @@
             cancelDescAdding() {
                 this.description = '';
                 this.toggleTextArea();
+            },
+
+            backToBoard() {
+                this.$router.push(`/board/${this.board._id}`);
             },
         },
 

@@ -20,6 +20,10 @@
                 <button @click="openAddingInput">X</button>
             </div>
         </main>
+
+        <transition name="fade">
+            <router-view />
+        </transition>
     </section>
 </template>
 
