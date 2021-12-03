@@ -3,7 +3,8 @@
 }
 
 html {
-    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica, sans-serif;
+    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
+        Helvetica, sans-serif;
     //    line-height: 1.8;
 }
 
@@ -24,6 +25,17 @@ body {
     h6 {
         margin: 0;
     }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s;
+}
+
+.fade-enter,
+.fade-leave-to
+/* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
 }
 
 // body {

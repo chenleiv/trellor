@@ -20,13 +20,14 @@ const routes = [{
 {
     path: '/board/:boardId',
     name: 'boardDetails',
-    component: boardDetails
+    component: boardDetails,
+    children: [{
+        path: 'task/:taskId',
+        name: 'taskDetails',
+        component: taskDetails
+    }]
 },
-{
-    path: '/board/:boardId/task/:taskId',
-    name: 'taskDetails',
-    component: taskDetails
-}]
+]
 
 const router = new VueRouter({
     routes
@@ -35,6 +36,11 @@ const router = new VueRouter({
 export default router
 
 
+// {
+//     path: '/board/:boardId/task/:taskId',
+//     name: 'taskDetails',
+//     component: taskDetails
+// }
 
 // {
 //   path: '/about',

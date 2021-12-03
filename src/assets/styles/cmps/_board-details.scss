@@ -16,3 +16,12 @@
         gap: 8px
     }
 }
+
+.modal-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgb(92 92 92 / 76%);
+}

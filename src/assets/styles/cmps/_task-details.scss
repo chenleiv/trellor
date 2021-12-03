@@ -1,4 +1,59 @@
 .task-details-container {
+    text-align: left;
+    margin: 0 auto;
+    max-width: 57%;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    border-radius: 2px;
+    overflow: hidden;
+    // font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    background-color: #f4f5f7;
+    color: #172b4d;
+    display: flex;
+    flex-direction: column;
+    >* {
+        padding: 25px;
+        margin-left: 22px;
+        margin-right: 17px;
+        // width: 73%;
+    }
+    header {
+        // background-color: aqua;
+        width: 94%;
+    }
+    .close-modal-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5px;
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 50%;
+        padding: 4px;
+        cursor: pointer;
+        color: #42526e;
+        background-color: transparent;
+        transition: background-color 85ms, color 85ms;
+        overflow: hidden;
+        font-family: fa-solid;
+        &::before {
+            content: '\f00d';
+        }
+        &:hover {
+            border-radius: 40%;
+            background-color: rgb(223, 221, 221);
+        }
+        // z-index: 2;
+        // z-index: 10;
+    }
     h1 {
         margin-bottom: 0;
     }
@@ -9,21 +64,20 @@
         margin-top: 30px;
         article {
             margin: auto;
-            width: 30%;
             height: 60px;
             background-color: rgb(236, 236, 236);
             cursor: pointer;
+            overflow: hidden;
             p {
                 display: inline;
             }
-        }
-        article:hover {
-            background-color: rgb(219, 219, 219);
+            &:hover {
+                background-color: rgb(219, 219, 219);
+            }
         }
         div {
             display: flex;
             flex-direction: column;
-            width: 30%;
             margin: auto;
             textarea {
                 margin-bottom: 10px;
