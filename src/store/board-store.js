@@ -81,6 +81,17 @@ export const boardStore = {
                 throw err;
             }
         },
+        async updateBoardTitle({ commit }, { boardId, title }) {
+            try {
+                // console.log('boardId, title store', boardId, title);
+                const savedBoard = await boardService.save(boardId, title);
+                commit({ type: 'updateBoard', board: savedBoard })
+                return savedBoard;
+            } catch (err) {
+                console.log('updateBoard (Store):', err);
+                throw err;
+            }
+        },
         async removeBoard({ commit }, { boardId }) {
             try {
                 const removedBoardId = await boardService.remove(boardId);

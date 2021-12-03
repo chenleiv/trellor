@@ -1,10 +1,58 @@
 .board-header {
-    height: 5vh;
+    background-color: rgba(173, 170, 170, 0.469);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 
-    button {
-        height: 20px;
+    .header-members {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        // margin: 10px;
+        padding: 0.5rem;
     }
-    li {
-        display: block;
+    span {
+        font-size: 0.7rem;
+    }
+
+    .add-user {
+        font-family: fa-solid;
+        &::before {
+            content: '\f234';
+        }
+        button {
+            justify-content: center;
+        }
+    }
+
+    .select {
+        input {
+            margin-left: 10px;
+            height: fit-content;
+            width: fit-content;
+            background-color: rgba(67, 68, 71, 0.133);
+            border: none;
+            color: #fff;
+        }
+        .el-select-dropdown__item {
+            background-color: rgb(67, 68, 71);
+        }
+        li {
+            background-color: rgb(67, 68, 71);
+        }
+        .el-input__inner {
+            padding: 0;
+        }
+    }
+    button {
+        height: 30px;
+        width: fit-content;
+        border-radius: 3px;
+        color: #fff;
+        // background-color: hsla(0, 0%, 100%, 0.264);
+        background-color: rgba(255, 255, 255, 0.2);
+        overflow-x: none;
+        outline: none;
+        border: none;
     }
 }

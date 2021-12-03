@@ -1,6 +1,7 @@
 <template>
     <section class="group-preview">
         <button @click="removeGroup">...</button>
+
         <h4 v-if="!isInputVisible" @click="toggleEditMode">
             {{ group.title }}
         </h4>
@@ -12,9 +13,7 @@
             type="text"
             ref="titleInput"
         />
-
-        <!-- <ul> -->
-        <!-- <li > -->
+        <!-- drag & drop -->
         <draggable>
             <task-preview
                 v-for="task in group.tasks"
@@ -22,8 +21,6 @@
                 :task="task"
             />
         </draggable>
-        <!-- </li> -->
-        <!-- </ul> -->
 
         <section>
             <div v-if="!isAddTaskClicked" @click="toggleAddTaskInput">
