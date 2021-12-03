@@ -1,0 +1,17 @@
+.task-preview {
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 #091e4240;
+    div {
+        display: flex;
+        justify-content: space-between;
+    }
+    .edit-task-btn {
+        font-family: fa-solid;
+        // color: transparent;
+        // -webkit-text-stroke: 1px #000;
+        &::before {
+            content: '\f304'
+        }
+    }
+}

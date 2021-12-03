@@ -1,8 +1,10 @@
 <template>
-    <section>
+    <section class="task-preview">
         <router-link :to="`/board/${boardId}/task/${task.id}`">
-            {{ task.title }}
-            <!-- pencil -->
+            <div>
+                {{ task.title }}
+                <button class="edit-task-btn btn-group"></button>
+            </div>
         </router-link>
     </section>
 </template>

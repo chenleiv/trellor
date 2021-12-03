@@ -1,27 +1,29 @@
 <template>
-    <div class="workspace">
-        <div class="add-board-btn" @click="openBoardModal">
-            <span>Create new board</span>
-        </div>
-        <div
-            class="modal-background"
-            v-if="isModalOpen"
-            @click="isModalOpen = false"
-        ></div>
-        <div class="add-board-modal" v-if="isModalOpen">
-            <form @submit.prevent="addBoard">
-                <input
-                    type="text"
-                    placeholder="Add board title"
-                    v-model="newBoard.title"
-                />
-                <button type="submit">Create board</button>
-            </form>
-        </div>
-        <div v-for="board in boards" :key="board._id">
-            <!-- <router-link :to="`/board/${board._id}`"> -->
-            <board-preview :board="board" />
-            <!-- </router-link> -->
+    <div class="workspace main-layout full">
+        <div class="board-previews-container">
+            <div class="add-board-btn" @click="openBoardModal">
+                <span>Create new board</span>
+            </div>
+            <div
+                class="modal-background"
+                v-if="isModalOpen"
+                @click="isModalOpen = false"
+            ></div>
+            <div class="add-board-modal" v-if="isModalOpen">
+                <form @submit.prevent="addBoard">
+                    <input
+                        type="text"
+                        placeholder="Add board title"
+                        v-model="newBoard.title"
+                    />
+                    <button type="submit">Create board</button>
+                </form>
+            </div>
+            <div v-for="board in boards" :key="board._id">
+                <!-- <router-link :to="`/board/${board._id}`"> -->
+                <board-preview :board="board" />
+                <!-- </router-link> -->
+            </div>
         </div>
     </div>
 </template>
