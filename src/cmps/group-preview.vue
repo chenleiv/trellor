@@ -1,12 +1,17 @@
 <template>
     <section class="group-preview">
-        <button @click="removeGroup">...</button>
+        <div class="group-header">
+            <h4 v-if="!isInputVisible" @click="toggleEditMode">
+                {{ group.title }}
+            </h4>
+            <button
+                class="el-icon-more btn-group"
+                @click="removeGroup"
+            ></button>
+        </div>
 
-        <h4 v-if="!isInputVisible" @click="toggleEditMode">
-            {{ group.title }}
-        </h4>
         <input
-            v-else
+            v-if="isInputVisible"
             v-model="newTitle"
             @blur="editTitle"
             @keyup.enter="$event.target.blur()"
@@ -15,11 +20,13 @@
         />
         <!-- drag & drop -->
         <draggable>
-            <task-preview
-                v-for="task in group.tasks"
-                :key="task.id"
-                :task="task"
-            />
+            <div class="tasks-container">
+                <task-preview
+                    v-for="task in group.tasks"
+                    :key="task.id"
+                    :task="task"
+                />
+            </div>
         </draggable>
 
         <section>
@@ -34,6 +41,7 @@
                     type="text"
                     placeholder="Enter a title for this task..."
                     ref="saveTaskInput"
+                    @blur="saveTask"
                 />
 
                 <button @click="saveTask">Add Task</button>

@@ -185,10 +185,10 @@ function getEmptyBoard() {
             imgUrl: ''
         }],
         groups: [{
-            id: utilService.makeId(),
+            id: utilService.makeId(4) + 's',
             title: 'To do',
             tasks: [{
-                id: utilService.makeId(),
+                id: utilService.makeId(4) + 'j',
                 title: 'Do that',
                 description: '',
                 comments: [],
@@ -201,10 +201,10 @@ function getEmptyBoard() {
                 coverStyle: { 'color': '#26de81' }
             },]
         }, {
-            id: utilService.makeId(),
+            id: utilService.makeId(4) + 'f',
             title: 'Doing',
             tasks: [{
-                id: utilService.makeId(),
+                id: utilService.makeId(4) + 5,
                 title: 'Do that',
                 description: '',
                 comments: [],
@@ -238,7 +238,6 @@ function getEmptyBoard() {
         activities: [],
         isStarred: false
     }
-
 }
 
 function _createBoard() {

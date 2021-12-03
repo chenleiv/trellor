@@ -1,8 +1,30 @@
 .group-preview {
     display: flex;
+    padding: 8px;
+    overflow-y: auto;
+    max-height: 82vh;
     flex-direction: column;
-    margin: 10px;
-    background-color: rgb(100, 149, 187);
+    background-color: rgb(235 236 240);
     border-radius: 3px;
     width: 270px;
+    .btn-group {
+        border: 0;
+        background-color: transparent;
+        border-radius: 3px;
+        &:hover {
+            background-color: rgb(9 30 66 / 8%)
+        }
+    }
+    .group-header {
+        margin-bottom: 8px;
+        display: flex;
+        color: #026aa7;
+        justify-content: space-between;
+    }
+    .tasks-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
 }

@@ -1,15 +1,16 @@
-.main-header {
+header.main-header {
     height: 10vh;
-    padding: 6px 4px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     background-color: #026aa7;
-    color: #fff;
-    a {
+    .header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         color: #fff;
-    }
-    .logo h1 {
-        margin: 0
+        a {
+            color: #fff;
+        }
+        .logo h1 {
+            margin: 0
+        }
     }
 }

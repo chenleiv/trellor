@@ -66,7 +66,7 @@ export const boardStore = {
                 const savedBoard = await boardService.save(board);
                 commit({ type: 'addBoard', savedBoard })
                 return savedBoard;
-            } catch {
+            } catch (err) {
                 console.log("addBoard (Store):", err);
                 throw err;
             }

@@ -2,24 +2,30 @@
     <section v-if="board" class="board-details">
         <board-header :board="board" />
 
-        <main class="groups-container">
-            <div v-for="group in board.groups" :key="group.id">
-                <group-preview :group="group" @loadBoard="loadBoard" />
-            </div>
+        <main class="main-layout">
+            <section class="groups-container">
+                <div v-for="group in board.groups" :key="group.id">
+                    <group-preview :group="group" @loadBoard="loadBoard" />
+                </div>
 
-            <div v-if="!isAddClicked">
-                <button @click="openAddingInput">Add another group</button>
-            </div>
-            <div v-else>
-                <input
-                    v-model="groupTitle"
-                    type="text"
-                    placeholder="Enter group title..."
-                />
-                <button @click="addGroup">Add group</button>
-                <button @click="openAddingInput">X</button>
-            </div>
+                <div v-if="!isAddClicked">
+                    <button @click="openAddingInput">Add another group</button>
+                </div>
+                <div v-else>
+                    <input
+                        v-model="groupTitle"
+                        type="text"
+                        placeholder="Enter group title..."
+                    />
+                    <button @click="addGroup">Add group</button>
+                    <button @click="openAddingInput">X</button>
+                </div>
+            </section>
         </main>
+
+        <transition name="fade">
+            <router-view />
+        </transition>
     </section>
 </template>
 
