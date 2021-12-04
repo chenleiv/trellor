@@ -1,7 +1,9 @@
 header.main-header {
-    height: 10vh;
     background-color: #026aa7;
     .header-container {
+        // position: fixed;
+        max-height: 44px;
+        padding: 6px 4px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -10,7 +12,7 @@ header.main-header {
             color: #fff;
         }
         .logo h1 {
-            margin: 0
+            margin: 0;
         }
     }
 }

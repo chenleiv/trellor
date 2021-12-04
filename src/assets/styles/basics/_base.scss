@@ -9,10 +9,12 @@ html {
 }
 
 body {
-    height: 100vh;
+    width: max-content;
+    min-width: 100%;
+    // min-height: 100vh;
     margin: 0;
     overflow-y: hidden;
-    overflow-x: scroll;
+    // overflow-x: scroll;
     a {
         color: #0e1111;
         text-decoration: none;
@@ -28,6 +30,13 @@ body {
 }
 
 button {
+    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
+        Helvetica, sans-serif;
+    cursor: pointer;
+}
+textarea {
+    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
+        Helvetica, sans-serif;
     cursor: pointer;
 }
 

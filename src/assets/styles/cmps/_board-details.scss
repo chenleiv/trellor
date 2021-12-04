@@ -1,11 +1,11 @@
 .board-details {
-    height: 90vh;
+    height: calc(100vh - 44px + 52px);
     display: flex;
     flex-direction: column;
     background-color: rgb(186, 186, 183);
     .groups-container {
         display: flex;
-        gap: 8px
+        gap: 8px;
     }
 }
 
