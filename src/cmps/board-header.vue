@@ -1,71 +1,76 @@
 <template>
-    <section class="board-header">
-        <!-- drop-dawn menu (board,map,calender) -->
+    <section>
+        <div class="board-header">
+            <!-- drop-dawn menu (board,map,calender) -->
 
-        <div class="select">
-            <el-select v-model="value" collapse-tags placeholder="Board">
-                <el-option value="Board">
-                    <i class="el-icon-s-data"></i> Board</el-option
-                >
-                <el-option value="Map">
-                    <i class="el-icon-location-information"></i> Map</el-option
-                >
-                <el-option value="Calendar">
-                    <i class="el-icon-date"></i> Calendar</el-option
-                >
-                <el-option value="Dashboard">
-                    <i class="el-icon-odometer"></i> Dashboard</el-option
-                >
-            </el-select>
+            <div class="select">
+                <button>
+                    <span class="el-icon-s-data"></span
+                    ><span class="bb"> Board</span
+                    ><span class="el-icon-arrow-down"></span>
+                </button>
+                <!-- <el-select v-model="value" collapse-tags placeholder="Board">
+                    <el-option value="Board">
+                        <i class="el-icon-s-data"></i> Board</el-option
+                    >
+                    <el-option value="Map">
+                        <i class="el-icon-location-information"></i>
+                        Map</el-option
+                    >
+                    <el-option value="Calendar">
+                        <i class="el-icon-date"></i> Calendar</el-option
+                    >
+                    <el-option value="Dashboard">
+                        <i class="el-icon-odometer"></i> Dashboard</el-option
+                    >
+                </el-select> -->
+            </div>
+
+            <section class="board-title-header">
+                <input
+                    @focus="$event.target.select()"
+                    v-model="title"
+                    @blur="editTitle"
+                    @keyup.enter="$event.target.blur()"
+                    placeholder="Add title..."
+                />
+            </section>
+
+            <div class="header-members">
+                <avatar
+                    backgroundColor="lightblue"
+                    color="black"
+                    :size="30"
+                    username="Ben Ernst"
+                ></avatar>
+                <avatar
+                    backgroundColor="darkslateblue"
+                    color="#fff"
+                    :size="30"
+                    username="Or Baadani"
+                ></avatar>
+
+                <avatar
+                    backgroundColor="cadetblue"
+                    color="#fff"
+                    :size="30"
+                    username="Chen Leiv"
+                ></avatar>
+
+                <button class="add-btn">
+                    <span class="user"></span> invite
+                </button>
+            </div>
+
+            <div class="right-side">
+                <!-- filter button open dropdown -->
+                <button class="filter-btn">Filter</button>
+                <!-- <board-filter></board-filter> -->
+                <button class="menu-btn" @click="openMenu">Show menu</button>
+            </div>
+
+            <aside-menu :class="menuBarIsShown"></aside-menu>
         </div>
-
-        <section class="board-title-header">
-            <article v-if="!isInputVisible" @click="toggleInput">
-                <p>{{ board.title }}</p>
-            </article>
-            <!-- <div v-else> -->
-            <input
-                v-else
-                v-model="title"
-                type="text"
-                @blur="editTitle"
-                cols="1"
-                rows="1"
-                placeholder="change title..."
-                ref="title"
-            />
-        </section>
-
-        <div class="header-members">
-            <avatar
-                backgroundColor="lightblue"
-                color="black"
-                :size="30"
-                username="Ben Ernst"
-            ></avatar>
-            <avatar
-                backgroundColor="darkslateblue"
-                color="#fff"
-                :size="30"
-                username="Or Baadani"
-            ></avatar>
-
-            <avatar
-                backgroundColor="cadetblue"
-                color="#fff"
-                :size="30"
-                username="Chen Leiv"
-            ></avatar>
-
-            <button><span class="add-user"></span> invite users</button>
-        </div>
-
-        <!-- filter button open dropdown -->
-        <!-- <board-filter></board-filter> -->
-
-        <button class="menu-btn" @click="openMenu">Show menu</button>
-
-        <aside-menu :class="menuVisibility" />
     </section>
 </template>
 
@@ -80,33 +85,29 @@
 
         data() {
             return {
-                isMenuOpen: false,
-                value: '',
-                isInputVisible: false,
-                title: '',
+                IsShown: false,
+                // isInputVisible: false,
+                title: this.board.title,
                 boardId: '',
             };
         },
         created() {
             this.boardId = this.$route.params.boardId;
-            console.log('this.boardId board header', this.boardId);
         },
 
         methods: {
             openMenu() {
-                this.isMenuOpen = !this.isMenuOpen;
+                this.IsShown = !this.IsShown;
+                // this.$emit('openSide');
             },
-            // handleMenuClick(e) {
-            //     console.log('click', e);
-            // },
+
             toggleInput() {
                 this.isInputVisible = !this.isInputVisible;
-                this.$nextTick(() => {
-                    if (this.isInputVisible) this.$refs.title.focus();
-                });
                 // TODO: Clearing textarea Input
             },
+
             async editTitle() {
+                console.log('this.board.title', this.board.title);
                 this.toggleInput();
                 try {
                     await this.$store.dispatch({
@@ -114,23 +115,24 @@
                         boardId: this.boardId,
                         title: this.title,
                     });
-                    console.log(`Board Saved Successfully in ${boardId}`);
+                    console.log(`Board Saved Successfully in ${this.boardId}`);
                     this.$emit('loadBoard');
                 } catch (err) {
                     console.log('Error in updateBoard (board-header):', err);
                     throw err;
                 }
+                console.log('this.board.title', this.board.title);
+                console.log('this.title', this.title);
             },
         },
+
         computed: {
-            menuVisibility() {
-                return { 'aside-menu-open': this.isMenuOpen };
+            menuBarIsShown() {
+                return {
+                    'aside-menu-open': this.IsShown,
+                    'aside-close': !this.IsShown,
+                };
             },
-            // titleToShow() {
-            //     return this.title
-            /////         ? this.title
-            //         : 'Add a more detailed description...';
-            // },
         },
 
         components: {

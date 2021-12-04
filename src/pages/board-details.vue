@@ -1,6 +1,6 @@
 <template>
     <section v-if="board" class="board-details">
-        <board-header :board="board" />
+        <board-header :board="board" @loadBoard="loadBoard" />
 
         <main class="main-layout">
             <section class="groups-container">

@@ -110,6 +110,7 @@ async function addGroup(boardId, title) {
 async function updateBoard(boardId, title) {
     try {
         const board = await getById(boardId);
+        console.log('board from service', board);
         board.title = title;
         return save(board);
     } catch (err) {
