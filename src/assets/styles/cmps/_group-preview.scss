@@ -1,8 +1,7 @@
 .group-preview {
     display: flex;
-    padding: 8px;
-    overflow-y: auto;
     max-height: 82vh;
+    overflow-y: hidden;
     flex-direction: column;
     background-color: rgb(235 236 240);
     border-radius: 3px;
@@ -16,15 +15,52 @@
         }
     }
     .group-header {
-        margin-bottom: 8px;
+        .input-title {
+            font-weight: bolder;
+            color: #026aa7;
+            background-color: transparent;
+            border: none;
+            font-weight: 500;
+            &:focus {
+                background-color: rgb(255 255 255);
+                box-shadow: inset 0 0 0 2px #0079bf;
+            }
+        }
+        padding: 10px 8px;
+        // margin-bottom: 8px;
         display: flex;
-        color: #026aa7;
         justify-content: space-between;
     }
     .tasks-container {
+        margin: 0 4px;
+        padding: 0 4px;
         display: flex;
         flex-direction: column;
         gap: 8px;
         margin-bottom: 8px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        &::-webkit-scrollbar {
+            width: 8px;
+            padding: none;
+        }
+        &::-webkit-scrollbar-track {
+            // box-shadow: inset 0 0 8px rgba(0, 0, 0, 0);
+            border-radius: 1rem;
+            background-color: rgb(224, 224, 224);
+        }
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+            // box-shadow: inset 0 0 8px rgba(0, 0, 0, 0);
+            border-radius: 1rem;
+            // background-clip: content-box;
+            border-left: none;
+        }
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        &::-webkit-scrollbar-track-piece {
+            background: rgba(167, 167, 167, 0);
+        }
     }
 }

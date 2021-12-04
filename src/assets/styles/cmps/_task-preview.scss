@@ -1,17 +1,26 @@
 .task-preview {
+    padding: 6px 8px 2px;
     background-color: #fff;
     border-radius: 3px;
     box-shadow: 0 1px 0 #091e4240;
+    &:hover {
+        background-color: rgb(113 130 159 / 8%);
+        .edit-task-btn {
+            display: block;
+        }
+    }
     div {
+        .edit-task-btn {
+            font-family: fa-solid;
+            display: none;
+            // color: transparent;
+            // -webkit-text-stroke: 1px #000;
+            &::before {
+                content: '\f304'
+            }
+        }
         display: flex;
         justify-content: space-between;
-    }
-    .edit-task-btn {
-        font-family: fa-solid;
-        // color: transparent;
-        // -webkit-text-stroke: 1px #000;
-        &::before {
-            content: '\f304'
-        }
+        margin-bottom: 4px;
     }
 }

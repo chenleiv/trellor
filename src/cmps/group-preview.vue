@@ -1,15 +1,22 @@
 <template>
     <section class="group-preview">
         <div class="group-header">
-            <h4 v-if="!isInputVisible" @click="toggleEditMode">
+            <input
+                class="input-title"
+                type="text"
+                v-model="newTitle"
+                @blur="editTitle"
+                @keyup.enter="$event.target.blur()"
+            />
+            <!-- <h4 v-if="!isInputVisible" @click="toggleEditMode">
                 {{ group.title }}
-            </h4>
+            </h4> -->
             <button
                 class="el-icon-more btn-group"
                 @click="removeGroup"
             ></button>
         </div>
-
+        <!-- 
         <input
             v-if="isInputVisible"
             v-model="newTitle"
@@ -17,17 +24,21 @@
             @keyup.enter="$event.target.blur()"
             type="text"
             ref="titleInput"
-        />
+        /> -->
+
         <!-- drag & drop -->
-        <draggable>
-            <div class="tasks-container">
-                <task-preview
-                    v-for="task in group.tasks"
+        <!-- <draggable> -->
+        <div class="tasks-container">
+            <template v-for="task in group.tasks">
+                <router-link
                     :key="task.id"
-                    :task="task"
-                />
-            </div>
-        </draggable>
+                    :to="`/board/${boardId}/task/${task.id}`"
+                >
+                    <task-preview :task="task" />
+                </router-link>
+            </template>
+        </div>
+        <!-- </draggable> -->
 
         <section>
             <div v-if="!isAddTaskClicked" @click="toggleAddTaskInput">
@@ -98,7 +109,7 @@
             },
 
             async editTitle() {
-                this.toggleEditMode();
+                // this.toggleEditMode();
                 const group = JSON.parse(JSON.stringify(this.group));
                 group.title = this.newTitle;
                 try {
