@@ -5,9 +5,10 @@
         </router-link>
 
         <section class="task-details-container">
-            <header>
+            <header class="task-modal-header">
                 <button class="close-modal-btn" @click="backToBoard"></button>
-                <h1>{{ task.title }}</h1>
+                <!-- <textarea><span></span>Hi</textarea> -->
+                <h1><span></span>{{ task.title }}</h1>
                 <p>
                     in group
                     <span>{{ group.title }}</span>
@@ -15,40 +16,108 @@
             </header>
             <main>
                 <section class="description-container">
-                    <h4>Description</h4>
-                    <article v-if="!isTextAreaVisible" @click="toggleTextArea">
-                        <p>{{ descriptionToShow }}</p>
-                    </article>
-                    <div v-else>
+                    <h4>
+                        <svg>
+                            <path
+                                d="M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z"
+                            ></path>
+                        </svg>
+                        <span>Description</span>
+                    </h4>
+
+                    <div class="description-edit">
                         <textarea
                             v-model="description"
                             type="text"
                             @blur="addDescription"
-                            cols="40"
-                            rows="6"
+                            @click="openTextArea"
                             placeholder="Add a more detailed description..."
                             ref="descriptionInput"
+                            @focus="$event.target.select()"
                         ></textarea>
-                        <button @click="addDescription">Save</button>
-                        <button @click="cancelDescAdding">X</button>
+                        <div class="description-btns" v-if="isTextAreaVisible">
+                            <el-button
+                                type="primary"
+                                class="save-task-description-btn"
+                                @click="addDescription"
+                            >
+                                <span>Save</span>
+                            </el-button>
+
+                            <button
+                                class="close-task-description-btn"
+                                @click.prevent="cancelDescAdding"
+                            ></button>
+                        </div>
                     </div>
                 </section>
 
-                <section class="activities-container">
-                    <h4>Activity</h4>
-                    <input type="text" placeholder="Write a comment..." />
-                    <!-- Need to get the activities from the specific task -->
-                    <main class="activities-list">
-                        <ul>
-                            <li
-                                v-for="activity in board.activities"
-                                :key="activity.id"
-                            >
-                                {{ activity.byMember.fullname }}
-                                {{ activity.txt }}
-                            </li>
-                        </ul>
-                    </main>
+                <section class="activity-container">
+                    <header class="activity-header">
+                        <h4>
+                            <svg>
+                                <path
+                                    d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"
+                                ></path>
+                            </svg>
+                            <span>Activity</span>
+                        </h4>
+                        <button>Show details</button>
+                    </header>
+                    <div class="comments-container">
+                        <avatar
+                            class="curr-user-avatar"
+                            backgroundColor="lightblue"
+                            color="black"
+                            :size="30"
+                            username="Ben Ernst"
+                        ></avatar>
+                        <textarea
+                            type="text"
+                            placeholder="Write a comment..."
+                            @click="openCommentInput"
+                            @blur="closeCommentInput"
+                            @keyup="setCommentInputValue"
+                        />
+                    </div>
+                    <button
+                        class="save-comment-btn"
+                        :class="[visibility, saveCommentBtnStyle]"
+                    >
+                        <span>Save</span>
+                    </button>
+                    <!-- Need to get the activity from the specific task -->
+
+                    <div class="activity-list">
+                        <div
+                            v-for="activity in board.activities"
+                            :key="activity.id"
+                            class="activity-preview-container"
+                        >
+                            <avatar
+                                class="curr-user-avatar"
+                                backgroundColor="lightblue"
+                                color="black"
+                                :size="30"
+                                username="Tal Tarablus"
+                            ></avatar>
+                            <div class="activity-details">
+                                <div class="activity-member-container">
+                                    <span class="member-name">{{
+                                        activity.byMember.fullname
+                                    }}</span
+                                    ><span class="activity-content">{{
+                                        activity.txt
+                                    }}</span>
+                                </div>
+                                <div class="activity-created-at-container">
+                                    <span class="activity-created-at"
+                                        >3 days ago</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </main>
         </section>
@@ -56,6 +125,8 @@
 </template>
 
 <script>
+    import avatar from 'vue-avatar';
+
     export default {
         name: 'taskDetails',
 
@@ -66,6 +137,8 @@
                 group: null,
                 isTextAreaVisible: false,
                 description: '',
+                isCommentInputOpen: false,
+                isCommentInput: '',
             };
         },
 
@@ -90,7 +163,7 @@
                             return task.id === taskId;
                         });
                     });
-                    this.task = taskArr[0];
+                    this.task = taskArr.find((item) => item !== undefined);
                     // Loading Group:
                     const group = board.groups.find((gr) =>
                         gr.tasks.includes(this.task)
@@ -102,17 +175,18 @@
                 }
             },
 
-            toggleTextArea() {
-                this.isTextAreaVisible = !this.isTextAreaVisible;
-                this.$nextTick(() => {
-                    if (this.isTextAreaVisible)
-                        this.$refs.descriptionInput.focus();
-                });
-                // TODO: Clearing textarea Input
-            },
+            // toggleTextArea() {
+            //     this.isTextAreaVisible = !this.isTextAreaVisible;
+            //     console.log('this.isTextAreaVisible:', this.isTextAreaVisible);
+            //     this.$nextTick(() => {
+            //         if (this.isTextAreaVisible)
+            //             this.$refs.descriptionInput.focus();
+            //     });
+            //     // TODO: Clearing textarea Input
+            // },
 
             async addDescription() {
-                this.toggleTextArea();
+                this.isTextAreaVisible = false;
                 try {
                     await this.$store.dispatch({
                         type: 'updateTask',
@@ -130,9 +204,25 @@
                 }
             },
 
+            openTextArea() {
+                this.isTextAreaVisible = true;
+            },
+
             cancelDescAdding() {
                 this.description = '';
-                this.toggleTextArea();
+                this.isTextAreaVisible = false;
+            },
+
+            openCommentInput() {
+                this.isCommentInputOpen = true;
+            },
+
+            closeCommentInput() {
+                this.isCommentInputOpen = false;
+            },
+
+            setCommentInputValue(ev) {
+                this.isCommentInput = ev.target.value ? true : false;
             },
 
             backToBoard() {
@@ -141,11 +231,23 @@
         },
 
         computed: {
-            descriptionToShow() {
-                return this.description
-                    ? this.description
-                    : 'Add a more detailed description...';
+            // descriptionToShow() {
+            //     return this.description
+            //         ? this.description
+            //         : 'Add a more detailed description...';
+            // },
+
+            visibility() {
+                return { hidden: !this.isCommentInputOpen };
             },
+
+            saveCommentBtnStyle() {
+                return { 'save-comment-btn-typing-style': this.isCommentInput };
+            },
+        },
+
+        components: {
+            avatar,
         },
     };
 </script>
