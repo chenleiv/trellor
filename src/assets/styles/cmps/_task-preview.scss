@@ -1,8 +1,10 @@
 .task-preview {
+    position: relative;
     padding: 6px 8px 2px;
     background-color: #fff;
     border-radius: 3px;
     box-shadow: 0 1px 0 #091e4240;
+    color: rgb(23 43 77);
     &:hover {
         background-color: rgb(113 130 159 / 8%);
         .edit-task-btn {
@@ -11,6 +13,9 @@
     }
     div {
         .edit-task-btn {
+            position: absolute;
+            right: 2px;
+            top: 2px;
             font-family: fa-solid;
             display: none;
             // color: transparent;

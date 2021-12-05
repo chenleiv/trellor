@@ -7,22 +7,40 @@
                 <div v-for="group in board.groups" :key="group.id">
                     <group-preview :group="group" @loadBoard="loadBoard" />
                 </div>
-
-                <div v-if="!isAddClicked">
-                    <button @click="openAddingInput">Add another group</button>
-                </div>
-                <div v-else>
-                    <input
-                        v-model="groupTitle"
-                        type="text"
-                        placeholder="Enter group title..."
-                    />
-                    <button @click="addGroup">Add group</button>
-                    <button @click="openAddingInput">X</button>
-                </div>
+                <section>
+                    <!-- <transition name="slide-up"> -->
+                    <div class="add-group-btn-container" v-if="!isAddClicked">
+                        <button class="add-group-btn" @click="openAddingInput">
+                            <span class="el-icon-plus"></span> Add another group
+                        </button>
+                    </div>
+                    <!-- </transition> -->
+                    <!-- <transition name="slide-up"> -->
+                    <div class="group-add-container" v-if="isAddClicked">
+                        <input
+                            @keyup.enter="addGroup"
+                            v-model="groupTitle"
+                            type="text"
+                            placeholder="Enter group title..."
+                            @blur="openAddingInput"
+                        />
+                        <div class="group-btns-container">
+                            <button @click="addGroup">Add group</button>
+                            <button
+                                class="el-icon-close"
+                                @click="openAddingInput"
+                            ></button>
+                        </div>
+                    </div>
+                    <!-- </transition> -->
+                </section>
             </section>
         </main>
-
+        <!-- <div
+            v-if="toggleMenu"
+            @click="closeModalBg"
+            class="modal-background"
+        ></div> -->
         <transition name="fade">
             <router-view />
         </transition>
@@ -41,6 +59,7 @@
                 board: null,
                 isAddClicked: false,
                 groupTitle: '',
+                toggleMenu: false,
             };
         },
 
@@ -67,6 +86,7 @@
                 this.isAddClicked = !this.isAddClicked;
             },
             async addGroup() {
+                if (!this.groupTitle) return;
                 try {
                     await this.$store.dispatch({
                         // const group = JSON.parse(JSON.stringify(this.newGroup));
@@ -86,6 +106,8 @@
                     throw err;
                 } finally {
                     this.groupTitle = '';
+                    console.log('', this.$el.scrollWidth);
+                    this.$el.scrollTo(this.$el.scrollWidth + 270, 0);
                 }
             },
         },

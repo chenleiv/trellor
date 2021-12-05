@@ -1,0 +1,13 @@
+.background-picker {
+    display: grid;
+    grid-template-columns: repeat( auto-fill, 40px);
+    gap: 2px;
+    .color-box {
+        height: 30px;
+        border-radius: 3px;
+        background-size: cover;
+    }
+    .colorChoice {
+        border: 2px solid #fff;
+    }
+}

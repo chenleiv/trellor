@@ -1,8 +1,17 @@
 <template>
     <router-link :to="`/board/${board._id}`">
-        <div class="board-preview" :style="board._id.style">
+        <div
+            class="board-preview"
+            :style="{
+                backgroundColor: board.style.bgColor,
+                backgroundImage: board.style.bgImg,
+            }"
+        >
             <h4 class="board-preview-title">{{ board.title }}</h4>
-            <span :class="{ starred: isStarred }" @click.prevent="log"></span>
+            <span
+                :class="{ starred: isStarred }"
+                @click.prevent="updateBoard"
+            ></span>
 
             <!-- <button @click="removeBoard">...</button> -->
         </div>
@@ -23,13 +32,24 @@
         },
         data() {
             return {
-                isStarred: false,
+                isStarred: this.board.isStarred,
             };
         },
         methods: {
-            log() {
-                console.log('hi');
+            async updateBoard() {
                 this.isStarred = !this.isStarred;
+                const changedBoard = JSON.parse(JSON.stringify(this.board));
+                changedBoard.isStarred = this.isStarred;
+                try {
+                    const savedBoard = await this.$store.dispatch({
+                        type: 'updateBoard',
+                        board: changedBoard,
+                    });
+                    console.log(`Board changed successfully`);
+                } catch (err) {
+                    console.log('Error in adding a board (workspace):', err);
+                    throw err;
+                }
             },
         },
     };

@@ -8,6 +8,7 @@
 @import 'basics/base';
 @import 'basics/layout';
 // //CMPS
+@import 'cmps/home';
 @import 'cmps/main-header';
 @import 'cmps/workspace';
 @import 'cmps/board-preview';
@@ -17,3 +18,4 @@
 @import 'cmps/task-details';
 @import 'cmps/board-header';
 @import 'cmps/task-preview';
+@import 'cmps/background-picker';

@@ -1,35 +1,57 @@
 <template>
     <div class="workspace main-layout full">
-        <div class="board-previews-container">
-            <div class="add-board-btn" @click="openBoardModal">
-                <span>Create new board</span>
+        <section>
+            <h4 v-if="atleastOneStarred">Favorites</h4>
+            <div class="board-previews-container">
+                <template v-for="board in boards"
+                    ><board-preview
+                        :key="board._id"
+                        v-if="board.isStarred"
+                        :board="board"
+                /></template>
             </div>
-            <div
-                class="modal-background"
-                v-if="isModalOpen"
-                @click="isModalOpen = false"
-            ></div>
-            <div class="add-board-modal" v-if="isModalOpen">
-                <form @submit.prevent="addBoard">
-                    <input
-                        type="text"
-                        placeholder="Add board title"
-                        v-model="newBoard.title"
-                    />
-                    <button type="submit">Create board</button>
-                </form>
+            <div class="board-previews-container">
+                <div class="add-board-btn" @click="openBoardModal">
+                    <span>Create new board</span>
+                </div>
+                <div
+                    class="modal-background"
+                    v-if="isModalOpen"
+                    @click="isModalOpen = false"
+                ></div>
+                <div
+                    class="add-board-modal"
+                    v-if="isModalOpen"
+                    :style="{
+                        backgroundColor: boardStyle.bgColor,
+                        backgroundImage: boardStyle.bgImg,
+                    }"
+                >
+                    <div>
+                        <input
+                            type="text"
+                            placeholder="Add board title"
+                            v-model="newBoard.title"
+                            @keyup.enter="addBoard"
+                        />
+                    </div>
+                    <background-picker @chosenBg="chosenBg"></background-picker>
+                    <button @click="addBoard">Create board</button>
+                </div>
+                <template v-for="board in boards"
+                    ><board-preview
+                        :key="board._id"
+                        v-if="!board.isStarred"
+                        :board="board"
+                /></template>
             </div>
-            <div v-for="board in boards" :key="board._id">
-                <!-- <router-link :to="`/board/${board._id}`"> -->
-                <board-preview :board="board" />
-                <!-- </router-link> -->
-            </div>
-        </div>
+        </section>
     </div>
 </template>
 
 <script>
     import boardPreview from '@/cmps/board-preview.vue';
+    import backgroundPicker from '@/cmps/background-picker.vue';
     import { boardService } from '@/services/board-service.js';
 
     export default {
@@ -38,6 +60,9 @@
             return {
                 isModalOpen: false,
                 newBoard: boardService.getEmptyBoard(),
+                boardStyle: {
+                    bgColor: '#afafaf',
+                },
             };
         },
 
@@ -45,14 +70,22 @@
             boards() {
                 return this.$store.getters.boardsToShow;
             },
+            atleastOneStarred() {
+                return this.boards.some((board) => board.isStarred);
+            },
         },
 
         methods: {
             openBoardModal() {
                 this.isModalOpen = !this.isModalOpen;
             },
+            chosenBg(style, image) {
+                this.boardStyle = style;
+                console.log('this.boardStyle', this.boardStyle);
+            },
             async addBoard() {
                 console.log('', this.newBoard);
+                this.newBoard.style = this.boardStyle;
                 const board = JSON.parse(JSON.stringify(this.newBoard));
                 try {
                     board.createdAt = Date.now();
@@ -74,6 +107,7 @@
 
         components: {
             boardPreview,
+            backgroundPicker,
         },
     };
 </script>

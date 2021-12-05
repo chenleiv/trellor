@@ -13,21 +13,13 @@
             </h4> -->
             <button
                 class="el-icon-more btn-group"
-                @click="removeGroup"
+                @click="toggleGroupMenu"
             ></button>
         </div>
-        <!-- 
-        <input
-            v-if="isInputVisible"
-            v-model="newTitle"
-            @blur="editTitle"
-            @keyup.enter="$event.target.blur()"
-            type="text"
-            ref="titleInput"
-        /> -->
-
-        <!-- drag & drop -->
-        <!-- <draggable> -->
+        <div v-if="toggleMenu" class="group-actions-modal">
+            <h4>Group actions</h4>
+            <button @click="removeGroup">Delete group</button>
+        </div>
         <div class="tasks-container">
             <template v-for="task in group.tasks">
                 <router-link
@@ -40,23 +32,32 @@
         </div>
         <!-- </draggable> -->
 
-        <section>
-            <div v-if="!isAddTaskClicked" @click="toggleAddTaskInput">
-                + Add a Task
+        <section class="add-task-section">
+            <div
+                class="add-a-task"
+                v-if="!isAddTaskClicked"
+                @click="toggleAddTaskInput"
+            >
+                <span class="el-icon-plus"> </span> Add a Task
             </div>
 
-            <div v-else>
+            <div v-else class="task-add-container">
+                <!-- oninput='this.style.height =
+                "";this.style.height = this.scrollHeight + "px"' -->
                 <textarea
                     v-model="taskTitle"
-                    oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
                     type="text"
                     placeholder="Enter a title for this task..."
                     ref="saveTaskInput"
-                    @blur="saveTask"
+                    @keyup.enter="saveTask"
                 />
-
-                <button @click="saveTask">Add Task</button>
-                <button @click="toggleAddTaskInput">X</button>
+                <div>
+                    <button @click="saveTask">Add Task</button>
+                    <button
+                        class="el-icon-close"
+                        @click="toggleAddTaskInput"
+                    ></button>
+                </div>
             </div>
         </section>
     </section>
@@ -87,6 +88,7 @@
                 boardId: '',
                 isAddTaskClicked: false,
                 taskTitle: '',
+                toggleMenu: false,
             };
         },
 
@@ -96,20 +98,10 @@
         },
 
         methods: {
-            log() {
-                console.log('log log ');
-            },
-
-            toggleEditMode() {
-                this.isInputVisible = !this.isInputVisible;
-                this.$nextTick(() => {
-                    if (this.isInputVisible) this.$refs.titleInput.focus();
-                });
-                // TODO: Clearing textarea Input
-            },
-
             async editTitle() {
                 // this.toggleEditMode();
+                if (!this.newTitle) return;
+
                 const group = JSON.parse(JSON.stringify(this.group));
                 group.title = this.newTitle;
                 try {
@@ -125,12 +117,12 @@
                     throw err;
                 }
             },
-
+            toggleGroupMenu() {
+                this.toggleMenu = !this.toggleMenu;
+                this.$emit('openModalBg');
+            },
             async removeGroup() {
-                const toDelete = confirm(
-                    'Are you sure you want to delete this Group?'
-                );
-                if (toDelete) {
+                if (this.toggleMenu) {
                     try {
                         await this.$store.dispatch({
                             type: 'removeGroup',
@@ -169,7 +161,7 @@
                     console.log('Error in saveTask (group-preview):', err);
                     throw err;
                 } finally {
-                    this.groupTitle = '';
+                    this.taskTitle = '';
                 }
             },
 

@@ -16,5 +16,6 @@
 <script>
     export default {
         name: 'mainHeader',
+        created() {},
     };
 </script>
