@@ -5,7 +5,11 @@
         <main class="main-layout">
             <section class="groups-container">
                 <div v-for="group in board.groups" :key="group.id">
-                    <group-preview :group="group" @loadBoard="loadBoard" />
+                    <group-preview
+                        :group="group"
+                        :boardLabels="board.labels"
+                        @loadBoard="loadBoard"
+                    />
                 </div>
                 <section>
                     <!-- <transition name="slide-up"> -->
@@ -22,7 +26,6 @@
                             v-model="groupTitle"
                             type="text"
                             placeholder="Enter group title..."
-                            @blur="openAddingInput"
                         />
                         <div class="group-btns-container">
                             <button @click="addGroup">Add group</button>

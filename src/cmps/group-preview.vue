@@ -11,10 +11,9 @@
             <!-- <h4 v-if="!isInputVisible" @click="toggleEditMode">
                 {{ group.title }}
             </h4> -->
-            <button
-                class="el-icon-more btn-group"
-                @click="toggleGroupMenu"
-            ></button>
+            <button class="el-icon-more btn-group" @click="show"></button>
+            <!-- @click="toggleGroupMenu" -->
+            <!-- <modal name="my-first-modal"> This is my first modal </modal> -->
         </div>
         <div v-if="toggleMenu" class="group-actions-modal">
             <h4>Group actions</h4>
@@ -27,7 +26,7 @@
                     :key="task.id"
                     :to="`/board/${boardId}/task/${task.id}`"
                 >
-                    <task-preview :task="task" />
+                    <task-preview :task="task" :boardLabels="boardLabels" />
                 </router-link>
             </template>
         </div>
@@ -84,6 +83,9 @@
                     return { msg: 'No Group' };
                 },
             },
+            boardLabels: {
+                type: Array,
+            },
         },
 
         data() {
@@ -104,6 +106,12 @@
         },
 
         methods: {
+            // show() {
+            //     this.$modal.show('my-first-modal');
+            // },
+            // hide() {
+            //     this.$modal.hide('my-first-modal');
+            // },
             async editTitle() {
                 // this.toggleEditMode();
                 if (!this.newTitle) return;

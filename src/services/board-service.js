@@ -184,7 +184,7 @@ function getEmptyBoard() {
         style: { bgColor: '', bgImg: '' },
         labels: [{
                 id: 'l101',
-                title: '',
+                title: 'hi',
                 color: '#61bd4f'
             },
             {
@@ -213,7 +213,7 @@ function getEmptyBoard() {
                     comments: [],
                     checklists: [],
                     members: [],
-                    labelIds: [],
+                    labelIds: ['l101'],
                     createdAt: '',
                     dueDate: '',
                     byMember: {},
