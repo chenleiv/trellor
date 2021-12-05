@@ -1,7 +1,7 @@
 <template>
     <div class="workspace main-layout full">
         <section>
-            <h4 v-if="atleastOneStarred">Favorites</h4>
+            <h4 class="favorites" v-if="atleastOneStarred">Favorites</h4>
             <div class="board-previews-container">
                 <template v-for="board in boards"
                     ><board-preview
@@ -36,7 +36,12 @@
                         />
                     </div>
                     <background-picker @chosenBg="chosenBg"></background-picker>
-                    <button @click="addBoard">Create board</button>
+                    <button
+                        @click="addBoard"
+                        :disabled="!newBoard.title.length"
+                    >
+                        Create board
+                    </button>
                 </div>
                 <template v-for="board in boards"
                     ><board-preview
@@ -61,7 +66,8 @@
                 isModalOpen: false,
                 newBoard: boardService.getEmptyBoard(),
                 boardStyle: {
-                    bgColor: '#afafaf',
+                    bgColor: 'none',
+                    bgImg: `url(${require('@/assets/img/' + '2.jpg')})`,
                 },
             };
         },
@@ -84,6 +90,7 @@
                 console.log('this.boardStyle', this.boardStyle);
             },
             async addBoard() {
+                if (!this.newBoard.title) return;
                 console.log('', this.newBoard);
                 this.newBoard.style = this.boardStyle;
                 const board = JSON.parse(JSON.stringify(this.newBoard));

@@ -6,6 +6,9 @@
         height: 30px;
         border-radius: 3px;
         background-size: cover;
+        &:hover {
+            filter: brightness(85%);
+        }
     }
     .colorChoice {
         border: 2px solid #fff;

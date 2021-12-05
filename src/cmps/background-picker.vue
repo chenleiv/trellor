@@ -38,7 +38,7 @@
                     '#00aecc',
                     '#afafaf',
                 ],
-                imageList: ['5.jpg', '2.jpg', '7.jpg'],
+                imageList: ['5.jpg', '2.jpg', '3.jpg'],
                 style: {
                     bgColor: '',
                     bgImg: '',

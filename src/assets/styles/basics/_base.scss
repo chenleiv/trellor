@@ -3,11 +3,10 @@
 }
 
 html {
-    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
-        Helvetica, sans-serif;
+    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica, sans-serif;
     //    line-height: 1.8;
     font-size: 14px;
-    height: 100vh;
+    min-height: 100vh;
     overflow-x: hidden;
     // &::-webkit-scrollbar {
     //     width: 32px;
@@ -64,20 +63,17 @@ body {
 }
 
 button {
-    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
-        Helvetica, sans-serif;
+    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica, sans-serif;
     cursor: pointer;
 }
 
 textarea {
-    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
-        Helvetica, sans-serif;
+    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica, sans-serif;
     cursor: pointer;
 }
 
 input {
-    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
-        Helvetica, sans-serif;
+    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica, sans-serif;
 }
 
 .fade-enter-active,
@@ -87,7 +83,9 @@ input {
 
 .fade-enter,
 .fade-leave-to
-/* .fade-leave-active below version 2.1.8 */ {
+/* .fade-leave-active below version 2.1.8 */
+
+{
     opacity: 0;
 }
 
@@ -101,7 +99,9 @@ input {
 
 .slide-fade-enter,
 .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
+/* .slide-fade-leave-active below version 2.1.8 */
+
+{
     transform: translateX(10px);
     opacity: 0;
 }

@@ -1,6 +1,6 @@
 .group-preview {
     display: flex;
-    max-height: 80vh;
+    max-height: 78vh;
     overflow-y: hidden;
     flex-direction: column;
     background-color: rgb(235 236 240);
@@ -42,8 +42,8 @@
     }
     .group-actions-modal {
         box-shadow: 0 0 0 0 transparent, 0 0 0 0 transparent, 0 2px 15px rgb(0 0 0 / 30%);
-        padding: 12px;
-        position: fixed;
+        // padding: 12px;
+        position: absolute;
         background-color: #fff;
         border-radius: 3px;
         z-index: 5;
@@ -54,7 +54,14 @@
         flex-direction: column;
         color: rgb(23, 43, 77);
         h4 {
+            padding: 12px;
             text-align: center;
+        }
+        button {
+            padding: 6px 12px;
+            border: none;
+            background-color: transparent;
+            width: 100%;
         }
     }
     .tasks-container {

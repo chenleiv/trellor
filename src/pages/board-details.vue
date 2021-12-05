@@ -36,11 +36,7 @@
                 </section>
             </section>
         </main>
-        <!-- <div
-            v-if="toggleMenu"
-            @click="closeModalBg"
-            class="modal-background"
-        ></div> -->
+
         <transition name="fade">
             <router-view />
         </transition>

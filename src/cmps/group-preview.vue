@@ -18,6 +18,7 @@
         </div>
         <div v-if="toggleMenu" class="group-actions-modal">
             <h4>Group actions</h4>
+            <hr />
             <button @click="removeGroup">Delete group</button>
         </div>
         <div class="tasks-container">
@@ -42,13 +43,13 @@
             </div>
 
             <div v-else class="task-add-container">
-                <!-- oninput='this.style.height =
-                "";this.style.height = this.scrollHeight + "px"' -->
                 <textarea
                     v-model="taskTitle"
                     type="text"
                     placeholder="Enter a title for this task..."
                     ref="saveTaskInput"
+                    oninput='this.style.height =
+                "";this.style.height = this.scrollHeight + "px"'
                     @keyup.enter="saveTask"
                 />
                 <div>
@@ -60,6 +61,11 @@
                 </div>
             </div>
         </section>
+        <!-- <div
+            v-if="toggleMenu"
+            @click="closeModalBg"
+            class="modal-background"
+        ></div> -->
     </section>
 </template>
 
@@ -120,6 +126,9 @@
             toggleGroupMenu() {
                 this.toggleMenu = !this.toggleMenu;
                 this.$emit('openModalBg');
+            },
+            closeModalBg() {
+                this.toggleMenu = false;
             },
             async removeGroup() {
                 if (this.toggleMenu) {

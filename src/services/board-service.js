@@ -258,8 +258,20 @@ function _createBoard() {
         style: { bgColor: '#afafaf', bgImg: 'none' },
         labels: [{
             id: 'l101',
-            title: 'Done',
-            color: '#61bd4f'
+            title: 'This month',
+            color: '#409EFF'
+        }, {
+            id: 'l102',
+            title: 'This two weeks',
+            color: '#67C23A'
+        }, {
+            id: 'l103',
+            title: 'This week',
+            color: '#E6A23C'
+        }, {
+            id: 'l104',
+            title: 'Today',
+            color: '#F56C6C'
         }],
         members: [{
                 _id: 'u101',

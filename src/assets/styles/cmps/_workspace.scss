@@ -1,7 +1,7 @@
 .workspace {
     background-color: #fff;
     height: calc(100vh - 44px);
-    &>h4 {
+    .favorites {
         margin: 0;
         padding-top: 16px;
         padding-left: 32px;
@@ -46,11 +46,46 @@
         text-align: center;
         position: fixed;
         width: 300px;
+        z-index: 2;
         top: 48px;
         left: 50%;
         transform: translateX(-50%);
-        border: 0.8px solid rgb(211 211 211);
+        // border: 0.8px solid rgb(211 211 211);
         // border-radius: 0.5rem;
+        input {
+            width: 100%;
+            padding: 2px 8px;
+            color: #fff;
+            font-size: 17px;
+            &::placeholder {
+                color: #fff;
+                font-weight: bold;
+            }
+            background-color: transparent;
+            border: none;
+            outline: none;
+            border-radius: 3px;
+            margin-bottom: 8px;
+            &:hover {
+                background: rgb(255 255 255 / 15%)
+            }
+        }
+        button {
+            border-radius: 3px;
+            margin-top: 8px;
+            color: #fff;
+            padding: 6px 12px;
+            border: none;
+            background-color: #0079bf;
+            &:hover {
+                background-color: rgb(2, 106, 167);
+            }
+            &:disabled {
+                cursor: not-allowed;
+                background-color: #f4f5f7;
+                color: #a5adba;
+            }
+        }
     }
     .starred-board {
         order: -1;
