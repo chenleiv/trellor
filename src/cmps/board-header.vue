@@ -4,11 +4,24 @@
             <!-- drop-dawn menu (board,map,calender) -->
             <div class="left-side-header">
                 <div class="select">
-                    <button>
+                    <el-dropdown>
+                        <el-button type="primary">
+                            <span class="el-icon-s-data"></span> Board<i
+                                class="el-icon-arrow-down el-icon--right"
+                            ></i>
+                        </el-button>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item>Dashboard</el-dropdown-item>
+                            <el-dropdown-item> Calender</el-dropdown-item>
+                            <el-dropdown-item> Map</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+
+                    <!-- <button>
                         <span class="el-icon-s-data"></span
                         ><span class="bb"> Board</span
                         ><span class="el-icon-arrow-down"></span>
-                    </button>
+                    </button> -->
                 </div>
 
                 <section class="board-title-header">
@@ -52,7 +65,11 @@
             <div class="right-side-header" :class="{ move: isShown }">
                 <div class="vl"></div>
                 <!-- filter button open dropdown -->
-                <button class="filter-btn"><span></span> Filter</button>
+                <button class="filter-btn">
+                    <span class="material-icons-outlined"> filter_list </span>
+                    Filter
+                </button>
+
                 <!-- <board-filter></board-filter> -->
                 <button class="menu-btn" @click="openMenu">
                     <span></span> Show menu
@@ -84,6 +101,7 @@
                 value: '',
                 title: this.board.title,
                 boardId: '',
+                visible: false,
             };
         },
         created() {

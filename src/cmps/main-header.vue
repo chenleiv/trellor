@@ -14,7 +14,7 @@
             <div class="right-side">
                 <div class="search-input">
                     <el-input
-                        placeholder="Type something"
+                        placeholder="Search"
                         prefix-icon="el-icon-search"
                         v-model="input"
                     >

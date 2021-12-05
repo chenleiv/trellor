@@ -40,7 +40,7 @@
             </section>
         </main>
 
-        <transition name="fade">
+        <transition name="fade" :duration="50">
             <router-view />
         </transition>
     </section>
