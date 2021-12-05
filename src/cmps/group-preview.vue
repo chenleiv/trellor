@@ -21,7 +21,29 @@
             <hr />
             <button @click="removeGroup">Delete group</button>
         </div>
-        <div class="tasks-container">
+
+        <!-- </drag&drop> -->
+        <div>
+            <draggable
+                v-model="group.tasks"
+                group="tasks"
+                class="tasks-container"
+                @end="dragEnd"
+            >
+                <router-link
+                    v-for="task in group.tasks"
+                    :key="task.id"
+                    :to="`/board/${boardId}/task/${task.id}`"
+                    class="sortable"
+                    ghosrClass="ghost"
+                >
+                    <task-preview :task="task" />
+                </router-link>
+            </draggable>
+        </div>
+        <!-- </drag&drop> -->
+
+        <!-- <div class="tasks-container">
             <template v-for="task in group.tasks">
                 <router-link
                     :key="task.id"
@@ -30,8 +52,7 @@
                     <task-preview :task="task" />
                 </router-link>
             </template>
-        </div>
-        <!-- </draggable> -->
+        </div> -->
 
         <section class="add-task-section">
             <div
@@ -72,6 +93,7 @@
 <script>
     import taskPreview from '@/cmps/task-preview.vue';
     import draggable from 'vuedraggable';
+    import Sortable from 'sortablejs/modular/sortable.complete.esm.js';
 
     export default {
         name: 'groupPreview',
@@ -185,6 +207,7 @@
         components: {
             taskPreview,
             draggable,
+            Sortable,
         },
     };
 </script>

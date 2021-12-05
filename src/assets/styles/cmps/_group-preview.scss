@@ -15,7 +15,7 @@
         padding: 6px;
         &:hover {
             color: rgb(23 43 77);
-            background-color: rgb(9 30 66 / 8%)
+            background-color: rgb(9 30 66 / 8%);
         }
     }
     .group-header {
@@ -41,7 +41,8 @@
         justify-content: space-between;
     }
     .group-actions-modal {
-        box-shadow: 0 0 0 0 transparent, 0 0 0 0 transparent, 0 2px 15px rgb(0 0 0 / 30%);
+        box-shadow: 0 0 0 0 transparent, 0 0 0 0 transparent,
+            0 2px 15px rgb(0 0 0 / 30%);
         // padding: 12px;
         position: absolute;
         background-color: #fff;
@@ -101,7 +102,7 @@
         margin: 0 4px;
         padding: 0 4px;
         padding-bottom: 8px;
-        &>div {
+        & > div {
             width: 100%;
         }
         .add-a-task {
@@ -168,4 +169,17 @@
     bottom: 0;
     left: 0;
     background-color: rgb(92 92 92 / 76%);
+}
+
+// Drag & Drop
+.sortable-drag {
+    opacity: 1;
+    transform: rotate(10deg);
+    cursor: grabbing;
+}
+
+.ghost {
+    background: green;
+    z-index: 10;
+    opacity: 1;
 }

@@ -185,18 +185,23 @@ function getEmptyBoard() {
         labels: [{
                 id: 'l101',
                 title: '',
-                color: '#61bd4f'
+                color: '#409EFF'
             },
             {
                 id: 'l102',
                 title: '',
-                color: '#61bd4f'
+                color: '#67C23A'
             },
             {
                 id: 'l103',
                 title: '',
-                color: '#61bd4f'
-            }
+                color: '#E6A23C'
+            },
+            {
+                id: 'l104',
+                title: '',
+                color: '#F56C6C'
+            },
         ],
         members: [{
             _id: '',
@@ -330,7 +335,7 @@ function _createBoard() {
                 title: 'Backlog client',
                 tasks: [{
                         id: 't103',
-                        title: 'task-labels',
+                        title: 'Task-Labels',
                         description: '',
                         comments: [],
                         checklists: [],
@@ -348,7 +353,7 @@ function _createBoard() {
                     },
                     {
                         id: 't104',
-                        title: 'filter cmp',
+                        title: 'Filter Cmp',
                         description: '',
                         comments: [],
                         checklists: [],
@@ -412,7 +417,7 @@ function _createBoard() {
                 title: 'In development',
                 tasks: [{
                         id: 't107',
-                        title: 'drag and drop',
+                        title: 'Drag and Drop',
                         description: '',
                         comments: [],
                         checklists: [],
@@ -430,7 +435,7 @@ function _createBoard() {
                     },
                     {
                         id: 't108',
-                        title: 'board header',
+                        title: 'Board Header',
                         description: '',
                         comments: [],
                         checklists: [],
@@ -448,7 +453,7 @@ function _createBoard() {
                     },
                     {
                         id: 't109',
-                        title: 'task-details (modal)',
+                        title: 'Task-Details (modal)',
                         description: '',
                         comments: [],
                         checklists: [],
@@ -466,7 +471,7 @@ function _createBoard() {
                     },
                     {
                         id: 't110',
-                        title: 'aside menu',
+                        title: 'Aside Menu',
                         description: '',
                         comments: [],
                         checklists: [],
@@ -484,7 +489,7 @@ function _createBoard() {
                     },
                     {
                         id: 't111',
-                        title: 'workspace page',
+                        title: 'Workspace Page',
                         description: '',
                         comments: [],
                         checklists: [],
@@ -502,7 +507,7 @@ function _createBoard() {
                     },
                     {
                         id: 't112',
-                        title: 'home page',
+                        title: 'Home Page',
                         description: '',
                         comments: [],
                         checklists: [],
@@ -520,7 +525,7 @@ function _createBoard() {
                     },
                     {
                         id: 't113',
-                        title: 'main header',
+                        title: 'Main Header',
                         description: '',
                         comments: [],
                         checklists: [],
@@ -538,7 +543,7 @@ function _createBoard() {
                     },
                     {
                         id: 't114',
-                        title: 'group-preview cpm',
+                        title: 'Group-Preview cmp',
                         description: '',
                         comments: [],
                         checklists: [],
@@ -556,7 +561,7 @@ function _createBoard() {
                     },
                     {
                         id: 't115',
-                        title: 'task-preview cmp',
+                        title: 'Task-Preview cmp',
                         description: '',
                         comments: [],
                         checklists: [],
