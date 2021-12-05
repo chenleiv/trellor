@@ -47,6 +47,7 @@
                 immediate: true,
             },
         },
+
         components: {
             mainHeader,
         },

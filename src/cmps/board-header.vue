@@ -60,9 +60,10 @@
             </div>
 
             <aside-menu
-                :class="menuBarisShown"
+                :class="menuBarIsShown"
                 :board="board"
                 @openMenu="openMenu"
+                @updateBgcBoard="editBgcBoard"
             ></aside-menu>
         </div>
     </section>
@@ -98,8 +99,24 @@
                 this.isInputVisible = !this.isInputVisible;
             },
 
+            async editBgcBoard(style) {
+                // this.$emit('editBgcBoard', style);
+                console.log('$route.params.boardId', this.$route.params);
+
+                try {
+                    await this.$store.dispatch({
+                        type: 'updateBoardBgc',
+                        boardId: this.boardId,
+                        style: style,
+                    });
+                    console.log(`Board Saved Successfully in ${this.boardId}`);
+                    this.$emit('loadBoard');
+                } catch (err) {
+                    console.log('Error in updateBoard (board-header):', err);
+                    throw err;
+                }
+            },
             async editTitle() {
-                console.log('this.board.title', this.board.title);
                 this.toggleInput();
                 try {
                     await this.$store.dispatch({
@@ -113,20 +130,22 @@
                     console.log('Error in updateBoard (board-header):', err);
                     throw err;
                 }
-                console.log('this.board.title', this.board.title);
-                console.log('this.title', this.title);
             },
         },
 
         computed: {
-            menuBarisShown() {
+            menuBarIsShown() {
                 return {
                     'aside-menu-open': this.isShown,
                     'aside-close': !this.isShown,
                 };
             },
         },
-
+        watch: {
+            editBgcBoard() {
+                console.log('watch bgc');
+            },
+        },
         components: {
             asideMenu,
             BoardFilter,

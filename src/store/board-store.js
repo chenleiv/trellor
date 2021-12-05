@@ -92,6 +92,18 @@ export const boardStore = {
                 throw err;
             }
         },
+        async updateBoardBgc({ commit }, { boardId, style }) {
+            console.log('boardId store', boardId);
+            try {
+                // console.log('boardId, title store', boardId, title);
+                const savedBoard = await boardService.updateBgcBoard(boardId, style);
+                commit({ type: 'updateBoard', board: savedBoard })
+                return savedBoard;
+            } catch (err) {
+                console.log('updateBoard (Store):', err);
+                throw err;
+            }
+        },
         async removeBoard({ commit }, { boardId }) {
             try {
                 const removedBoardId = await boardService.remove(boardId);
