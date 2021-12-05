@@ -2,19 +2,47 @@
     <header class="main-header main-layout">
         <section class="header-container">
             <div class="logo">
-                <h1>Trellor</h1>
+                <router-link to="/workspace">
+                    <span class="el-icon-s-grid"></span>
+                </router-link>
+                <router-link to="/">
+                    <h1><span class="logo-icon"></span> Trellor</h1>
+                </router-link>
             </div>
-            <div class="main-header-links">
-                <router-link to="/">Home</router-link> |
-                <router-link to="/workspace">Workspace</router-link>
+            <!-- <div class="main-header-links"></div> -->
+            <!-- <button class="user-account-btn"> -->
+            <div class="right-side">
+                <div class="search-input">
+                    <el-input
+                        placeholder="Type something"
+                        prefix-icon="el-icon-search"
+                        v-model="input"
+                    >
+                    </el-input>
+                </div>
+                <button class="alert"></button>
+                <avatar
+                    backgroundColor="darkslateblue"
+                    color="#fff"
+                    :size="30"
+                    username="Or Baadani"
+                ></avatar>
             </div>
-            <button class="user-account-btn">User Account</button>
         </section>
     </header>
 </template>
 
 <script>
+    import Avatar from 'vue-avatar';
     export default {
         name: 'mainHeader',
+        data() {
+            return {
+                input: '',
+            };
+        },
+        components: {
+            Avatar,
+        },
     };
 </script>
