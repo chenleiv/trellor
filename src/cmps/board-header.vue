@@ -1,75 +1,69 @@
 <template>
     <section>
-        <div class="board-header">
+        <div class="board-header move">
             <!-- drop-dawn menu (board,map,calender) -->
+            <div class="left-side-header">
+                <div class="select">
+                    <button>
+                        <span class="el-icon-s-data"></span
+                        ><span class="bb"> Board</span
+                        ><span class="el-icon-arrow-down"></span>
+                    </button>
+                </div>
 
-            <div class="select">
-                <button>
-                    <span class="el-icon-s-data"></span
-                    ><span class="bb"> Board</span
-                    ><span class="el-icon-arrow-down"></span>
-                </button>
-                <!-- <el-select v-model="value" collapse-tags placeholder="Board">
-                    <el-option value="Board">
-                        <i class="el-icon-s-data"></i> Board</el-option
-                    >
-                    <el-option value="Map">
-                        <i class="el-icon-location-information"></i>
-                        Map</el-option
-                    >
-                    <el-option value="Calendar">
-                        <i class="el-icon-date"></i> Calendar</el-option
-                    >
-                    <el-option value="Dashboard">
-                        <i class="el-icon-odometer"></i> Dashboard</el-option
-                    >
-                </el-select> -->
+                <section class="board-title-header">
+                    <input
+                        @focus="$event.target.select()"
+                        v-model="title"
+                        @blur="editTitle"
+                        @keyup.enter="$event.target.blur()"
+                        placeholder="Add title..."
+                    />
+                </section>
+
+                <div class="members-container">
+                    <div class="vl"></div>
+                    <div class="avatar-icon">
+                        <avatar
+                            backgroundColor="lightblue"
+                            color="black"
+                            :size="30"
+                            username="Ben Ernst"
+                        ></avatar>
+                        <avatar
+                            backgroundColor="darkslateblue"
+                            color="#fff"
+                            :size="30"
+                            username="Or Baadani"
+                        ></avatar>
+
+                        <avatar
+                            backgroundColor="cadetblue"
+                            color="#fff"
+                            :size="30"
+                            username="Chen Leiv"
+                        ></avatar>
+                    </div>
+
+                    <a class="add-btn"> <span class="user"></span> Invite </a>
+                </div>
             </div>
 
-            <section class="board-title-header">
-                <input
-                    @focus="$event.target.select()"
-                    v-model="title"
-                    @blur="editTitle"
-                    @keyup.enter="$event.target.blur()"
-                    placeholder="Add title..."
-                />
-            </section>
-
-            <div class="header-members">
-                <avatar
-                    backgroundColor="lightblue"
-                    color="black"
-                    :size="30"
-                    username="Ben Ernst"
-                ></avatar>
-                <avatar
-                    backgroundColor="darkslateblue"
-                    color="#fff"
-                    :size="30"
-                    username="Or Baadani"
-                ></avatar>
-
-                <avatar
-                    backgroundColor="cadetblue"
-                    color="#fff"
-                    :size="30"
-                    username="Chen Leiv"
-                ></avatar>
-
-                <button class="add-btn">
-                    <span class="user"></span> invite
-                </button>
-            </div>
-
-            <div class="right-side">
+            <div class="right-side-header" :class="{ move: isShown }">
+                <div class="vl"></div>
                 <!-- filter button open dropdown -->
-                <button class="filter-btn">Filter</button>
+                <button class="filter-btn"><span></span> Filter</button>
                 <!-- <board-filter></board-filter> -->
-                <button class="menu-btn" @click="openMenu">Show menu</button>
+                <button class="menu-btn" @click="openMenu">
+                    <span></span> Show menu
+                </button>
             </div>
 
-            <aside-menu :class="menuBarIsShown"></aside-menu>
+            <aside-menu
+                :class="menuBarisShown"
+                :board="board"
+                @openMenu="openMenu"
+            ></aside-menu>
         </div>
     </section>
 </template>
@@ -85,8 +79,8 @@
 
         data() {
             return {
-                IsShown: false,
-                // isInputVisible: false,
+                isShown: false,
+                value: '',
                 title: this.board.title,
                 boardId: '',
             };
@@ -97,13 +91,11 @@
 
         methods: {
             openMenu() {
-                this.IsShown = !this.IsShown;
-                // this.$emit('openSide');
+                this.isShown = !this.isShown;
             },
 
             toggleInput() {
                 this.isInputVisible = !this.isInputVisible;
-                // TODO: Clearing textarea Input
             },
 
             async editTitle() {
@@ -127,10 +119,10 @@
         },
 
         computed: {
-            menuBarIsShown() {
+            menuBarisShown() {
                 return {
-                    'aside-menu-open': this.IsShown,
-                    'aside-close': !this.IsShown,
+                    'aside-menu-open': this.isShown,
+                    'aside-close': !this.isShown,
                 };
             },
         },

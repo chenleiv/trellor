@@ -15,8 +15,52 @@ header.main-header {
         a {
             color: #fff;
         }
-        .logo h1 {
-            margin: 0;
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: eurof55;
+            font-size: 1.2rem;
+            .logo-icon {
+                font-family: fa-brands;
+                font-size: 1.3rem;
+                color: rgba(255, 255, 255, 0.878);
+                margin-left: 20px;
+                &::before {
+                    content: '\f181';
+                }
+            }
+            span {
+                align-items: center;
+                font-family: fa-solid;
+                font-size: 1.4rem;
+                padding: 6px 3px 0 4px;
+            }
+        }
+        .right-side {
+            display: flex;
+            gap: 5px;
+            .alert {
+                font-family: fa-regular;
+                font-size: 1.3rem;
+                padding: 6px 6px;
+                background-color: #eb5a46;
+                color: rgba(247, 245, 245, 0.899);
+                border: none;
+                // color: rgba(255, 255, 255, 0.878);
+                margin-left: 20px;
+                &::before {
+                    content: '\f0f3';
+                }
+            }
+            .search-input {
+                input {
+                    color: #fff;
+                    height: 30px;
+                    border: 1px solid rgba(223, 222, 222, 0.433);
+                    font-weight: bold;
+                    background-color: rgba(255, 255, 255, 0.3);
+                }
+            }
         }
     }
 }

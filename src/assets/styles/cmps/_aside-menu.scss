@@ -3,11 +3,126 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #ebecf0;
-    top: 44px;
-    height: 100vh;
+    background-color: rgb(246, 248, 252);
+    color: #172b4d;
     right: 0;
+    top: 40px;
+    height: 100vh;
     width: 330px;
+    padding: 12px 6px 12px 12px;
+
+    .board-header {
+        z-index: 1;
+        margin-bottom: 10px;
+        margin-left: 120px;
+        justify-content: space-between;
+
+        .header {
+            display: flex;
+        }
+
+        .el-icon-close {
+            display: flex;
+            background-color: transparent;
+            color: rgb(124, 123, 123);
+            &:hover {
+                color: black;
+            }
+        }
+    }
+
+    hr {
+        background-color: #091e4221;
+        border: 0;
+        height: 1px;
+        margin: 16px 0;
+    }
+
+    .menu-content {
+        margin-bottom: 5px;
+
+        .bgc-btn {
+            padding: 6px 6px 6px 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            span {
+                font-size: 1.2rem;
+                color: rgb(170, 169, 169);
+                font-family: fa-solid;
+                &::before {
+                    content: '\f0c8';
+                }
+            }
+        }
+        .archive-btn {
+            padding: 6px 6px 6px 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            span {
+                font-size: 1.2rem;
+
+                font-family: fa-solid;
+                &::before {
+                    content: '\f187';
+                }
+            }
+        }
+        :hover {
+            background-color: rgba(169, 169, 169, 0.22);
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    }
+
+    .activities {
+        padding: 6px 6px 6px 12px;
+        display: flex;
+        flex-direction: column;
+        .activity-header {
+            display: flex;
+            // flex-direction: row;
+            h3 {
+                margin-left: 10px;
+                margin-bottom: 10px;
+                font-weight: bold;
+                padding-right: 2px;
+            }
+
+            svg {
+                width: 15px;
+                height: 19px;
+            }
+        }
+        :hover {
+            background-color: rgba(169, 169, 169, 0.22);
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    }
+
+    .activity-preview-container {
+        display: flex;
+
+        .curr-user-avatar {
+            margin-right: 5px;
+            padding: 10px;
+        }
+        .member-name {
+            margin-right: 5px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .activity-details {
+            margin: 1px;
+            // background-color: blanchedalmond;
+        }
+
+        .activity-member-container {
+            font-weight: 200;
+            color: #5e6c84;
+        }
+    }
 }
 
 .aside-menu-open {
