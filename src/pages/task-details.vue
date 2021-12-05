@@ -27,6 +27,38 @@
 
             <section class="task-details-content">
                 <main>
+                    <div v-if="hasLabelChosen" class="task-details-header flex">
+                        <div class="task-details-header-members flex column">
+                            <h4 class="task-details-header-title">Labels</h4>
+                            <div class="container flex wrap">
+                                <div class="label-to-show-container">
+                                    <div
+                                        class="label-to-show"
+                                        :style="{
+                                            'background-color':
+                                                this.labelColorToShow,
+                                        }"
+                                    >
+                                        {{ this.labelTitleToShow }}
+                                    </div>
+                                    <!-- <button class="secondary-btn">
+                                        <svg
+                                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv"
+                                            focusable="false"
+                                            viewBox="0 0 24 24"
+                                            aria-hidden="true"
+                                            data-testid="AddIcon"
+                                        >
+                                            <path
+                                                d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+                                            ></path>
+                                        </svg>
+                                    </button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <section class="description-container">
                         <h4>
                             <svg>
@@ -192,19 +224,62 @@
 
                     <div class="add-to-card">
                         <h4 class="aside-headers">Add to card</h4>
-                        <button
+                        <el-popover
                             v-for="btn in asideBtns"
                             :key="btn.name"
                             class="secondary-btn action-btn"
+                            placement="top"
+                            :title="btn.name"
+                            width="300"
+                            trigger="click"
+                            content=""
                         >
-                            <div class="action-btn-content">
+                            <div v-if="btn.name === 'Labels'">
+                                <div
+                                    v-for="label in labels"
+                                    :key="label.id"
+                                    :style="{ 'background-color': label.color }"
+                                    class="label-color"
+                                    @click="
+                                        chooseLabel(label.title, label.color)
+                                    "
+                                >
+                                    {{ label.title }}
+                                </div>
+                            </div>
+                            <div class="action-btn-content" slot="reference">
                                 <svg viewBox="0 0 24 24">
                                     <path :d="btn.d"></path>
                                 </svg>
                                 <span>{{ btn.name }}</span>
                             </div>
-                        </button>
+                        </el-popover>
                     </div>
+
+                    <!-- <el-popover
+                        placement="bottom"
+                        title="Title"
+                        width="200"
+                        trigger="click"
+                        content="this is content, this is content, this is content"
+                    >
+                        <el-button slot="reference"
+                            >Click to activate</el-button
+                        >
+                    </el-popover> -->
+
+                    <!-- <button
+                        v-for="btn in asideBtns"
+                        :key="btn.name"
+                        class="secondary-btn action-btn"
+                    >
+                        <div class="action-btn-content">
+                            <svg viewBox="0 0 24 24">
+                                <path :d="btn.d"></path>
+                            </svg>
+                            <span>{{ btn.name }}</span>
+                        </div>
+                    </button> -->
 
                     <!-- Date: -->
                     <!-- <button class="secondary-btn action-btn">
@@ -300,6 +375,10 @@
                         d: 'M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H3V5h18v11z',
                     },
                 ],
+                labels: [],
+                hasLabelChosen: false,
+                labelTitleToShow: '',
+                labelColorToShow: '',
             };
         },
 
@@ -318,6 +397,7 @@
                         boardId,
                     });
                     this.board = board;
+                    this.labels = this.board.labels;
                     // Loading Task:
                     const taskArr = board.groups.map((group) => {
                         return group.tasks.find((task) => {
@@ -401,6 +481,13 @@
                     : 'Show details';
             },
 
+            chooseLabel(labelTitle, labelColor) {
+                this.hasLabelChosen = true;
+                this.labelTitleToShow = labelTitle;
+                this.labelColorToShow = labelColor;
+                // console.log('this.labelToShow:', this.labelToShow);
+            },
+
             backToBoard() {
                 this.$router.push(`/board/${this.board._id}`);
             },
@@ -427,6 +514,10 @@
             saveCommentBtnStyle() {
                 return { 'save-comment-btn-typing-style': this.isCommentInput };
             },
+
+            // labelColor() {
+            //     return {}
+            // }
         },
 
         components: {
