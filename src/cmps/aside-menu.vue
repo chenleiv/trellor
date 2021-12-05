@@ -12,7 +12,18 @@
         <hr />
         <!-- <section> -->
         <div class="menu-content">
-            <h2 class="bgc-btn"><span></span> Change backgroundColor</h2>
+            <h2 class="bgc-btn" @click="openBgcMenu">
+                <span></span> Change backgroundColor
+            </h2>
+            <!-- backGround color cmp -->
+            <!-- <router-view> -->
+            <background-picker
+                v-if="bgcIsClick"
+                :class="openBgcOption"
+                @chosenBg="chosenBg"
+            ></background-picker>
+            <!-- </router-view> -->
+
             <h2 class="archive-btn"><span></span> Archive</h2>
         </div>
         <!-- </section> -->
@@ -39,7 +50,7 @@
                     backgroundColor="lightblue"
                     color="black"
                     :size="30"
-                    username="Tal Tarablus"
+                    username="Ben Ernst"
                 ></avatar>
                 <div class="activity-details">
                     <span class="member-name">{{
@@ -56,26 +67,51 @@
 </template>
 
 <script>
+    import backgroundPicker from '@/cmps/background-picker.vue';
     import Avatar from 'vue-avatar';
     export default {
         name: 'asideMenu',
         props: ['board'],
         data() {
-            return {};
+            return {
+                bgcIsClick: false,
+                boardStyle: {
+                    bgColor: '',
+                },
+            };
         },
         created() {
             this.boardId = this.$route.params.boardId;
-            console.log(' this.boardId', this.boardId);
-            console.log(' this.board', this.board);
-            console.log(' this.activity', this.board.activities);
+            // console.log(' this.boardId', this.boardId);
+            // console.log(' this.board', this.board);
+            // console.log(' this.activity', this.board.activities);
         },
         methods: {
             closeMenu() {
                 this.$emit('openMenu');
             },
+            openBgcMenu() {
+                this.bgcIsClick = !this.bgcIsClick;
+            },
+            chosenBg(style, image) {
+                this.boardStyle = style;
+                this.$emit('updateBgcBoard', this.boardStyle);
+                console.log('this.boardStyle', this.boardStyle);
+            },
         },
-        computed: {},
+        computed: {
+            openBgcOption() {
+                console.log('open bgc menu');
+                console.log('this.bgcIsClick', this.bgcIsClick);
+                // this.closeMenu();
+                return {
+                    'aside-bgc-open': this.bgcIsClick,
+                    'aside-bgc-close': !this.bgcIsClick,
+                };
+            },
+        },
         components: {
+            backgroundPicker,
             Avatar,
         },
     };

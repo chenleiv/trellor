@@ -14,7 +14,8 @@ export const boardService = {
     getEmptyTask,
     addTask,
     updateTask,
-    updateBoard
+    updateBoard,
+    updateBgcBoard
 }
 
 const BOARD_KEY = 'boardsDB'
@@ -112,10 +113,23 @@ async function addGroup(boardId, title) {
 }
 
 async function updateBoard(boardId, title) {
+
     try {
         const board = await getById(boardId);
-        console.log('board from service', board);
         board.title = title;
+        return save(board);
+    } catch (err) {
+        console.log('Error in updateBoard (board-service):', err);
+        throw err;
+    }
+}
+async function updateBgcBoard(boardId, style) {
+    console.log('style', style);
+    console.log('boardId', boardId);
+    try {
+        const board = await getById(boardId);
+        // console.log('board from service', board);
+        board.style = style
         return save(board);
     } catch (err) {
         console.log('Error in updateBoard (board-service):', err);
@@ -621,16 +635,39 @@ function _createBoard() {
             },
         ],
         activities: [{
-            id: 'a101',
-            txt: 'Changed Color',
-            createdAt: 154514,
-            byMember: {
-                _id: 'u101',
-                fullname: 'Bem Ernst',
-                imgUrl: ''
+                id: 'a101',
+                txt: 'Changed Color',
+                createdAt: 154514,
+                byMember: {
+                    _id: 'u101',
+                    fullname: 'Ben Ernst',
+                    imgUrl: ''
+                },
+                coverStyle: { 'color': '#26de81' }
             },
-            coverStyle: { 'color': '#26de81' }
-        }],
+            {
+                id: 'a102',
+                txt: 'Added a task',
+                createdAt: 154516,
+                byMember: {
+                    _id: 'u102',
+                    fullname: 'Or Baadani',
+                    imgUrl: ''
+                },
+                coverStyle: { 'color': '#26de81' }
+            },
+            {
+                id: 'a103',
+                txt: 'Changed Status',
+                createdAt: 154520,
+                byMember: {
+                    _id: 'u103',
+                    fullname: 'Chen Leiv',
+                    imgUrl: ''
+                },
+                coverStyle: { 'color': '#26de81' }
+            }
+        ],
         isStarred: false,
     }
 }
