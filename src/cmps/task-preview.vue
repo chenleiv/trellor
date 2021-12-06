@@ -24,11 +24,11 @@
             </div>
 
             <div class="task-show-details">
-                <div class="task-description" v-if="task.description.length">
+                <div class="task-description" v-if="task.description">
                     <span class="material-icons-outlined"> notes </span>
                 </div>
 
-                <div class="comments" v-if="task.comments.length">
+                <div class="comments" v-if="task.comments">
                     <span class="task-comments">
                         <span></span>
                     </span>
@@ -49,7 +49,7 @@
                 </div>
 
                 <div v-for="member in task.members" :key="member.id">
-                    <div class="list-task-members">{{ member }}</div>
+                    <div class="list-task-members">{{ member.fullname }}</div>
                 </div>
             </div>
 
@@ -86,11 +86,9 @@
         created() {
             const { boardId } = this.$route.params;
             this.boardId = boardId;
-            console.log('', this.boardLabels);
-            if (this.task.labelIds.length > 0) this.getLabels();
-            // if (this.task.labels) {
-            //     // Ben
-            // }
+            if (this.task.labelIds) {
+                if (this.task.labelIds.length > 0) this.getLabels();
+            }
         },
         methods: {
             toggleSize() {

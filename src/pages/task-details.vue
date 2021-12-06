@@ -130,7 +130,7 @@
                                 <el-button
                                     type="primary"
                                     class="save-task-description-btn"
-                                    @click="updateTask"
+                                    @click.prevent="updateTask"
                                 >
                                     <span>Save</span>
                                 </el-button>
@@ -457,6 +457,7 @@
         data() {
             return {
                 board: null,
+
                 task: null,
                 group: null,
                 taskTitle: '',
@@ -563,18 +564,13 @@
                     console.log(
                         `Task Succefully Updated with Id ${this.task.id}`
                     );
-                    // this.loadBoard();
+                    this.$emit('loadBoard');
                 } catch (err) {
                     console.log('Error in updateTask (task-details):', err);
                     throw err;
                 } finally {
                     this.$refs.commInput.value = '';
-                    console.log(
-                        'this.$refs.commInput.value',
-                        this.$refs.commInput.value
-                    );
                     this.comment = '';
-                    console.log(' this.comment', this.comment);
                 }
             },
 
@@ -657,9 +653,9 @@
                 this.updateTask();
 
                 const board = JSON.parse(JSON.stringify(this.board));
-                board.labels[idx].title = this.labelTitle;
+                // board.labels[idx].title = this.labelTitle;
 
-                this.updateBoard(board);
+                // this.updateBoard(board);
                 // this.loadBoard();
             },
 
@@ -681,19 +677,6 @@
 
             backToBoard() {
                 this.$router.push(`/board/${this.board._id}`);
-            },
-
-            async loadBoard() {
-                try {
-                    const board = await this.$store.dispatch({
-                        type: 'getBoard',
-                        boardId: this.board._id,
-                    });
-                    this.board = board;
-                } catch (err) {
-                    console.log('Board Loading Error (task-details):', err);
-                    throw err;
-                }
             },
         },
 

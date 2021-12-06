@@ -320,7 +320,7 @@ function _createBoard() {
                 comments: ['comment 1'],
                 checklists: [],
                 members: ['Chen', 'Or'],
-                labelIds: ['l101'],
+                labelIds: [],
                 createdAt: '',
                 dueDate: '',
                 byMember: {
@@ -342,7 +342,7 @@ function _createBoard() {
                 comments: ['comment 1', 'comment 2'],
                 checklists: [],
                 members: ['Ben'],
-                labelIds: ['l101'],
+                labelIds: [],
                 createdAt: '',
                 dueDate: '',
                 byMember: {
@@ -360,7 +360,7 @@ function _createBoard() {
                 comments: [],
                 checklists: [],
                 members: [],
-                labelIds: ['l101'],
+                labelIds: [],
                 createdAt: '',
                 dueDate: '',
                 byMember: {
@@ -383,7 +383,7 @@ function _createBoard() {
                 comments: ['comment 33'],
                 checklists: [],
                 members: [],
-                labelIds: ['l101'],
+                labelIds: [],
                 createdAt: '',
                 dueDate: '',
                 byMember: {
@@ -737,7 +737,7 @@ function _createBoard() {
                 comments: [],
                 checklists: [],
                 members: [],
-                labelIds: ['l101'],
+                labelIds: [],
                 createdAt: '',
                 dueDate: '',
                 byMember: {
@@ -755,7 +755,7 @@ function _createBoard() {
                 comments: [],
                 checklists: [],
                 members: [],
-                labelIds: ['l101'],
+                labelIds: [],
                 createdAt: '',
                 dueDate: '',
                 byMember: {
@@ -773,7 +773,7 @@ function _createBoard() {
                 comments: [],
                 checklists: [],
                 members: [],
-                labelIds: ['l101'],
+                labelIds: [],
                 createdAt: '',
                 dueDate: '',
                 byMember: {
@@ -791,7 +791,7 @@ function _createBoard() {
                 comments: [],
                 checklists: [],
                 members: [],
-                labelIds: ['l101'],
+                labelIds: [],
                 createdAt: '',
                 dueDate: '',
                 byMember: {
@@ -814,7 +814,7 @@ function _createBoard() {
                 comments: [],
                 checklists: [],
                 members: [],
-                labelIds: ['l101'],
+                labelIds: [],
                 createdAt: '',
                 dueDate: '',
                 byMember: {
@@ -832,7 +832,7 @@ function _createBoard() {
                 comments: [],
                 checklists: [],
                 members: [],
-                labelIds: ['l101'],
+                labelIds: [],
                 createdAt: '',
                 dueDate: '',
                 byMember: {
@@ -848,11 +848,9 @@ function _createBoard() {
                 title: 'Connecting to GitHub Pages',
                 description: '',
                 comments: [],
-                checklists: [
-
-                ],
+                checklists: [],
                 members: [],
-                labelIds: ['l101'],
+                labelIds: [],
                 createdAt: '',
                 dueDate: '',
                 byMember: {
