@@ -1,21 +1,23 @@
 <template>
     <section class="task-preview">
         <div class="task-preview-content">
-            <div v-if="taskLabels.length" class="labels">
-                <div
-                    class="task-label"
-                    v-for="label in taskLabels"
-                    :key="label.Id"
-                    @click.prevent="toggleSize"
-                    :style="{
-                        backgroundColor: label.color,
-                    }"
-                    :class="{
-                        shrinkLabel: changeLabelSize,
-                        increaseLabel: !changeLabelSize,
-                    }"
-                >
-                    <span v-if="!changeLabelSize">{{ label.title }}</span>
+            <div v-if="taskLabels">
+                <div v-if="taskLabels.length" class="labels">
+                    <div
+                        class="task-label"
+                        v-for="label in labelsToShow"
+                        :key="label.Id"
+                        @click.prevent="toggleSize"
+                        :style="{
+                            backgroundColor: label.color,
+                        }"
+                        :class="{
+                            shrinkLabel: changeLabelSize,
+                            increaseLabel: !changeLabelSize,
+                        }"
+                    >
+                        <span v-if="!changeLabelSize">{{ label.title }}</span>
+                    </div>
                 </div>
             </div>
 
@@ -86,11 +88,13 @@
         created() {
             const { boardId } = this.$route.params;
             this.boardId = boardId;
-            // console.log('', this.boardLabels);
-            // if (this.task.labelIds.length > 0) this.getLabels();
-            // if (this.task.labels) {
-            //     // Ben
-            // }
+            console.log('', this.boardLabels);
+
+            if (this.task.labelIds) {
+                // Ben
+                if (this.task.labelIds.length > 0) this.getLabels();
+            }
+            console.log('task preview labels', this.taskLabels);
         },
         methods: {
             toggleSize() {
@@ -100,13 +104,12 @@
             getLabels() {
                 // const taskLabels = ['l101', 'l102'];
                 const labels = this.boardLabels.filter((lb) => {
-                    // console.log('lb', lb);
                     return this.task.labelIds.some((taskL) => {
-                        // console.log('lb id', lb.id);
                         return lb.id.includes(taskL);
                     });
                 });
                 this.taskLabels = labels;
+                return this.taskLabels;
             },
         },
         computed: {
@@ -115,6 +118,14 @@
                     ? this.task.comments.length
                     : null;
                 return comment;
+            },
+            labelsToShow() {
+                if (this.task.labelIds) {
+                    // Ben
+                    if (this.task.labelIds.length > 0) {
+                        return this.getLabels();
+                    }
+                }
             },
             // attachmentLength() {
             //     let attachment = this.task.attachment.length

@@ -81,19 +81,13 @@ async function addTask(boardId, groupId, title) {
 
 }
 
-async function updateTask(boardId, groupId, task, title = task.title, description = task.description, comment = '', commentIdx = null, labelId, members = task.members) {
+async function updateTask(boardId, groupId, task) {
     try {
         const board = await getById(boardId);
         const groupIdx = board.groups.findIndex(g => g.id === groupId)
         const taskIdx = board.groups[groupIdx].tasks.findIndex(t => t === task)
-        task.title = title;
-        task.description = description;
-        if (comment) task.comments.push(comment);
-        // console.log('commentIdx:', commentIdx);
-        if (commentIdx !== null) task.comments.splice(commentIdx, 1);
-        if (labelId) task.labelIds.push(labelId);
-        task.members = members;
         board.groups[groupIdx].tasks.splice(taskIdx, 1, task);
+        console.log('board-service update-task', board);
         return save(board);
     } catch (err) {
         console.log('Error in updateTask (board-service):', err);
