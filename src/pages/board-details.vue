@@ -8,6 +8,7 @@
 
         <main class="main-layout">
             <section class="groups-container">
+                <!-- Group-preview -->
                 <div v-for="group in board.groups" :key="group.id">
                     <group-preview
                         :group="group"
@@ -82,10 +83,10 @@
                         boardId,
                     });
                     this.board = board;
-                    console.log(
-                        'this.board.style from details',
-                        this.board.style
-                    );
+                    // console.log(
+                    //     'this.board.style from details',
+                    //     this.board.style
+                    // );
                     // this.toyToEdit = JSON.parse(JSON.stringify(toy));
                 } catch (err) {
                     console.log('Board Loading Error (board-details):', err);

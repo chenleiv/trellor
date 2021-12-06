@@ -1,27 +1,51 @@
 <template>
     <section class="group-preview">
         <div class="group-header">
+            <!-- class="input-title" -->
             <input
-                class="input-title"
                 type="text"
                 v-model="newTitle"
                 @blur="editTitle"
                 @keyup.enter="$event.target.blur()"
+                @focus="$event.target.select()"
             />
-            <!-- <h4 v-if="!isInputVisible" @click="toggleEditMode">
+
+            <el-popover placement="top" width="150" v-model="toggleMenu">
+                <p>Delete this list?</p>
+                <div style="text-align: right; margin: 0">
+                    <el-button
+                        size="mini"
+                        type="text"
+                        style="color: black"
+                        @click="toggleGroupMenu"
+                        >cancel</el-button
+                    >
+                    <el-button type="info" size="mini" @click="removeGroup"
+                        >confirm</el-button
+                    >
+                </div>
+                <el-button
+                    slot="reference"
+                    class="el-icon-more btn-group"
+                ></el-button>
+            </el-popover>
+
+            <!-- <h4 v-if="!isInputVisible" @click=" @click="toggleEditMode"">
                 {{ group.title }}
             </h4> -->
-            <button
+
+            <!-- Or's Delete Modal -->
+            <!-- <button
                 class="el-icon-more btn-group"
                 @click="toggleGroupMenu"
-            ></button>
+            ></button> -->
             <!-- @click="toggleGroupMenu" -->
             <!-- <modal name="my-first-modal"> This is my first modal </modal> -->
-        </div>
-        <div v-if="toggleMenu" class="group-actions-modal">
+            <!-- </div>-->
+            <!-- <div v-if="toggleMenu" class="group-actions-modal">
             <h4>Group actions</h4>
             <hr />
-            <button @click="removeGroup">Delete group</button>
+            <button @click="removeGroup">Delete group</button> -->
         </div>
 
         <!-- </drag&drop> -->
@@ -42,6 +66,8 @@
                 </router-link>
             </draggable>
         </div>
+        <!-- @end="dragEnd" -->
+
         <!-- </drag&drop> -->
 
         <!-- <div class="tasks-container">
@@ -94,7 +120,7 @@
 <script>
     import taskPreview from '@/cmps/task-preview.vue';
     import draggable from 'vuedraggable';
-    import Sortable from 'sortablejs/modular/sortable.complete.esm.js';
+    // import Sortable from 'sortablejs/modular/sortable.complete.esm.js';
 
     export default {
         name: 'groupPreview',
@@ -157,7 +183,7 @@
             },
             toggleGroupMenu() {
                 this.toggleMenu = !this.toggleMenu;
-                this.$emit('openModalBg');
+                // this.$emit('openModalBg');
             },
             closeModalBg() {
                 this.toggleMenu = false;
@@ -217,7 +243,7 @@
         components: {
             taskPreview,
             draggable,
-            Sortable,
+            // Sortable,
         },
     };
 </script>
