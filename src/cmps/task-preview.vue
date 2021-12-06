@@ -24,12 +24,12 @@
             </div>
 
             <div class="task-show-details">
-                <div class="task-description" v-if="task.description.length">
+                <div class="task-description" v-if="task.description">
                     <span class="material-icons-outlined"> notes </span>
                 </div>
 
-                <div class="comments" v-if="task.comments.length">
-                    <span class="task-comments">
+                <div class="comments" v-if="task.comments">
+                    <span class="task-comments" v-if="task.comments.length">
                         <span></span>
                     </span>
                     <span>{{ commentsLength }}</span>
@@ -40,16 +40,16 @@
                     <span>{{ attachmentLength }}</span>
                 </div> -->
 
-                <div class="task-checklists">
+                <div class="task-checklists" v-if="task.checklists">
                     <!-- v-if="task.checklists.length" -->
-                    <span>
+                    <span v-if="task.checklists.length">
                         <span class="material-icons-outlined"> check_box </span>
+                        <p>0/2</p>
                     </span>
-                    <p>0/2</p>
                 </div>
 
                 <div v-for="member in task.members" :key="member.id">
-                    <div class="list-task-members">{{ member }}</div>
+                    <div class="list-task-members">{{ member.fullname }}</div>
                 </div>
             </div>
 
@@ -86,8 +86,8 @@
         created() {
             const { boardId } = this.$route.params;
             this.boardId = boardId;
-            console.log('', this.boardLabels);
-            if (this.task.labelIds.length > 0) this.getLabels();
+            // console.log('', this.boardLabels);
+            // if (this.task.labelIds.length > 0) this.getLabels();
             // if (this.task.labels) {
             //     // Ben
             // }
@@ -111,10 +111,10 @@
         },
         computed: {
             commentsLength() {
-                let Comment = this.task.comments.length
+                let comment = this.task.comments.length
                     ? this.task.comments.length
                     : null;
-                return Comment;
+                return comment;
             },
             // attachmentLength() {
             //     let attachment = this.task.attachment.length
@@ -122,6 +122,9 @@
             //         : null;
             //     return attachment;
             // },
+        },
+        commentLength() {
+            task.comments.length ? task.comments.length : null;
         },
     };
 </script>
