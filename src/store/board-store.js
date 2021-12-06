@@ -7,7 +7,7 @@ export const boardStore = {
         isLoading: false,
     },
     getters: {
-        // boards({ boards }) { return boards },
+        boards({ boards }) { return boards },
         boardsToShow(state) {
             var boards = JSON.parse(JSON.stringify(state.boards));
             return boards;

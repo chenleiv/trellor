@@ -440,7 +440,12 @@
                     throw err;
                 } finally {
                     this.$refs.commInput.value = '';
+                    console.log(
+                        'this.$refs.commInput.value',
+                        this.$refs.commInput.value
+                    );
                     this.comment = '';
+                    console.log(' this.comment', this.comment);
                 }
             },
 
