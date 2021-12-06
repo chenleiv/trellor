@@ -46,7 +46,7 @@
         </main>
 
         <transition name="fade" :duration="50">
-            <router-view />
+            <router-view @loadBoard="loadBoard" />
         </transition>
     </section>
 </template>
@@ -83,6 +83,7 @@
                         boardId,
                     });
                     this.board = board;
+                    console.log('this.board ', this.board);
                     // console.log(
                     //     'this.board.style from details',
                     //     this.board.style
