@@ -1,8 +1,8 @@
 <template>
     <section class="task-preview">
         <div class="task-preview-content">
-            <div v-if="taskLabels">
-                <div v-if="taskLabels.length" class="labels">
+            <div v-if="labelsToShow">
+                <div v-if="labelsToShow.length" class="labels">
                     <div
                         class="task-label"
                         v-for="label in labelsToShow"
