@@ -7,7 +7,7 @@
         }"
     >
         <main-header />
-        <router-view />
+        <router-view @setBg="setBg" />
     </div>
 </template>
 
@@ -22,6 +22,12 @@
                     bgColor: 'none',
                 },
             };
+        },
+        methods: {
+            setBg(style) {
+                console.log('new style', style);
+                this.boardStyle = style;
+            },
         },
         watch: {
             '$route.params.boardId': {

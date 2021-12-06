@@ -1,0 +1,15 @@
+.background-unsplash {
+    &>div {
+        display: grid;
+        height: 60vh;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        overflow-y: auto;
+        .unsplash-box {
+            height: 80px;
+            // width: 100px;
+            border-radius: 3px;
+            background-size: cover;
+        }
+    }
+}

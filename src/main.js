@@ -7,8 +7,13 @@ import './assets/styles/style.scss'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 import VModal from 'vue-js-modal'
-// import 'bootstrap'
-// import 'bootstrap/dist/css/bootstrap.min.css'
+import VueInputAutowidth from 'vue-input-autowidth'
+import vueDebounce from 'vue-debounce'
+
+Vue.use(vueDebounce)
+Vue.use(VueInputAutowidth)
+    // import 'bootstrap'
+    // import 'bootstrap/dist/css/bootstrap.min.css'
 
 Vue.use(Element)
 Vue.use(VModal)

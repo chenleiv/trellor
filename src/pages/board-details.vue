@@ -1,6 +1,10 @@
 <template>
     <section v-if="board" class="board-details">
-        <board-header :board="board" @loadBoard="loadBoard" />
+        <board-header
+            :board="board"
+            @loadBoard="loadBoard"
+            @editBgcBoard="editBgcBoard"
+        />
 
         <main class="main-layout">
             <section class="groups-container">
@@ -67,6 +71,9 @@
         },
 
         methods: {
+            editBgcBoard(style) {
+                this.$emit('setBg', style);
+            },
             async loadBoard() {
                 const { boardId } = this.$route.params;
                 try {

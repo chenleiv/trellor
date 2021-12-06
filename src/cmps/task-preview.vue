@@ -10,13 +10,12 @@
                     :style="{
                         backgroundColor: label.color,
                     }"
-                    :class="{ shrinkLabel: changeLabelSize }"
+                    :class="{
+                        shrinkLabel: changeLabelSize,
+                        increaseLabel: !changeLabelSize,
+                    }"
                 >
-                    <transition name="fade">
-                        <span v-if="!changeLabelSize">{{
-                            label.title
-                        }}</span></transition
-                    >
+                    <span v-if="!changeLabelSize">{{ label.title }}</span>
                 </div>
             </div>
             {{ task.title }}
@@ -44,7 +43,7 @@
 
         data() {
             return {
-                changeLabelSize: false,
+                changeLabelSize: true,
                 boardId: '',
                 taskLabels: [],
             };
@@ -53,6 +52,7 @@
         created() {
             const { boardId } = this.$route.params;
             this.boardId = boardId;
+            console.log('', this.boardLabels);
             if (this.task.labelIds.length > 0) this.getLabels();
         },
         methods: {

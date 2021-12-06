@@ -18,7 +18,10 @@
             :key="'a' + j"
             :id="'color-box' + 'a' + j"
             @click="chooseBg('image', image)"
-            :class="{ colorChoice: style.bgImg === image }"
+            :class="{
+                colorChoice:
+                    style.bgImg === `url(${require('@/assets/img/' + image)})`,
+            }"
         ></div>
     </section>
 </template>

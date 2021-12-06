@@ -13,7 +13,13 @@
         <!-- <section> -->
         <div class="menu-content">
             <h2 class="bgc-btn" @click="openBgcMenu">
-                <span></span> Change backgroundColor
+                <div
+                    :style="{
+                        backgroundColor: boardStyle.bgColor,
+                        backgroundImage: boardStyle.bgImg,
+                    }"
+                ></div>
+                Change background
             </h2>
             <!-- backGround color cmp -->
             <!-- <router-view> -->
@@ -23,14 +29,17 @@
                 @chosenBg="chosenBg"
             ></background-picker>
             <!-- </router-view> -->
-
+            <background-unsplash
+                @onSaveImg="changeImgUrl"
+            ></background-unsplash>
+            <img-upload @onSaveImg="changeImgUrl"></img-upload>
             <h2 class="archive-btn"><span></span> Archive</h2>
         </div>
         <!-- </section> -->
         <hr />
 
         <section class="activities">
-            <div class="activity-header">
+            <div class="activities-header">
                 <svg>
                     <path
                         d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"
@@ -69,15 +78,15 @@
 <script>
     import backgroundPicker from '@/cmps/background-picker.vue';
     import Avatar from 'vue-avatar';
+    import imgUpload from '@/cmps/img-upload.vue';
+    import backgroundUnsplash from '@/cmps/background-unsplash.vue';
     export default {
         name: 'asideMenu',
         props: ['board'],
         data() {
             return {
                 bgcIsClick: false,
-                boardStyle: {
-                    bgColor: '',
-                },
+                boardStyle: this.board.style,
             };
         },
         created() {
@@ -87,6 +96,11 @@
             // console.log(' this.activity', this.board.activities);
         },
         methods: {
+            changeImgUrl(url) {
+                this.boardStyle.bgImg = `url(${url})`;
+                this.boardStyle.bgColor = 'none';
+                this.$emit('updateBgcBoard', this.boardStyle);
+            },
             closeMenu() {
                 this.$emit('openMenu');
             },
@@ -113,6 +127,8 @@
         components: {
             backgroundPicker,
             Avatar,
+            imgUpload,
+            backgroundUnsplash,
         },
     };
 </script>

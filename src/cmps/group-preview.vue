@@ -11,7 +11,10 @@
             <!-- <h4 v-if="!isInputVisible" @click="toggleEditMode">
                 {{ group.title }}
             </h4> -->
-            <button class="el-icon-more btn-group" @click="show"></button>
+            <button
+                class="el-icon-more btn-group"
+                @click="toggleGroupMenu"
+            ></button>
             <!-- @click="toggleGroupMenu" -->
             <!-- <modal name="my-first-modal"> This is my first modal </modal> -->
         </div>
@@ -27,7 +30,6 @@
                 v-model="group.tasks"
                 group="tasks"
                 class="tasks-container"
-                @end="dragEnd"
             >
                 <router-link
                     v-for="task in group.tasks"
@@ -36,7 +38,7 @@
                     class="sortable"
                     ghosrClass="ghost"
                 >
-                    <task-preview :task="task" />
+                    <task-preview :task="task" :boardLabels="boardLabels" />
                 </router-link>
             </draggable>
         </div>

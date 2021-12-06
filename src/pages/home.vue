@@ -4,9 +4,9 @@
             <router-link to="/workspace"
                 ><h2>Get started <span></span></h2> </router-link
             ><br />
-            <router-link to="/"
+            <!-- <router-link to="/"
                 ><h2>Login <span></span></h2>
-            </router-link>
+            </router-link> -->
         </div>
         <img src="@/assets/img/undraw_completed_tasks_vs6q.svg" alt="" />
         <!-- <img src="@/assets/img/undraw_taking_notes_re_bnaf.svg" alt="" /> -->

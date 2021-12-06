@@ -4,7 +4,9 @@
             class="board-preview"
             :style="{
                 backgroundColor: board.style.bgColor,
-                backgroundImage: board.style.bgImg,
+                backgroundImage:
+                    'linear-gradient(rgb(0 0 0 / 27%), rgb(0 0 0 / 10%)) ,' +
+                    board.style.bgImg,
             }"
         >
             <h4 class="board-preview-title">{{ board.title }}</h4>

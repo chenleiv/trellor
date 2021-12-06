@@ -31,9 +31,18 @@
                         @blur="editTitle"
                         @keyup.enter="$event.target.blur()"
                         placeholder="Add title..."
+                        v-autowidth="{
+                            maxWidth: '200px',
+                            minWidth: '10px',
+                            comfortZone: 0,
+                        }"
                     />
                 </section>
-
+                <span
+                    :class="{ starred: isStarred }"
+                    @click="updateBoard"
+                    class="star-favorite"
+                ></span>
                 <div class="members-container">
                     <div class="vl"></div>
                     <div class="avatar-icon">
@@ -72,16 +81,17 @@
 
                 <!-- <board-filter></board-filter> -->
                 <button class="menu-btn" @click="openMenu">
-                    <span></span> Show menu
+                    <span class="el-icon-more"></span> Show menu
                 </button>
             </div>
-
-            <aside-menu
-                :class="menuBarIsShown"
-                :board="board"
-                @openMenu="openMenu"
-                @updateBgcBoard="editBgcBoard"
-            ></aside-menu>
+            <transition name="slide-fade">
+                <aside-menu
+                    :board="board"
+                    :class="menuBarIsShown"
+                    @openMenu="openMenu"
+                    @updateBgcBoard="editBgcBoard"
+                ></aside-menu
+            ></transition>
         </div>
     </section>
 </template>
@@ -99,6 +109,7 @@
             return {
                 isShown: false,
                 value: '',
+                isStarred: this.board.isStarred,
                 title: this.board.title,
                 boardId: '',
                 visible: false,
@@ -118,9 +129,6 @@
             },
 
             async editBgcBoard(style) {
-                // this.$emit('editBgcBoard', style);
-                console.log('$route.params.boardId', this.$route.params);
-
                 try {
                     await this.$store.dispatch({
                         type: 'updateBoardBgc',
@@ -128,9 +136,27 @@
                         style: style,
                     });
                     console.log(`Board Saved Successfully in ${this.boardId}`);
-                    this.$emit('loadBoard');
+                    // this.$emit('loadBoard');
+                    this.$emit('editBgcBoard', style);
                 } catch (err) {
                     console.log('Error in updateBoard (board-header):', err);
+                    throw err;
+                }
+            },
+            async updateBoard() {
+                this.isStarred = !this.isStarred;
+                console.log('', this.isStarred);
+                const changedBoard = JSON.parse(JSON.stringify(this.board));
+                changedBoard.isStarred = this.isStarred;
+                try {
+                    const savedBoard = await this.$store.dispatch({
+                        type: 'updateBoard',
+                        board: changedBoard,
+                    });
+                    console.log(`Board changed successfully`);
+                    this.$emit('loadBoard');
+                } catch (err) {
+                    console.log('Error in adding a board (workspace):', err);
                     throw err;
                 }
             },

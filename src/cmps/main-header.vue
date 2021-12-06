@@ -3,9 +3,9 @@
         <section class="header-container">
             <div class="logo">
                 <router-link to="/workspace">
-                    <span class="el-icon-s-grid"></span>
+                    <span class="el-icon-s-grid grid-icon"></span>
                 </router-link>
-                <router-link to="/">
+                <router-link to="/" class="logo-trellor">
                     <h1><span class="logo-icon"></span> Trellor</h1>
                 </router-link>
             </div>
