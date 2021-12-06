@@ -179,6 +179,7 @@
                             class="save-comment-btn"
                             :class="[visibility, saveCommentBtnStyle]"
                             @click="addComment"
+                            :disabled="!comment"
                         >
                             <span>Save</span>
                         </button>
