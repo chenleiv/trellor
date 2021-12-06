@@ -6,50 +6,22 @@
                 <div class="select">
                     <el-dropdown trigger="click" type="primary">
                         <span class="el-dropdown-link">
-                            Dropdown List<i
-                                class="el-icon-arrow-down el-icon--right"
-                            ></i>
+                            <span class="el-icon-s-data">Board</span
+                            ><i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
 
                         <el-dropdown-menu slot="dropdown" type="primary">
                             <el-dropdown-item icon="el-icon-plus"
-                                >Action 1</el-dropdown-item
-                            >
+                                ><span>Board</span>
+                            </el-dropdown-item>
                             <el-dropdown-item icon="el-icon-circle-plus"
-                                >Action 2</el-dropdown-item
+                                >Calender</el-dropdown-item
                             >
                             <el-dropdown-item icon="el-icon-circle-plus-outline"
-                                >Action 3</el-dropdown-item
-                            >
-                            <el-dropdown-item icon="el-icon-check"
-                                >Action 4</el-dropdown-item
-                            >
-                            <el-dropdown-item icon="el-icon-circle-check"
-                                >Action 5</el-dropdown-item
+                                >Map</el-dropdown-item
                             >
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <!-- </el-col>
-</el-row> -->
-
-                    <!-- <el-dropdown>
-                        <el-button type="primary">
-                            <span class="el-icon-s-data"></span> Board<i
-                                class="el-icon-arrow-down el-icon--right"
-                            ></i>
-                        </el-button>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>Dashboard</el-dropdown-item>
-                            <el-dropdown-item> Calender</el-dropdown-item>
-                            <el-dropdown-item> Map</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown> -->
-
-                    <!-- <button>
-                        <span class="el-icon-s-data"></span
-                        ><span class="bb"> Board</span
-                        ><span class="el-icon-arrow-down"></span>
-                    </button> -->
                 </div>
 
                 <section class="board-title-header">

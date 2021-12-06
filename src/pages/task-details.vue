@@ -13,7 +13,7 @@
                     ></path>
                 </svg>
                 <textarea
-                    v-model="taskTitle"
+                    v-model="taskToEdit.title"
                     type="text"
                     @blur="updateTask"
                     @keydown.enter.prevent
@@ -115,7 +115,7 @@
 
                         <div class="description-edit">
                             <textarea
-                                v-model="description"
+                                v-model="taskToEdit.description"
                                 type="text"
                                 @blur="updateTask"
                                 @click="openTextArea"
@@ -178,7 +178,8 @@
                         <button
                             class="save-comment-btn"
                             :class="[visibility, saveCommentBtnStyle]"
-                            @click="updateTask"
+                            @click="addComment"
+                            :disabled="!comment"
                         >
                             <span>Save</span>
                         </button>
@@ -460,6 +461,7 @@
 
                 task: null,
                 group: null,
+                taskToEdit: {},
                 taskTitle: '',
                 isTextAreaVisible: false,
                 description: '',
@@ -516,6 +518,10 @@
         },
 
         methods: {
+            addComment() {
+                this.taskToEdit.comments.push(this.comment);
+                this.updateTask();
+            },
             async loadData() {
                 const { boardId } = this.$route.params;
                 const { taskId } = this.$route.params;
@@ -533,13 +539,16 @@
                             return task.id === taskId;
                         });
                     });
+                    console.log('this.task', this.task);
                     this.task = taskArr.find((item) => item !== undefined);
                     this.taskTitle = this.task.title;
+                    console.log('this.taskTitle', this.taskTitle);
                     // Loading Group:
                     const group = board.groups.find((gr) =>
                         gr.tasks.includes(this.task)
                     );
                     this.group = group;
+                    this.taskToEdit = this.task;
                 } catch (err) {
                     console.log('Error in loadData (task-details):', err);
                     throw err;
@@ -548,23 +557,25 @@
 
             async updateTask() {
                 this.isTextAreaVisible = false;
+                console.log('hello from update task');
                 try {
                     await this.$store.dispatch({
                         type: 'updateTask',
                         boardId: this.board._id,
                         groupId: this.group.id,
-                        task: this.task,
-                        taskTitle: this.taskTitle,
-                        taskDescription: this.description,
-                        comment: this.comment,
-                        commentIdx: this.commentIdx,
-                        labelId: this.labelIdToShow,
-                        members: this.membersToShow,
+                        task: this.taskToEdit,
+                        // taskTitle: this.taskTitle,
+                        // taskDescription: this.description,
+                        // comment: this.comment,
+                        // commentIdx: this.commentIdx,
+                        // labelId: this.labelIdToShow,
+                        // members: this.membersToShow,
                     });
                     console.log(
                         `Task Succefully Updated with Id ${this.task.id}`
                     );
                     this.$emit('loadBoard');
+                    // this.loadBoard();
                 } catch (err) {
                     console.log('Error in updateTask (task-details):', err);
                     throw err;
@@ -583,6 +594,7 @@
                     this.board = savedBoard;
                     console.log(`Board updated successfully`);
                     console.log('savedBoard.labels:', savedBoard.labels);
+                    this.$emit('loadBoard');
                     this.labelTitle = '';
                 } catch (err) {
                     console.log('Error in updateBoard (task-details):', err);
@@ -628,7 +640,8 @@
             },
 
             chooseMember(member) {
-                this.membersToShow.push(member);
+                // this.membersToShow.push(member);
+                this.taskToEdit.members.push(member);
                 this.updateTask();
             },
 
@@ -649,10 +662,12 @@
                 this.hasLabelChosen = true;
 
                 this.labelIdToShow = id;
-                this.labelIdsToShow.push(id);
+                // this.labelIdsToShow.push(id);
+                this.taskToEdit.labelIds.push(id);
+                console.log('add label', id);
                 this.updateTask();
 
-                const board = JSON.parse(JSON.stringify(this.board));
+                // const board = JSON.parse(JSON.stringify(this.board));
                 // board.labels[idx].title = this.labelTitle;
 
                 // this.updateBoard(board);
@@ -667,6 +682,9 @@
             saveLabelTitle() {
                 this.isLabelEdit = false;
                 this.labels[this.labelIdxToEdit].title = this.labelTitle;
+                const board = JSON.parse(JSON.stringify(this.board));
+                board.labels = this.labels;
+                this.updateBoard(board);
             },
 
             cancelEditLabel() {

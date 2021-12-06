@@ -164,9 +164,11 @@ export const boardStore = {
                 throw err;
             }
         },
-        async updateTask({ commit }, { boardId, groupId, task, taskTitle, taskDescription, comment, commentIdx, labelId, members }) {
+        // , taskTitle, taskDescription, comment, commentIdx, labelId, members
+        async updateTask({ commit }, { boardId, groupId, task }) {
             try {
-                const savedBoard = await boardService.updateTask(boardId, groupId, task, taskTitle, taskDescription, comment, commentIdx, labelId, members);
+                // , taskTitle, taskDescription, comment, commentIdx, labelId, members
+                const savedBoard = await boardService.updateTask(boardId, groupId, task);
                 commit({ type: 'updateBoard', board: savedBoard })
                 return savedBoard;
             } catch {

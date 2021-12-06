@@ -295,6 +295,12 @@
                     font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
                         Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue,
                         sans-serif;
+
+                    &:disabled {
+                        cursor: not-allowed;
+                        background-color: #f4f5f7;
+                        color: #a5adba;
+                    }
                 }
                 .activity-preview-container {
                     display: flex;
@@ -444,6 +450,9 @@
 
 .hidden {
     opacity: 0;
+    // display: none;
+    // visibility: hidden;
+    cursor: pointer;
 }
 
 .save-comment-btn-typing-style {
