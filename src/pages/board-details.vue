@@ -106,9 +106,9 @@
                         boardId: this.board._id,
                         groupTitle: this.groupTitle,
                     });
-                    console.log(
-                        `Group Added Successfully in ${this.board._id}`
-                    );
+                    // console.log(
+                    //     `Group Added Successfully in ${this.board._id}`
+                    // );
                     this.loadBoard();
                 } catch (err) {
                     console.log(
@@ -118,7 +118,7 @@
                     throw err;
                 } finally {
                     this.groupTitle = '';
-                    console.log('', this.$el.scrollWidth);
+                    // console.log('', this.$el.scrollWidth);
                     this.$el.scrollTo(this.$el.scrollWidth + 270, 0);
                 }
             },

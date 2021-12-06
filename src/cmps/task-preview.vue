@@ -2,7 +2,7 @@
     <section class="task-preview">
         <div class="task-preview-content">
             <div v-if="labelsToShow">
-                <div v-if="labelsToShow.length" class="labels">
+                <div v-if="labelsToShow" class="labels">
                     <div
                         class="task-label"
                         v-for="label in labelsToShow"
@@ -30,8 +30,8 @@
                     <span class="material-icons-outlined"> notes </span>
                 </div>
 
-                <div class="comments" v-if="task.comments.length">
-                    <span class="task-comments">
+                <div class="comments" v-if="task.comments">
+                    <span class="task-comments" v-if="task.comments.length">
                         <span></span>
                     </span>
                     <span>{{ commentsLength }}</span>
@@ -42,12 +42,12 @@
                     <span>{{ attachmentLength }}</span>
                 </div> -->
 
-                <div class="task-checklists">
+                <div class="task-checklists" v-if="task.checklists">
                     <!-- v-if="task.checklists.length" -->
-                    <span>
+                    <span v-if="task.checklists.length">
                         <span class="material-icons-outlined"> check_box </span>
+                        <p>0/2</p>
                     </span>
-                    <p>0/2</p>
                 </div>
 
                 <div v-for="member in task.members" :key="member.id">
@@ -114,10 +114,10 @@
         },
         computed: {
             commentsLength() {
-                let Comment = this.task.comments.length
+                let comment = this.task.comments.length
                     ? this.task.comments.length
                     : null;
-                return Comment;
+                return comment;
             },
             labelsToShow() {
                 if (this.task.labelIds) {
@@ -134,5 +134,8 @@
             //     return attachment;
             // },
         },
+        // commentLength() {
+        //     task.comments.length ? task.comments.length : null;
+        // },
     };
 </script>

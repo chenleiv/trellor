@@ -179,6 +179,7 @@
                             class="save-comment-btn"
                             :class="[visibility, saveCommentBtnStyle]"
                             @click="addComment"
+                            :disabled="!comment"
                         >
                             <span>Save</span>
                         </button>
@@ -457,6 +458,7 @@
         data() {
             return {
                 board: null,
+
                 task: null,
                 group: null,
                 taskToEdit: {},
@@ -537,8 +539,10 @@
                             return task.id === taskId;
                         });
                     });
+                    console.log('this.task', this.task);
                     this.task = taskArr.find((item) => item !== undefined);
                     this.taskTitle = this.task.title;
+                    console.log('this.taskTitle', this.taskTitle);
                     // Loading Group:
                     const group = board.groups.find((gr) =>
                         gr.tasks.includes(this.task)
@@ -577,12 +581,7 @@
                     throw err;
                 } finally {
                     this.$refs.commInput.value = '';
-                    console.log(
-                        'this.$refs.commInput.value',
-                        this.$refs.commInput.value
-                    );
                     this.comment = '';
-                    console.log(' this.comment', this.comment);
                 }
             },
 
@@ -696,19 +695,6 @@
 
             backToBoard() {
                 this.$router.push(`/board/${this.board._id}`);
-            },
-
-            async loadBoard() {
-                try {
-                    const board = await this.$store.dispatch({
-                        type: 'getBoard',
-                        boardId: this.board._id,
-                    });
-                    this.board = board;
-                } catch (err) {
-                    console.log('Board Loading Error (task-details):', err);
-                    throw err;
-                }
             },
         },
 
