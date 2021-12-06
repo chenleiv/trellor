@@ -81,7 +81,7 @@ async function addTask(boardId, groupId, title) {
 
 }
 
-async function updateTask(boardId, groupId, task, title = task.title, description = task.description, comment = '', commentIdx = null) {
+async function updateTask(boardId, groupId, task, title = task.title, description = task.description, comment = '', commentIdx = null, labelId, members = task.members) {
     try {
         const board = await getById(boardId);
         const groupIdx = board.groups.findIndex(g => g.id === groupId)
@@ -89,8 +89,10 @@ async function updateTask(boardId, groupId, task, title = task.title, descriptio
         task.title = title;
         task.description = description;
         if (comment) task.comments.push(comment);
-        console.log('commentIdx:', commentIdx);
+        // console.log('commentIdx:', commentIdx);
         if (commentIdx !== null) task.comments.splice(commentIdx, 1);
+        if (labelId) task.labelIds.push(labelId);
+        task.members = members;
         board.groups[groupIdx].tasks.splice(taskIdx, 1, task);
         return save(board);
     } catch (err) {
@@ -277,19 +279,19 @@ function _createBoard() {
         style: { bgColor: '#afafaf', bgImg: 'none' },
         labels: [{
             id: 'l101',
-            title: 'This month',
+            title: '',
             color: '#409EFF'
         }, {
             id: 'l102',
-            title: 'This two weeks',
+            title: '',
             color: '#67C23A'
         }, {
             id: 'l103',
-            title: 'This week',
+            title: '',
             color: '#E6A23C'
         }, {
             id: 'l104',
-            title: 'Today',
+            title: '',
             color: '#F56C6C'
         }],
         members: [{
@@ -393,117 +395,340 @@ function _createBoard() {
                 coverStyle: { 'color': '#26de81' }
             },
             {
-                id: 't106',
-                title: 'Connecting Backend & Frontend',
-                description: '',
-                comments: [],
-                checklists: [],
-                members: [],
-                labelIds: ['l101'],
-                createdAt: '',
-                dueDate: '',
-                byMember: {
-                    _id: 'u103',
-                    username: 'Chen',
-                    fullname: 'Chen leiv',
-                    imgUrl: ''
-                },
-                coverStyle: { 'color': '#26de81' }
-            },
-            ]
-        },
-        {
-            id: 'g104',
-            title: 'In development',
-            tasks: [{
-                id: 't107',
-                title: 'Drag and Drop',
-                description: '',
-                comments: [],
-                checklists: [],
-                members: [],
-                labelIds: [],
-                createdAt: '',
-                dueDate: '',
-                byMember: {
-                    _id: 'u103',
-                    username: 'Chen',
-                    fullname: 'Chen leiv',
-                    imgUrl: ''
-                },
-                coverStyle: { 'color': '#26de81' }
+                _id: 'u103',
+                fullname: 'Chen leiv',
+                imgUrl: ''
+            }
+            ],
+            groups: [{
+                id: 'g101',
+                title: 'General',
+                tasks: [{
+                    id: 't101',
+                    title: 'Meeting with Asi, scss',
+                    description: 'Tuesday, 15:45',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u102',
+                        username: 'Or',
+                        fullname: 'Or Baadani',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
+                },]
             },
             {
-                id: 't108',
-                title: 'Board Header',
-                description: '',
-                comments: [],
-                checklists: [],
-                members: [],
-                labelIds: ['l101'],
-                createdAt: '',
-                dueDate: '',
-                byMember: {
-                    _id: 'u103',
-                    username: 'Chen',
-                    fullname: 'Chen leiv',
-                    imgUrl: ''
+                id: 'g102',
+                title: 'Backlog client',
+                tasks: [{
+                    id: 't103',
+                    title: 'Task-Labels',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u101',
+                        username: 'Ben',
+                        fullname: 'Ben Ernst',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
                 },
-                coverStyle: { 'color': '#26de81' }
+                {
+                    id: 't104',
+                    title: 'Filter Cmp',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u101',
+                        username: 'Ben',
+                        fullname: 'Ben Ernst',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
+                },
+                ]
             },
             {
-                id: 't109',
-                title: 'Task-Details (modal)',
-                description: '',
-                comments: [],
-                checklists: [],
-                members: [],
-                labelIds: ['l101'],
-                createdAt: '',
-                dueDate: '',
-                byMember: {
-                    _id: 'u101',
-                    username: 'Ben',
-                    fullname: 'Bem Ernst',
-                    imgUrl: ''
+                id: 'g103',
+                title: 'Backlog - server',
+                tasks: [{
+                    id: 't105',
+                    title: 'Build Mongo Atlas DB',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u103',
+                        username: 'Chen',
+                        fullname: 'Chen leiv',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
                 },
-                coverStyle: { 'color': '#26de81' }
+                {
+                    id: 't106',
+                    title: 'Connecting Backend & Frontend',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u103',
+                        username: 'Chen',
+                        fullname: 'Chen leiv',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
+                },
+                ]
             },
             {
-                id: 't110',
-                title: 'Aside Menu',
-                description: '',
-                comments: [],
-                checklists: [],
-                members: [],
-                labelIds: ['l101'],
-                createdAt: '',
-                dueDate: '',
-                byMember: {
-                    _id: 'u102',
-                    username: 'Or',
-                    fullname: 'Or Baadani',
-                    imgUrl: ''
+                id: 'g104',
+                title: 'In development',
+                tasks: [{
+                    id: 't107',
+                    title: 'Drag and Drop',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u103',
+                        username: 'Chen',
+                        fullname: 'Chen leiv',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
                 },
-                coverStyle: { 'color': '#26de81' }
+                {
+                    id: 't108',
+                    title: 'Board Header',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u103',
+                        username: 'Chen',
+                        fullname: 'Chen leiv',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
+                },
+                {
+                    id: 't109',
+                    title: 'Task-Details (modal)',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u101',
+                        username: 'Ben',
+                        fullname: 'Bem Ernst',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
+                },
+                {
+                    id: 't110',
+                    title: 'Aside Menu',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u102',
+                        username: 'Or',
+                        fullname: 'Or Baadani',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
+                },
+                {
+                    id: 't111',
+                    title: 'Workspace Page',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u102',
+                        username: 'Or',
+                        fullname: 'Or Baadani',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
+                },
+                {
+                    id: 't112',
+                    title: 'Home Page',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u101',
+                        username: 'Ben',
+                        fullname: 'Ben Ernst',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
+                },
+                {
+                    id: 't113',
+                    title: 'Main Header',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u102',
+                        username: 'Or',
+                        fullname: 'Or Baadani',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
+                },
+                {
+                    id: 't114',
+                    title: 'Group-Preview cmp',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u103',
+                        username: 'Chen',
+                        fullname: 'Chen Leiv',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
+                },
+                {
+                    id: 't115',
+                    title: 'Task-Preview cmp',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u102',
+                        username: 'Ben',
+                        fullname: 'Ben Ernst',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
+                },
+                ]
             },
             {
-                id: 't111',
-                title: 'Workspace Page',
-                description: '',
-                comments: [],
-                checklists: [],
-                members: [],
-                labelIds: ['l101'],
-                createdAt: '',
-                dueDate: '',
-                byMember: {
-                    _id: 'u102',
-                    username: 'Or',
-                    fullname: 'Or Baadani',
-                    imgUrl: ''
+                id: 'g105',
+                title: 'Done',
+                tasks: [{
+                    id: 't116',
+                    title: 'Building Main Structure',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u102',
+                        username: 'Or',
+                        fullname: 'Or Baadani',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
                 },
-                coverStyle: { 'color': '#26de81' }
+                {
+                    id: 't117',
+                    title: 'Creating Demo Data Model',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u103',
+                        username: 'Chen',
+                        fullname: 'Chen leiv',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
+                },
+                {
+                    id: 't118',
+                    title: 'Connecting to GitHub Pages',
+                    description: '',
+                    comments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {
+                        _id: 'u101',
+                        username: 'Ben',
+                        fullname: 'Bem Ernst',
+                        imgUrl: ''
+                    },
+                    coverStyle: { 'color': '#26de81' }
+                },
+                ]
             },
             {
                 id: 't112',

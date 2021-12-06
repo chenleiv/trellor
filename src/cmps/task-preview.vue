@@ -88,6 +88,9 @@
             const { boardId } = this.$route.params;
             this.boardId = boardId;
             if (this.task.labelIds.length > 0) this.getLabels();
+            // if (this.task.labels) {
+            //     // Ben
+            // }
         },
         methods: {
             toggleSize() {
