@@ -4,7 +4,7 @@
             <div class="modal-background"></div>
         </router-link>
 
-        <section class="task-details-container">
+        <section class="task-details-container" @click="cancelEditLabel">
             <header class="task-modal-header">
                 <button class="close-modal-btn" @click="backToBoard"></button>
                 <svg viewBox="0 0 24 24">
@@ -20,27 +20,71 @@
                 ></textarea>
                 <!-- <h1><span></span>{{ task.title }}</h1> -->
                 <p>
-                    in group
+                    in list
                     <span>{{ group.title }}</span>
                 </p>
             </header>
 
             <section class="task-details-content">
                 <main>
-                    <div v-if="hasLabelChosen" class="task-details-header flex">
-                        <div class="task-details-header-members flex column">
-                            <h4 class="task-details-header-title">Labels</h4>
-                            <div class="container flex wrap">
-                                <div class="label-to-show-container">
-                                    <div
-                                        class="label-to-show"
-                                        :style="{
-                                            'background-color':
-                                                this.labelColorToShow,
-                                        }"
+                    <div class="task-features">
+                        <div class="task-features-container">
+                            <div
+                                v-if="task.members.length"
+                                class="members-container"
+                            >
+                                <h4
+                                    v-if="task.members.length"
+                                    class="members-to-show-header"
+                                >
+                                    Members
+                                </h4>
+                                <div class="member-to-show-container">
+                                    <section
+                                        v-for="member in task.members"
+                                        :key="member._id"
+                                        class="member-to-show-list"
                                     >
-                                        {{ this.labelTitleToShow }}
-                                    </div>
+                                        <div class="member-to-show">
+                                            <avatar
+                                                class="user-avatar"
+                                                backgroundColor="lightblue"
+                                                color="black"
+                                                :size="30"
+                                                :username="member.fullname"
+                                            ></avatar>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                            <div
+                                v-if="task.labelIds.length"
+                                class="labels-container"
+                            >
+                                <h4
+                                    v-if="task.labelIds.length"
+                                    class="labels-to-show-header"
+                                >
+                                    Labels
+                                </h4>
+                                <div class="label-to-show-container">
+                                    <section
+                                        v-for="lbId in task.labelIds"
+                                        :key="lbId"
+                                        class="label-to-show-list"
+                                    >
+                                        <div
+                                            class="label-to-show"
+                                            :style="{
+                                                'background-color':
+                                                    getLbColor(lbId),
+                                            }"
+                                        >
+                                            {{ getLbTitle(lbId) }}
+                                        </div>
+                                    </section>
+                                    <!-- v-if="lb.title" -->
+
                                     <!-- <button class="secondary-btn">
                                         <svg
                                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv"
@@ -234,17 +278,92 @@
                             trigger="click"
                             content=""
                         >
-                            <div v-if="btn.name === 'Labels'">
-                                <div
-                                    v-for="label in labels"
-                                    :key="label.id"
-                                    :style="{ 'background-color': label.color }"
-                                    class="label-color"
-                                    @click="
-                                        chooseLabel(label.title, label.color)
-                                    "
+                            <hr />
+                            <div
+                                v-if="btn.name === 'Members'"
+                                class="member-choosing-container"
+                            >
+                                <h4 class="members-to-show-header">
+                                    Board members
+                                </h4>
+                                <section
+                                    v-for="member in board.members"
+                                    :key="member._id"
+                                    class="member-choosing"
                                 >
-                                    {{ label.title }}
+                                    <div @click="chooseMember(member)">
+                                        <avatar
+                                            class="user-avatar"
+                                            backgroundColor="lightblue"
+                                            color="black"
+                                            :size="30"
+                                            :username="member.fullname"
+                                        ></avatar>
+                                        {{ member.fullname }}
+                                    </div>
+                                </section>
+                            </div>
+
+                            <div
+                                v-if="btn.name === 'Labels'"
+                                class="label-choosing-container"
+                            >
+                                <section
+                                    v-for="(label, idx) in labels"
+                                    :key="label.id"
+                                    class="label-choosing"
+                                >
+                                    <div
+                                        v-if="!isLabelEdit"
+                                        :style="{
+                                            'background-color': label.color,
+                                        }"
+                                        class="label-color"
+                                        @click="chooseLabel(label.id, idx)"
+                                    >
+                                        <!-- <svg
+                                            viewBox="0 0 24 24"
+                                            class="delete-label-svg"
+                                        >
+                                            <path
+                                                d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                                            ></path>
+                                        </svg> -->
+                                        {{ label.title }}
+                                    </div>
+                                    <button
+                                        v-if="!isLabelEdit"
+                                        class="label-pencil"
+                                        @click="editLabelTitle(idx)"
+                                    >
+                                        <svg viewBox="0 0 24 24">
+                                            <path
+                                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                </section>
+                                <div
+                                    v-if="isLabelEdit"
+                                    class="edit-label-container"
+                                >
+                                    <label for="labelTitle">Name</label>
+                                    <el-input
+                                        name="labelTitle"
+                                        v-model="labelTitle"
+                                        class="labelTitleInput"
+                                    ></el-input>
+                                    <div class="edit-label-buttons">
+                                        <el-button
+                                            type="primary"
+                                            class="save"
+                                            @click="saveLabelTitle"
+                                            >Save</el-button
+                                        >
+                                        <el-button type="danger" class="delete"
+                                            >Delete</el-button
+                                        >
+                                    </div>
                                 </div>
                             </div>
                             <div class="action-btn-content" slot="reference">
@@ -375,10 +494,19 @@
                         d: 'M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H3V5h18v11z',
                     },
                 ],
+
                 labels: [],
                 hasLabelChosen: false,
-                labelTitleToShow: '',
-                labelColorToShow: '',
+                // labelTitleToShow: '',
+                // labelColorToShow: '',
+                // labelsToShow: [],
+                labelIdToShow: '',
+                labelIdsToShow: [],
+                isLabelEdit: false,
+                labelTitle: '',
+                labelIdxToEdit: null,
+
+                membersToShow: [],
             };
         },
 
@@ -419,7 +547,6 @@
 
             async updateTask() {
                 this.isTextAreaVisible = false;
-                console.log('this.comment:', this.comment);
                 try {
                     await this.$store.dispatch({
                         type: 'updateTask',
@@ -430,6 +557,8 @@
                         taskDescription: this.description,
                         comment: this.comment,
                         commentIdx: this.commentIdx,
+                        labelId: this.labelIdToShow,
+                        members: this.membersToShow,
                     });
                     console.log(
                         `Task Succefully Updated with Id ${this.task.id}`
@@ -441,6 +570,22 @@
                 } finally {
                     this.$refs.commInput.value = '';
                     this.comment = '';
+                }
+            },
+
+            async updateBoard(board) {
+                try {
+                    const savedBoard = await this.$store.dispatch({
+                        type: 'updateBoard',
+                        board,
+                    });
+                    this.board = savedBoard;
+                    console.log(`Board updated successfully`);
+                    console.log('savedBoard.labels:', savedBoard.labels);
+                    this.labelTitle = '';
+                } catch (err) {
+                    console.log('Error in updateBoard (task-details):', err);
+                    throw err;
                 }
             },
 
@@ -481,11 +626,52 @@
                     : 'Show details';
             },
 
-            chooseLabel(labelTitle, labelColor) {
+            chooseMember(member) {
+                this.membersToShow.push(member);
+                this.updateTask();
+            },
+
+            getLbColor(lbId) {
+                const label = this.board.labels.find(
+                    (label) => label.id === lbId
+                );
+                return label.color;
+            },
+            getLbTitle(lbId) {
+                const label = this.board.labels.find(
+                    (label) => label.id === lbId
+                );
+                return label.title;
+            },
+
+            chooseLabel(id, idx) {
                 this.hasLabelChosen = true;
-                this.labelTitleToShow = labelTitle;
-                this.labelColorToShow = labelColor;
-                // console.log('this.labelToShow:', this.labelToShow);
+
+                this.labelIdToShow = id;
+                this.labelIdsToShow.push(id);
+                this.updateTask();
+
+                const board = JSON.parse(JSON.stringify(this.board));
+                board.labels[idx].title = this.labelTitle;
+
+                this.updateBoard(board);
+                // this.loadBoard();
+            },
+
+            editLabelTitle(idx) {
+                this.isLabelEdit = true;
+                this.labelIdxToEdit = idx;
+            },
+
+            saveLabelTitle() {
+                this.isLabelEdit = false;
+                this.labels[this.labelIdxToEdit].title = this.labelTitle;
+            },
+
+            cancelEditLabel() {
+                setTimeout(() => {
+                    this.isLabelEdit = false;
+                }, 500);
             },
 
             backToBoard() {

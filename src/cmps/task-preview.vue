@@ -44,7 +44,7 @@
 
         data() {
             return {
-                changeLabelSize: false,
+                changeLabelSize: true,
                 boardId: '',
                 taskLabels: [],
             };
@@ -54,6 +54,9 @@
             const { boardId } = this.$route.params;
             this.boardId = boardId;
             if (this.task.labelIds.length > 0) this.getLabels();
+            // if (this.task.labels) {
+            //     // Ben
+            // }
         },
         methods: {
             toggleSize() {
@@ -64,10 +67,11 @@
                 // const taskLabels = ['l101', 'l102'];
 
                 const labels = this.boardLabels.filter((lb) => {
-                    console.log('lb', lb);
+                    // console.log('lb', lb);
                     return this.task.labelIds.some((taskL) => {
-                        console.log('lb id', lb.id);
-                        return lb.id.includes(taskL);
+                        // console.log('lb id', lb.id);
+                        return lb.id.includes(taskL); // Ben
+                        // return lb.id === taskL.id; // Ben
                     });
                 });
                 this.taskLabels = labels;
