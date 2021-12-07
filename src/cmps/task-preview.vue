@@ -88,18 +88,13 @@
         created() {
             const { boardId } = this.$route.params;
             this.boardId = boardId;
-            console.log('', this.boardLabels);
-
             if (this.task.labelIds) {
-                // Ben
                 if (this.task.labelIds.length > 0) this.getLabels();
             }
-            console.log('task preview labels', this.taskLabels);
         },
         methods: {
             toggleSize() {
                 this.changeLabelSize = !this.changeLabelSize;
-                console.log('this.changeLabelSize', this.changeLabelSize);
             },
             getLabels() {
                 // const taskLabels = ['l101', 'l102'];

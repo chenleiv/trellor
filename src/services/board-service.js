@@ -84,10 +84,9 @@ async function addTask(boardId, groupId, title) {
 async function updateTask(boardId, groupId, task) {
     try {
         const board = await getById(boardId);
-        const groupIdx = board.groups.findIndex(g => g.id === groupId)
-        const taskIdx = board.groups[groupIdx].tasks.findIndex(t => t === task)
-        board.groups[groupIdx].tasks.splice(taskIdx, 1, task);
-        console.log('board-service update-task', board);
+        const group = board.groups.find(g => g.id === groupId)
+        const taskIdx = group.tasks.findIndex(t => t.id === task.id)
+        group.tasks.splice(taskIdx, 1, task);
         return save(board);
     } catch (err) {
         console.log('Error in updateTask (board-service):', err);
@@ -212,13 +211,15 @@ function getEmptyBoard() {
                 title: 'Do that',
                 description: '',
                 comments: [],
+                attachments: [],
                 checklists: [],
                 members: [],
                 labelIds: ['l101'],
                 createdAt: '',
                 dueDate: '',
                 byMember: {},
-                coverStyle: { 'color': '#26de81' }
+                coverStyle: { 'color': '#26de81' },
+                location: null
             },]
         }, {
             id: utilService.makeId(4) + 'f',
@@ -228,13 +229,15 @@ function getEmptyBoard() {
                 title: 'Do that',
                 description: '',
                 comments: [],
+                attachments: [],
                 checklists: [],
                 members: [],
                 labelIds: [],
                 createdAt: '',
                 dueDate: '',
                 byMember: {},
-                coverStyle: { 'color': '#26de81' }
+                coverStyle: { 'color': '#26de81' },
+                location: null
             },]
         },
         {
@@ -245,13 +248,15 @@ function getEmptyBoard() {
                 title: 'Do that',
                 description: '',
                 comments: [],
+                attachments: [],
                 checklists: [],
                 members: [],
                 labelIds: [],
                 createdAt: '',
                 dueDate: '',
                 byMember: {},
-                coverStyle: { 'color': '#26de81' }
+                coverStyle: { 'color': '#26de81' },
+                location: null
             },]
         }
         ],
@@ -314,6 +319,7 @@ function _createBoard() {
                         title: 'Meeting with Asi, scss',
                         description: 'Tuesday, 15:45',
                         comments: ['preparing qeustions'],
+                        attachments: [],
                         checklists: [],
                         members: [],
                         labelIds: [],
@@ -325,7 +331,8 @@ function _createBoard() {
                             fullname: 'Or Baadani',
                             imgUrl: ''
                         },
-                        coverStyle: { 'color': '#26de81' }
+                        coverStyle: { 'color': '#26de81' },
+                        location: null
                     },
                 ]
             },
@@ -338,6 +345,7 @@ function _createBoard() {
                         title: 'Task-Labels',
                         description: '',
                         comments: [],
+                        attachments: [],
                         checklists: [],
                         members: [],
                         labelIds: [],
@@ -349,13 +357,15 @@ function _createBoard() {
                             fullname: 'Ben Ernst',
                             imgUrl: ''
                         },
-                        coverStyle: { 'color': '#26de81' }
+                        coverStyle: { 'color': '#26de81' },
+                        location: null
                     },
                     {
                         id: 't103',
                         title: 'Filter Cmp',
                         description: '',
                         comments: [],
+                        attachments: [],
                         checklists: [],
                         members: [],
                         labelIds: [],
@@ -367,7 +377,8 @@ function _createBoard() {
                             fullname: 'Ben Ernst',
                             imgUrl: ''
                         },
-                        coverStyle: { 'color': '#26de81' }
+                        coverStyle: { 'color': '#26de81' },
+                        location: null
                     },
                 ]
             },
@@ -379,6 +390,7 @@ function _createBoard() {
                     title: 'Build Mongo Atlas DB',
                     description: 'dsdsds',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -390,13 +402,15 @@ function _createBoard() {
                         fullname: 'Chen leiv',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 {
                     id: 't105',
                     title: 'Connecting Backend & Frontend',
                     description: '',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -408,7 +422,8 @@ function _createBoard() {
                         fullname: 'Chen leiv',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 ],
             },
@@ -420,6 +435,7 @@ function _createBoard() {
                     title: 'Drag and Drop',
                     description: '',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -431,13 +447,15 @@ function _createBoard() {
                         fullname: 'Chen leiv',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 {
                     id: 't107',
                     title: 'Board Header',
                     description: '',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -449,13 +467,15 @@ function _createBoard() {
                         fullname: 'Chen leiv',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 {
                     id: 't108',
                     title: 'Task-Details (modal)',
                     description: '',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -467,13 +487,15 @@ function _createBoard() {
                         fullname: 'Bem Ernst',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 {
                     id: 't109',
                     title: 'Aside Menu',
                     description: '',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -485,13 +507,15 @@ function _createBoard() {
                         fullname: 'Or Baadani',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 {
                     id: 't110',
                     title: 'Workspace Page',
                     description: '',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -503,13 +527,15 @@ function _createBoard() {
                         fullname: 'Or Baadani',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 {
                     id: 't111',
                     title: 'Home Page',
                     description: '',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -521,13 +547,15 @@ function _createBoard() {
                         fullname: 'Ben Ernst',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 {
                     id: 't112',
                     title: 'Main Header',
                     description: '',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -539,13 +567,15 @@ function _createBoard() {
                         fullname: 'Or Baadani',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 {
                     id: 't113',
                     title: 'Group-Preview cmp',
                     description: '',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -557,13 +587,15 @@ function _createBoard() {
                         fullname: 'Chen Leiv',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 {
                     id: 't114',
                     title: 'Task-Preview cmp',
                     description: '',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -575,7 +607,8 @@ function _createBoard() {
                         fullname: 'Ben Ernst',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 ]
             },
@@ -587,6 +620,7 @@ function _createBoard() {
                     title: 'Building Main Structure',
                     description: '',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -598,13 +632,15 @@ function _createBoard() {
                         fullname: 'Or Baadani',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 {
                     id: 't116',
                     title: 'Creating Demo Data Model',
                     description: '',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -616,13 +652,15 @@ function _createBoard() {
                         fullname: 'Chen leiv',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 {
                     id: 't117',
                     title: 'Connecting to GitHub Pages',
                     description: '',
                     comments: [],
+                    attachments: [],
                     checklists: [],
                     members: [],
                     labelIds: [],
@@ -634,7 +672,8 @@ function _createBoard() {
                         fullname: 'Bem Ernst',
                         imgUrl: ''
                     },
-                    coverStyle: { 'color': '#26de81' }
+                    coverStyle: { 'color': '#26de81' },
+                    location: null
                 },
                 ]
             },

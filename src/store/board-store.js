@@ -34,7 +34,6 @@ export const boardStore = {
         },
         updateBoard(state, payload) {
             const idx = state.boards.findIndex(board => board._id === payload.board._id)
-            console.log('state.boards', state.boards);
             state.boards.splice(idx, 1, payload.board)
             state.currBoard = payload.board
         },
@@ -168,6 +167,7 @@ export const boardStore = {
         async updateTask({ commit }, { boardId, groupId, task }) {
             try {
                 // , taskTitle, taskDescription, comment, commentIdx, labelId, members
+                console.log('task:', task);
                 const savedBoard = await boardService.updateTask(boardId, groupId, task);
                 commit({ type: 'updateBoard', board: savedBoard })
                 return savedBoard;
