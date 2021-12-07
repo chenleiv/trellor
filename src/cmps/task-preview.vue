@@ -45,13 +45,17 @@
                     <span>{{ commentsLength }}</span>
                 </div>
 
-                <!-- <div class="task-attachment">
-                    <span class="material-icons-outlined"> attach_file </span>
+                <div class="task-attachment" v-if="task.attachments">
+                    <span
+                        class="material-icons-outlined"
+                        v-if="task.attachments.length"
+                    >
+                        attach_file
+                    </span>
                     <span>{{ attachmentLength }}</span>
-                </div> -->
+                </div>
 
                 <div class="task-checklists" v-if="task.checklists">
-                    <!-- v-if="task.checklists.length" -->
                     <span v-if="task.checklists.length">
                         <span class="material-icons-outlined"> check_box </span>
                         <p>0/2</p>
@@ -172,12 +176,12 @@
                     }
                 }
             },
-            // attachmentLength() {
-            //     let attachment = this.task.attachment.length
-            //         ? this.task.attachment.length
-            //         : null;
-            //     return attachment;
-            // },
+            attachmentLength() {
+                let attachment = this.task.attachments.length
+                    ? this.task.attachments.length
+                    : null;
+                return attachment;
+            },
         },
     };
 </script>
