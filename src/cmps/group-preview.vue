@@ -29,23 +29,6 @@
                     class="el-icon-more btn-group"
                 ></el-button>
             </el-popover>
-
-            <!-- <h4 v-if="!isInputVisible" @click=" @click="toggleEditMode"">
-                {{ group.title }}
-            </h4> -->
-
-            <!-- Or's Delete Modal -->
-            <!-- <button
-                class="el-icon-more btn-group"
-                @click="toggleGroupMenu"
-            ></button> -->
-            <!-- @click="toggleGroupMenu" -->
-            <!-- <modal name="my-first-modal"> This is my first modal </modal> -->
-            <!-- </div>-->
-            <!-- <div v-if="toggleMenu" class="group-actions-modal">
-            <h4>Group actions</h4>
-            <hr />
-            <button @click="removeGroup">Delete group</button> -->
         </div>
 
         <!-- </drag&drop> -->
@@ -62,12 +45,16 @@
                     class="sortable"
                     ghosrClass="ghost"
                 >
-                    <task-preview :task="task" :boardLabels="boardLabels" />
+                    <task-preview
+                        :task="task"
+                        :boardLabels="boardLabels"
+                        @deleteTask="removeTask"
+                    />
                 </router-link>
             </draggable>
         </div>
-        <!-- @end="dragEnd" -->
 
+        <!-- @end="dragEnd" -->
         <!-- </drag&drop> -->
 
         <!-- <div class="tasks-container">
@@ -109,11 +96,6 @@
                 </div>
             </div>
         </section>
-        <!-- <div
-            v-if="toggleMenu"
-            @click="closeModalBg"
-            class="modal-background"
-        ></div> -->
     </section>
 </template>
 
@@ -152,7 +134,6 @@
 
         created() {
             this.boardId = this.$route.params.boardId;
-            // console.log('this.boardId', this.boardId);
         },
 
         methods: {
@@ -185,9 +166,7 @@
                 this.toggleMenu = !this.toggleMenu;
                 // this.$emit('openModalBg');
             },
-            closeModalBg() {
-                this.toggleMenu = false;
-            },
+
             async removeGroup() {
                 if (this.toggleMenu) {
                     try {
@@ -207,6 +186,23 @@
                         );
                         throw err;
                     }
+                }
+            },
+            async removeTask(task) {
+                try {
+                    await this.$store.dispatch({
+                        type: 'removeTask',
+                        boardId: this.boardId,
+                        groupId: this.group.id,
+                        task: task,
+                    });
+                    console.log(
+                        `Task ${task.id}  Successfully deleted in GroupId ${this.group.id}`
+                    );
+                    this.$emit('loadBoard');
+                } catch (err) {
+                    console.log('Error in deleteTask (group-preview):', err);
+                    throw err;
                 }
             },
 

@@ -6,19 +6,31 @@
                 <div class="select">
                     <el-dropdown trigger="click" type="primary">
                         <span class="el-dropdown-link">
-                            <span class="el-icon-s-data">Board</span
+                            <span class="material-icons-outlined">
+                                leaderboard
+                            </span>
+                            <span>Board</span
                             ><i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
 
                         <el-dropdown-menu slot="dropdown" type="primary">
-                            <el-dropdown-item icon="el-icon-plus"
-                                ><span>Board</span>
+                            <el-dropdown-item>
+                                <span class="material-icons-outlined">
+                                    leaderboard
+                                </span>
+                                <span>Board</span>
                             </el-dropdown-item>
-                            <el-dropdown-item icon="el-icon-circle-plus"
-                                >Calender</el-dropdown-item
+                            <el-dropdown-item>
+                                <span class="material-icons-outlined">
+                                    calendar_month
+                                </span>
+                                Calender</el-dropdown-item
                             >
-                            <el-dropdown-item icon="el-icon-circle-plus-outline"
-                                >Map</el-dropdown-item
+                            <el-dropdown-item
+                                ><span class="material-icons-outlined">
+                                    location_on
+                                </span>
+                                Map</el-dropdown-item
                             >
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -73,11 +85,20 @@
 
             <div class="right-side-header" :class="{ move: isShown }">
                 <div class="vl"></div>
+
                 <!-- filter button open dropdown -->
-                <button class="filter-btn">
+                <button class="filter-btn" @click="openFilter">
                     <span class="material-icons-outlined"> filter_list </span>
                     Filter
                 </button>
+                <div>
+                    <board-filter
+                        :board="board"
+                        :class="filterToShown"
+                        @openFilter="openFilter"
+                    >
+                    </board-filter>
+                </div>
 
                 <!-- <board-filter></board-filter> -->
                 <button class="menu-btn" @click="openMenu">
@@ -113,6 +134,7 @@
                 title: this.board.title,
                 boardId: '',
                 visible: false,
+                filterIsShown: true,
             };
         },
         created() {
@@ -122,6 +144,9 @@
         methods: {
             openMenu() {
                 this.isShown = !this.isShown;
+            },
+            openFilter() {
+                this.filterIsShown = !this.filterIsShown;
             },
 
             toggleInput() {
@@ -182,6 +207,12 @@
                 return {
                     'aside-menu-open': this.isShown,
                     'aside-close': !this.isShown,
+                };
+            },
+            filterToShown() {
+                return {
+                    'filter-menu-open': this.filterIsShown,
+                    'filter-close': !this.filterIsShown,
                 };
             },
         },

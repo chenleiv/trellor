@@ -24,10 +24,10 @@
                 // padding-left: 10px;
                 // padding-right: 4px;
                 cursor: pointer;
-                background-color: rgba(255, 255, 255, 0.261);
+                background-color: rgba(255, 255, 255, 0.366);
                 border: none;
                 border-radius: 3px;
-                color: rgb(242, 240, 240);
+                color: #fff;
                 font-size: 16px;
                 // width: 60%;
                 font-weight: 700;
@@ -38,21 +38,14 @@
                     box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.538);
                 }
             }
-             :hover {
+            :hover {
                 background-color: rgba(255, 255, 255, 0.195);
             }
-            //     .select {
-            //         span {
-            //             color: black;
-            //             padding: 100px;
-            //         }
-            //     }
         }
         button {
             margin-right: 4px;
             border-radius: 3px;
-            color: rgb(242, 240, 240);
-            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
             border: rgba(255, 255, 255);
             span {
                 margin-left: 2px;
@@ -63,8 +56,8 @@
             font-size: 16.4px;
             width: 32px;
             font-family: fa-regular;
-            color: rgb(242, 240, 240);
-            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.366);
             padding: 6px 6px 8px;
             border-radius: 3px;
             margin-right: 8px;
@@ -78,6 +71,7 @@
         .starred {
             font-family: fa-solid;
             color: #ffc41e;
+            font-size: 16px;
         }
         .members-container {
             display: flex;
@@ -110,14 +104,16 @@
                         justify-content: center;
                     }
                 }
-                 :hover {
+                :hover {
                     background-color: #c1c3c4c1;
                 }
             }
         }
     }
     .vl {
-        border-left: 2px solid rgba(196, 196, 196, 0.604);
+        border-left: 1px solid rgba(252, 251, 251, 0.674);
+
+        box-shadow: #f8fcff;
         height: 20px;
         margin-top: 5px;
     }
@@ -125,25 +121,27 @@
         display: flex;
         .filter-btn {
             display: flex;
-            // justify-content: stretch;
             border-radius: 3px;
-            color: rgb(242, 240, 240);
-            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.366);
+            font-size: 16px;
             padding: 6px 12px;
             margin-left: 8px;
             span {
                 padding-right: 5px;
-                font-size: 20px;
+                align-self: center;
+                padding-top: 2px;
+                font-size: 16px;
             }
         }
         .menu-btn {
             // display: flex;
             // align-items: center;
             // font-size: 16px;
-            color: rgb(242, 240, 240);
             border-radius: 3px;
-            color: rgb(242, 240, 240);
-            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.366);
+            font-size: 16px;
             margin-left: 10px;
             padding: 0 12px 0 0;
             span {
@@ -163,8 +161,7 @@
         height: 32px;
         width: fit-content;
         border-radius: 3px;
-        color: rgb(242, 240, 240);
-        background-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
         border: rgba(255, 255, 255);
         overflow-x: none;
         outline: none;
@@ -175,12 +172,13 @@
 
 .select {
     .el-dropdown-link {
+        margin-right: 8px;
         font-size: 14px;
-        height: 32px;
+        height: 34px;
         width: fit-content;
         border-radius: 3px;
-        color: rgb(242, 240, 240);
-        background-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        background-color: rgba(255, 255, 255, 0.366);
         border: rgba(255, 255, 255);
         overflow-x: none;
         outline: none;
@@ -189,12 +187,19 @@
     }
     .el-icon-arrow-down {
         font-size: 12px;
+        color: #fff;
     }
-    .demonstration {
-        display: block;
-        color: #8492a6;
-        font-size: 14px;
-        margin-bottom: 20px;
-        width: auto;
+
+    .el-icon-s-data {
+        padding-left: 3px;
+        transform: rotate(180deg);
+        color: #fff;
+    }
+    span {
+        padding-left: 2px;
+        font-size: 16px;
+        color: #fff;
+        padding-bottom: 3px;
+        transform: rotate(180deg);
     }
 }

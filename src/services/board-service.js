@@ -15,7 +15,8 @@ export const boardService = {
     addTask,
     updateTask,
     updateBoard,
-    updateBgcBoard
+    updateBgcBoard,
+    removeTask
 }
 
 const BOARD_KEY = 'boardsDB'
@@ -78,16 +79,29 @@ async function addTask(boardId, groupId, title) {
         console.log('Error in addTask (board-service):', err);
         throw err;
     }
-
 }
+
+async function removeTask(boardId, groupId, task) {
+    try {
+        const board = await getById(boardId);
+        const group = board.groups.find(g => g.id === groupId)
+        const taskIdx = group.tasks.findIndex(t => t.id === task.id)
+        group.tasks.splice(taskIdx, 1);
+        return save(board);
+    } catch (err) {
+        console.log('Error in removeTask (board-service):', err);
+        throw err;
+    }
+}
+
+
 
 async function updateTask(boardId, groupId, task) {
     try {
         const board = await getById(boardId);
-        const groupIdx = board.groups.findIndex(g => g.id === groupId)
-        const taskIdx = board.groups[groupIdx].tasks.findIndex(t => t === task)
-        board.groups[groupIdx].tasks.splice(taskIdx, 1, task);
-        console.log('board-service update-task', board);
+        const group = board.groups.find(g => g.id === groupId)
+        const taskIdx = group.tasks.findIndex(t => t.id === task.id)
+        group.tasks.splice(taskIdx, 1, task);
         return save(board);
     } catch (err) {
         console.log('Error in updateTask (board-service):', err);

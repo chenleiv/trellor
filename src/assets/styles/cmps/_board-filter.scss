@@ -1,0 +1,59 @@
+.filter-menu {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(246, 248, 252);
+    color: #172b4d;
+    top: 90px;
+    right: 5px;
+    height: 710px;
+    width: 385px;
+    border-radius: 3px;
+    padding: 8px 6px 12px 12px;
+    z-index: 2;
+    // transition: all 0.4s;
+    .filter-header {
+        display: flex;
+        z-index: 1;
+        font-size: 13px;
+        margin-left: 150px;
+        justify-content: space-between;
+        align-items: center;
+        .header {
+            display: flex;
+        }
+        .el-icon-close {
+            display: flex;
+            background-color: transparent;
+            color: rgb(124, 123, 123);
+            &:hover {
+                color: black;
+            }
+        }
+    }
+    hr {
+        background-color: #091e4221;
+        border: 0;
+        height: 1px;
+        margin: 14px 0;
+        &:first-of-type {
+            margin: 12px;
+            margin-top: 1px;
+        }
+    }
+
+    .filter-content {
+        max-height: 100vh;
+        overflow-y: auto;
+    }
+}
+
+.filter-menu-open {
+    opacity: 1;
+    margin-right: 0;
+}
+
+.filter-close {
+    opacity: 0;
+    margin-right: -330px;
+}

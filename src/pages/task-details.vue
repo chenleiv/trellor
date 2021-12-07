@@ -538,10 +538,10 @@
                             return task.id === taskId;
                         });
                     });
-                    console.log('this.task', this.task);
+                    // console.log('this.task', this.task);
                     this.task = taskArr.find((item) => item !== undefined);
                     this.taskTitle = this.task.title;
-                    console.log('this.taskTitle', this.taskTitle);
+                    // console.log('this.taskTitle', this.taskTitle);
                     // Loading Group:
                     const group = board.groups.find((gr) =>
                         gr.tasks.includes(this.task)

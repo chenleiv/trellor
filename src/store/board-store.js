@@ -166,5 +166,15 @@ export const boardStore = {
                 throw err;
             }
         },
+        async removeTask({ commit }, { boardId, groupId, task }) {
+            try {
+                const savedBoard = await boardService.removeTask(boardId, groupId, task);
+                commit({ type: 'updateBoard', board: savedBoard })
+                return savedBoard;
+            } catch (err) {
+                console.log('removeGroup (Store):', err);
+                throw err;
+            }
+        },
     }
 }

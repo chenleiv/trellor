@@ -55,7 +55,40 @@
                 </div>
             </div>
 
-            <button class="edit-task-btn btn-group"></button>
+            <!-- delete button -->
+
+            <el-popover
+                style="z-index: 10"
+                placement="bottom-end"
+                width="100"
+                v-model="toggleDeleteMenu"
+            >
+                <p>Delete this task?</p>
+                <div style="text-align: right">
+                    <el-button
+                        size="mini"
+                        type="text"
+                        style="color: black"
+                        @click="toggleTaskDelete"
+                        >cancel</el-button
+                    >
+                    <el-button
+                        type="info"
+                        size="mini"
+                        @click.prevent="removeTask"
+                        >confirm</el-button
+                    >
+                </div>
+                <el-button
+                    class="edit-task-btn btn-group"
+                    slot="reference"
+                    @click.prevent
+                ></el-button>
+            </el-popover>
+            <!-- <button
+                @click.prevent="deleteTask"
+                class="edit-task-btn btn-group"
+            ></button> -->
         </div>
     </section>
 </template>
@@ -82,19 +115,20 @@
                 changeLabelSize: true,
                 boardId: '',
                 taskLabels: [],
+                toggleDeleteMenu: false,
             };
         },
 
         created() {
             const { boardId } = this.$route.params;
             this.boardId = boardId;
-            console.log('', this.boardLabels);
+            // console.log('', this.boardLabels);
 
             if (this.task.labelIds) {
                 // Ben
                 if (this.task.labelIds.length > 0) this.getLabels();
             }
-            console.log('task preview labels', this.taskLabels);
+            // console.log('task preview labels', this.taskLabels);
         },
         methods: {
             toggleSize() {
@@ -110,6 +144,14 @@
                 });
                 this.taskLabels = labels;
                 return this.taskLabels;
+            },
+            removeTask() {
+                this.$emit('deleteTask', this.task);
+                this.toggleDeleteMenu = !this.toggleDeleteMenu;
+            },
+            toggleTaskDelete() {
+                this.toggleDeleteMenu = !this.toggleDeleteMenu;
+                // this.$emit('openModalBg');
             },
         },
         computed: {
@@ -134,8 +176,5 @@
             //     return attachment;
             // },
         },
-        // commentLength() {
-        //     task.comments.length ? task.comments.length : null;
-        // },
     };
 </script>
