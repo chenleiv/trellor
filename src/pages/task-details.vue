@@ -6,7 +6,10 @@
 
         <section class="task-details-container" @click="cancelEditLabel">
             <header class="task-modal-header">
-                <button class="close-modal-btn" @click="backToBoard"></button>
+                <button
+                    class="close-modal-btn el-icon-close"
+                    @click="backToBoard"
+                ></button>
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H3V5h18v11z"
@@ -367,6 +370,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <div v-if="btn.name === 'Attachment'">
+                                <img-upload
+                                    @onSaveImg="changeImgUrl"
+                                ></img-upload>
+                            </div>
                             <div class="action-btn-content" slot="reference">
                                 <svg viewBox="0 0 24 24">
                                     <path :d="btn.d"></path>
@@ -451,14 +459,13 @@
 
 <script>
     import avatar from 'vue-avatar';
-
+    import imgUpload from '@/cmps/img-upload';
     export default {
         name: 'taskDetails',
 
         data() {
             return {
                 board: null,
-
                 task: null,
                 group: null,
                 taskToEdit: {},
@@ -508,7 +515,7 @@
                 isLabelEdit: false,
                 labelTitle: '',
                 labelIdxToEdit: null,
-
+                attachmentsToShow: [],
                 membersToShow: [],
             };
         },
@@ -518,10 +525,6 @@
         },
 
         methods: {
-            addComment() {
-                this.taskToEdit.comments.push(this.comment);
-                this.updateTask();
-            },
             async loadData() {
                 const { boardId } = this.$route.params;
                 const { taskId } = this.$route.params;
@@ -696,6 +699,22 @@
             backToBoard() {
                 this.$router.push(`/board/${this.board._id}`);
             },
+            changeImgUrl(url) {
+                let title = /[^/]*$/.exec(url)[0];
+                this.taskToEdit.attachments.push({
+                    title,
+                    url,
+                    isCover: false,
+                });
+                if (this.taskToEdit.attachments.length === 1)
+                    this.taskToEdit.attachments[0].isCover = true;
+                this.updateTask();
+                //  = `url(${url})`;
+            },
+            addComment() {
+                this.taskToEdit.comments.push(this.comment);
+                this.updateTask();
+            },
         },
 
         computed: {
@@ -714,6 +733,7 @@
 
         components: {
             avatar,
+            imgUpload,
         },
     };
 </script>

@@ -22,18 +22,85 @@
                 Change background
             </h2>
             <!-- backGround color cmp -->
-            <!-- <router-view> -->
-            <background-picker
-                v-if="bgcIsClick"
-                :class="openBgcOption"
-                @chosenBg="chosenBg"
-            ></background-picker>
-            <!-- </router-view> -->
-            <background-unsplash
-                @onSaveImg="changeImgUrl"
-            ></background-unsplash>
-            <img-upload @onSaveImg="changeImgUrl"></img-upload>
+            <transition name="slide-fade">
+                <div
+                    v-if="bgcIsClick"
+                    class="background-menu aside-menu"
+                    :class="{
+                        'aside-close': !bgcIsClick,
+                    }"
+                >
+                    <div class="board-header">
+                        <button
+                            class="el-icon-arrow-left"
+                            style="font-size: 20px"
+                            @click="openBgcMenu"
+                        ></button>
+                        <h3 class="header">Background</h3>
+                        <button
+                            class="el-icon-close"
+                            style="font-size: 20px"
+                            @click="closeMenu"
+                        ></button>
+                    </div>
+                    <hr />
+                    <div
+                        v-if="!openColorMenu && !openImgMenu && !bgcType"
+                        class="bgc-btns"
+                    >
+                        <div
+                            class="color-options"
+                            @click="openColorMenu = !openColorMenu"
+                        ></div>
+                        <div
+                            class="img-options"
+                            @click="openImgMenu = !openImgMenu"
+                        ></div>
+                        <img-upload
+                            class="upload-btn"
+                            @onSaveImg="changeImgUrl"
+                        ></img-upload>
+                    </div>
+                    <bgc-aside-menu
+                        v-if="openColorMenu"
+                        :class="openBgcOption"
+                        @chosenBg="chosenBg"
+                    ></bgc-aside-menu>
+                    <!-- </router-view> -->
+                    <background-unsplash
+                        class="cmp-unsplash"
+                        v-if="openImgMenu"
+                        @onSaveImg="changeImgUrl"
+                    ></background-unsplash>
+                </div>
+            </transition>
             <h2 class="archive-btn"><span></span> Archive</h2>
+            <el-popover placement="top" width="150" v-model="toggleDeleteMenu">
+                <p>Remove this board?</p>
+                <div style="text-align: right; margin: 0">
+                    <el-button
+                        size="mini"
+                        type="text"
+                        style="color: black"
+                        @click="toggleDeleteMenu = false"
+                        >cancel</el-button
+                    >
+                    <el-button type="info" size="mini" @click="removeBoard"
+                        >confirm</el-button
+                    >
+                    <!-- <el-button size="mini" type="text" @click="toggleDeleteMenu = false">cancel</el-button>
+    <el-button type="primary" size="mini" @click="removeBoard">confirm</el-button> -->
+                </div>
+                <el-button class="close-board-btn" slot="reference"
+                    >Close board...</el-button
+                >
+            </el-popover>
+            <!-- <h2 slot="reference"
+                class="close-board-btn"
+                @click="toggleDeleteMenu = !toggleDeleteMenu"
+            >
+                Close board...
+            </h2> -->
         </div>
         <!-- </section> -->
         <hr />
@@ -76,7 +143,7 @@
 </template>
 
 <script>
-    import backgroundPicker from '@/cmps/background-picker.vue';
+    import bgcAsideMenu from '@/cmps/bgc-aside-menu.vue';
     import Avatar from 'vue-avatar';
     import imgUpload from '@/cmps/img-upload.vue';
     import backgroundUnsplash from '@/cmps/background-unsplash.vue';
@@ -87,6 +154,11 @@
             return {
                 bgcIsClick: false,
                 boardStyle: this.board.style,
+                openColorMenu: false,
+                openImgMenu: false,
+                bgcType: false,
+                toggleDeleteMenu: false,
+                boardId: '',
             };
         },
         created() {
@@ -96,7 +168,21 @@
             // console.log(' this.activity', this.board.activities);
         },
         methods: {
+            async removeBoard() {
+                try {
+                    await this.$store.dispatch({
+                        type: 'removeBoard',
+                        boardId: this.boardId,
+                    });
+                    console.log(`Board removed successfully`);
+                    this.$router.push('/workspace');
+                } catch (err) {
+                    console.log('Error in removing board (aside-menu):', err);
+                    throw err;
+                }
+            },
             changeImgUrl(url) {
+                this.bgcType === true;
                 this.boardStyle.bgImg = `url(${url})`;
                 this.boardStyle.bgColor = 'none';
                 this.$emit('updateBgcBoard', this.boardStyle);
@@ -105,6 +191,9 @@
                 this.$emit('openMenu');
             },
             openBgcMenu() {
+                this.openColorMenu = false;
+                this.openImgMenu = false;
+                this.bgcType = false;
                 this.bgcIsClick = !this.bgcIsClick;
             },
             chosenBg(style, image) {
@@ -125,7 +214,7 @@
             },
         },
         components: {
-            backgroundPicker,
+            bgcAsideMenu,
             Avatar,
             imgUpload,
             backgroundUnsplash,

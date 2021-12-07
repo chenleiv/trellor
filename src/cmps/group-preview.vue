@@ -49,7 +49,7 @@
         </div>
 
         <!-- </drag&drop> -->
-        <div>
+        <div class="tasks-container">
             <draggable
                 v-model="group.tasks"
                 group="tasks"
@@ -60,7 +60,7 @@
                     :key="task.id"
                     :to="`/board/${boardId}/task/${task.id}`"
                     class="sortable"
-                    ghosrClass="ghost"
+                    ghostClass="ghost"
                 >
                     <task-preview :task="task" :boardLabels="boardLabels" />
                 </router-link>
@@ -164,7 +164,7 @@
             // },
             async editTitle() {
                 // this.toggleEditMode();
-                if (!this.newTitle) return;
+                if (!this.newTitle.trim()) this.newTitle = 'List title';
 
                 const group = JSON.parse(JSON.stringify(this.group));
                 group.title = this.newTitle;
@@ -211,7 +211,7 @@
             },
 
             async saveTask() {
-                if (!this.taskTitle) return;
+                if (!this.taskTitle.trim()) return;
                 this.toggleAddTaskInput();
                 try {
                     await this.$store.dispatch({

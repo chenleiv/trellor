@@ -42,9 +42,68 @@
             margin-top: 10px;
         }
     }
+    .aside-close {
+        opacity: 0;
+        margin-right: -330px;
+        transition: all .4s;
+    }
+    .background-menu {
+        .cmp-unsplash {
+            &>div {
+                height: 60vh;
+            }
+        }
+        opacity: 1;
+        margin-right: 0px;
+        // margin-right: -330px;
+        .board-header {
+            margin-left: 0px;
+            .el-icon-arrow-left {
+                display: flex;
+                background-color: transparent;
+                color: rgb(124, 123, 123);
+                &:hover {
+                    color: black;
+                }
+            }
+        }
+        .bgc-btns {
+            display: grid;
+            gap: 8px;
+            grid-template-columns: 1fr 1fr;
+            .color-options {
+                background-image: url(~@/assets/img/rainbow.jpg);
+            }
+            .img-options {
+                background-image: url(~@/assets/img/photos.jpg);
+            }
+            .clickable {
+                div {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #d2d2d2;
+                    .el-icon-plus {
+                        font-size: 25px;
+                        font-weight: 700;
+                    }
+                }
+            }
+            div {
+                height: 80px;
+                border-radius: 3px;
+                background-size: cover;
+            }
+        }
+    }
     .menu-content {
         margin-bottom: 5px;
         .bgc-btn {
+            &:hover {
+                background-color: rgba(169, 169, 169, 0.22);
+                border-radius: 3px;
+                cursor: pointer;
+            }
             padding: 6px 6px 6px 12px;
             font-size: 1rem;
             font-weight: 600;
@@ -67,10 +126,16 @@
             // }
         }
         .archive-btn {
-            padding: 6px 6px 6px 12px;
+            padding: 6px 6px 6px 14px;
             font-size: 1rem;
             font-weight: 600;
+            &:hover {
+                background-color: rgba(169, 169, 169, 0.22);
+                border-radius: 3px;
+                cursor: pointer;
+            }
             span {
+                padding-right: 8px;
                 font-size: 1rem;
                 font-family: fa-solid;
                 &::before {
@@ -78,10 +143,18 @@
                 }
             }
         }
-         :hover {
-            background-color: rgba(169, 169, 169, 0.22);
-            border-radius: 3px;
-            cursor: pointer;
+        .close-board-btn {
+            padding: 6px 6px 6px 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: left;
+            color: #172b4d;
+            width: 100%;
+            &:hover {
+                background-color: rgba(169, 169, 169, 0.22);
+                border-radius: 3px;
+                cursor: pointer;
+            }
         }
     }
     .activities {

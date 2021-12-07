@@ -25,7 +25,15 @@
                 {{ task.title }}
             </div>
 
-            <div class="task-show-details">
+            <div
+                class="task-show-details"
+                v-if="
+                    task.description &&
+                    task.comments &&
+                    task.checklists &&
+                    task.members
+                "
+            >
                 <div class="task-description" v-if="task.description">
                     <span class="material-icons-outlined"> notes </span>
                 </div>

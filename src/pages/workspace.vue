@@ -14,34 +14,53 @@
                 <div class="add-board-btn" @click="openBoardModal">
                     <span>Create new board</span>
                 </div>
+
                 <div
                     class="modal-background"
                     v-if="isModalOpen"
-                    @click="isModalOpen = false"
+                    @click="
+                        {
+                            (isModalOpen = false), (openUnsplash = false);
+                        }
+                    "
                 ></div>
-                <div
-                    class="add-board-modal"
-                    v-if="isModalOpen"
-                    :style="{
-                        backgroundColor: boardStyle.bgColor,
-                        backgroundImage: boardStyle.bgImg,
-                    }"
-                >
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="Add board title"
-                            v-model="newBoard.title"
-                            @keyup.enter="addBoard"
-                        />
-                    </div>
-                    <background-picker @chosenBg="chosenBg"></background-picker>
-                    <button
-                        @click="addBoard"
-                        :disabled="!newBoard.title.length"
+                <div class="modal-container" v-if="isModalOpen">
+                    <div
+                        class="add-board-modal"
+                        :style="{
+                            backgroundColor: boardStyle.bgColor,
+                            backgroundImage:
+                                'linear-gradient(rgb(0 0 0 / 27%), rgb(0 0 0 / 10%)) ,' +
+                                boardStyle.bgImg,
+                        }"
                     >
-                        Create board
-                    </button>
+                        <div>
+                            <input
+                                type="text"
+                                placeholder="Add board title"
+                                v-model="newBoard.title"
+                                @keyup.enter="addBoard"
+                            />
+                        </div>
+                        <background-picker
+                            @chosenBg="chosenBg"
+                        ></background-picker>
+                        <div class="modal-board-btns">
+                            <button
+                                @click="addBoard"
+                                :disabled="!newBoard.title.length"
+                            >
+                                Create board
+                            </button>
+                            <button @click="openUnsplash = !openUnsplash">
+                                <span class=""></span>More
+                            </button>
+                        </div>
+                    </div>
+                    <background-unsplash
+                        @onSaveImg="onSaveImg"
+                        v-if="openUnsplash"
+                    ></background-unsplash>
                 </div>
                 <template v-for="board in boards"
                     ><board-preview
@@ -58,6 +77,7 @@
     import boardPreview from '@/cmps/board-preview.vue';
     import backgroundPicker from '@/cmps/background-picker.vue';
     import { boardService } from '@/services/board-service.js';
+    import backgroundUnsplash from '@/cmps/background-unsplash.vue';
 
     export default {
         name: 'workspace',
@@ -65,6 +85,7 @@
             return {
                 isModalOpen: false,
                 newBoard: boardService.getEmptyBoard(),
+                openUnsplash: false,
                 boardStyle: {
                     bgColor: 'none',
                     bgImg: `url(${require('@/assets/img/' + '2.jpg')})`,
@@ -82,6 +103,10 @@
         },
 
         methods: {
+            onSaveImg(url) {
+                this.boardStyle.bgImg = `url(${url})`;
+                this.boardStyle.bgColor = 'none';
+            },
             openBoardModal() {
                 this.isModalOpen = !this.isModalOpen;
             },
@@ -115,6 +140,7 @@
         components: {
             boardPreview,
             backgroundPicker,
+            backgroundUnsplash,
         },
     };
 </script>

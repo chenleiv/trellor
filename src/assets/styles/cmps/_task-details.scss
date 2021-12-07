@@ -1,7 +1,6 @@
 // .modal-background {
 //     overflow: hidden;
 // }
-
 .task-details-container {
     display: flex;
     flex-direction: column;
@@ -23,15 +22,17 @@
         width: 94%;
         padding: 20px 16px 10px;
         .close-modal-btn {
+            font-size: 18px;
+            font-weight: 600;
             position: absolute;
-            top: 2px;
-            right: 5px;
+            top: 0;
+            right: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 5px;
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             border: none;
             border-radius: 50%;
             padding: 3px;
@@ -40,14 +41,15 @@
             background-color: transparent;
             transition: background-color 85ms, color 85ms;
             overflow: hidden;
-            font-family: fa-solid;
-            &::before {
-                content: '\f00d';
-                transform: scale(1.5);
-                opacity: 0.5;
-            }
+            // font-family: fa-solid;
+            // &::before {
+            //     border-radius: 3rem;
+            //     content: '\f00d';
+            //     transform: scale(1.5);
+            //     opacity: 0.5;
+            // }
             &:hover {
-                border-radius: 40%;
+                // border-radius: 40%;
                 background-color: #091e4214;
             }
         }
@@ -91,7 +93,6 @@
             }
         }
     }
-
     .task-details-content {
         display: flex;
         flex-direction: row;
@@ -143,9 +144,7 @@
                         transition: min-height 0.3s, box-shadow 0.3s;
                         margin: 0 0 8px 37px;
                         cursor: pointer;
-                        font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                            Roboto, Noto Sans, Ubuntu, Droid Sans,
-                            Helvetica Neue, sans-serif;
+                        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
                         &:focus {
                             min-height: 108px;
                             background-color: #fff;
@@ -221,12 +220,7 @@
                         height: 80%;
                         font-size: 14px;
                         &:hover {
-                            background-color: rgba(
-                                9,
-                                30,
-                                66,
-                                0.0784313725490196
-                            );
+                            background-color: rgba( 9, 30, 66, 0.0784313725490196);
                         }
                         &:active {
                             color: #0079bf;
@@ -256,9 +250,7 @@
                         font-size: 14px;
                         line-height: 20px;
                         color: #172b4d;
-                        font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                            Roboto, Noto Sans, Ubuntu, Droid Sans,
-                            Helvetica Neue, sans-serif;
+                        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
                         font-size: 14px;
                         font-weight: 400;
                         line-height: 20px;
@@ -292,10 +284,7 @@
                     font-weight: 400;
                     padding: 6px 12px;
                     // cursor: not-allowed;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                        Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue,
-                        sans-serif;
-
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
                     &:disabled {
                         cursor: not-allowed;
                         background-color: #f4f5f7;
@@ -316,9 +305,7 @@
                     font-weight: 400;
                     line-height: 20px;
                     color: #172b4d;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                        Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue,
-                        sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
                     .user-avatar {
                         height: 32px;
                         left: -40px;
@@ -334,8 +321,7 @@
                             padding: 8px 12px;
                             background-color: #fff;
                             border-radius: 3px;
-                            box-shadow: 0 1px 2px -1px rgb(9 30 66 / 25%),
-                                0 0 0 1px rgb(9 30 66 / 8%);
+                            box-shadow: 0 1px 2px -1px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
                             box-sizing: border-box;
                             clear: both;
                             display: inline-block;
@@ -373,7 +359,6 @@
                 }
             }
         }
-
         aside {
             width: 23%;
             float: right;
@@ -473,10 +458,41 @@
 .label-choosing-container {
     min-height: 140px;
 }
+
 .label-choosing {
     display: flex;
     gap: 1px;
+    justify-content: flex-end;
+    &:first-of-type {
+        div {
+            &:hover {
+                box-shadow: -8px 0 0 rgb(49, 101, 199);
+            }
+        }
+    }
+    &:nth-of-type(2) {
+        div {
+            &:hover {
+                box-shadow: -8px 0 0 rgb(42, 131, 57);
+            }
+        }
+    }
+    &:nth-of-type(3) {
+        div {
+            &:hover {
+                box-shadow: -8px 0 0 rgb(165, 126, 43);
+            }
+        }
+    }
+    &:nth-of-type(4) {
+        div {
+            &:hover {
+                box-shadow: -8px 0 0 rgb(136, 61, 51);
+            }
+        }
+    }
 }
+
 .label-color {
     width: 100%;
     color: rgb(238, 235, 235);
@@ -489,13 +505,15 @@
     position: relative;
     transition: padding 85ms, margin 85ms, box-shadow 85ms;
     &:hover {
-        padding-left: 16px;
+        // padding-left: 16px;
         opacity: 0.9;
+        margin-left: 4px;
     }
     &:active {
         padding-left: 12px;
     }
 }
+
 .delete-label-svg {
     fill: #fff;
     width: 16px;
@@ -503,6 +521,7 @@
     cursor: pointer;
     margin-top: 3px;
 }
+
 .label-pencil {
     cursor: pointer;
     background: none;
@@ -519,6 +538,7 @@
         transform: scale(0.8);
     }
 }
+
 .edit-label-container {
     display: flex;
     flex-direction: column;
@@ -544,7 +564,7 @@
         display: flex;
         justify-content: space-between;
         margin-top: 8px;
-        > * {
+        >* {
             height: 32px;
             border: none;
             color: #fff;
@@ -586,15 +606,18 @@
     display: flex;
     // flex-direction: column;
 }
+
 .labels-to-show-header,
 .members-to-show-header {
     font-size: 12px;
     margin-bottom: 2px;
 }
+
 .labels-container {
     display: flex;
     flex-direction: column;
 }
+
 .label-to-show-container {
     display: flex;
     flex-wrap: wrap;
@@ -612,7 +635,7 @@
     .label-to-show-list {
         display: flex;
         flex-wrap: wrap;
-        > * {
+        >* {
             color: #fff;
             margin-right: 5px;
             cursor: pointer;
@@ -624,6 +647,7 @@
         }
     }
 }
+
 .label-to-show {
     padding: 1px 8px;
     border-radius: 3px;
@@ -633,7 +657,7 @@
 // members:
 .member-choosing {
     display: flex;
-    > * {
+    >* {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -662,7 +686,7 @@
     .member-to-show-list {
         display: flex;
         flex-wrap: wrap;
-        > * {
+        >* {
             // color: #fff;
             margin-right: 5px;
             cursor: pointer;
@@ -674,6 +698,7 @@
         }
     }
 }
+
 .member-to-show {
     // padding: 1px 8px;
     // border-radius: 3px;
