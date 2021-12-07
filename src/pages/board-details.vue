@@ -83,7 +83,7 @@
                         boardId,
                     });
                     this.board = board;
-                    console.log('this.board ', this.board);
+                    // console.log('this.board ', this.board);
                     // console.log(
                     //     'this.board.style from details',
                     //     this.board.style

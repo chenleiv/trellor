@@ -9,6 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VModal from 'vue-js-modal'
 import VueInputAutowidth from 'vue-input-autowidth'
 import vueDebounce from 'vue-debounce'
+import * as VueGoogleMaps from 'vue2-google-maps'
 
 Vue.use(vueDebounce)
 Vue.use(VueInputAutowidth)
@@ -27,3 +28,12 @@ new Vue({
     store,
     render: h => h(App)
 }).$mount('#app')
+
+
+// Google Maps:
+Vue.use(VueGoogleMaps, {
+    load: {
+      key: 'AIzaSyAwGiZvHMgXknOgVGzfiqUHedPY-M9aRpM',
+      libraries: 'places', // This is required if you use the Autocomplete plugin
+    },
+})
