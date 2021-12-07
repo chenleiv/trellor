@@ -56,20 +56,16 @@
                 content: '\f304';
             }
         }
-
         margin-bottom: 4px;
     }
-
     .task-title {
         margin: 0 0 4px;
     }
-
     .task-show-details {
         color: rgba(43, 42, 42, 0.508);
         display: flex;
         flex-direction: row;
         margin: 2px;
-
         .task-description {
             padding-right: 8px;
             margin: 0 4px 4px 0;
@@ -78,7 +74,6 @@
                 font-size: 20px;
             }
         }
-
         .comments {
             padding-right: 8px;
             margin: 0 4px 4px 0;
@@ -88,7 +83,6 @@
                     padding-right: 3px;
                     align-items: center;
                     font-size: 15px;
-
                     font-family: fa-regular;
                     &::before {
                         content: '\f075';
@@ -96,7 +90,6 @@
                 }
             }
         }
-
         .task-attachment {
             span {
                 padding-right: 3px;
@@ -104,7 +97,17 @@
                 font-size: 15px;
             }
         }
-
+        .task-location {
+            span {
+                font-family: fa-solid;
+                padding-right: 3px;
+                align-items: center;
+                font-size: 15px;
+                &:before {
+                    content: '\f3c5';
+                }
+            }
+        }
         .task-checklists {
             display: flex;
             margin: 0 4px 4px 0;
@@ -132,6 +135,7 @@
     background-color: rgb(113 130 159 / 8%);
 }
 
+
 /* always present */
 
 .expand-transition {
@@ -142,7 +146,9 @@
     overflow: hidden;
 }
 
+
 /* .expand-enter defines the starting state for entering */
+
 
 /* .expand-leave defines the ending state for leaving */
 

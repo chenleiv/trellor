@@ -33,25 +33,24 @@
 
         <!-- </drag&drop> -->
         <div class="tasks-container">
-            <draggable
+            <!-- <draggable
                 v-model="group.tasks"
                 group="tasks"
-                class="tasks-container"
+            > -->
+            <router-link
+                v-for="task in group.tasks"
+                :key="task.id"
+                :to="`/board/${boardId}/task/${task.id}`"
+                class="sortable"
+                ghostClass="ghost"
             >
-                <router-link
-                    v-for="task in group.tasks"
-                    :key="task.id"
-                    :to="`/board/${boardId}/task/${task.id}`"
-                    class="sortable"
-                    ghostClass="ghost"
-                >
-                    <task-preview
-                        :task="task"
-                        :boardLabels="boardLabels"
-                        @deleteTask="removeTask"
-                    />
-                </router-link>
-            </draggable>
+                <task-preview
+                    :task="task"
+                    :boardLabels="boardLabels"
+                    @deleteTask="removeTask"
+                />
+            </router-link>
+            <!-- </draggable> -->
         </div>
 
         <!-- @end="dragEnd" -->
@@ -70,11 +69,11 @@
 
         <section class="add-task-section">
             <div
-                class="add-a-task"
                 v-if="!isAddTaskClicked"
+                class="add-a-task"
                 @click="toggleAddTaskInput"
             >
-                <span class="el-icon-plus"> </span> Add a Task
+                <span class="el-icon-plus"> </span> Add a card
             </div>
 
             <div v-else class="task-add-container">
@@ -88,7 +87,7 @@
                     @keyup.enter="saveTask"
                 />
                 <div>
-                    <button @click="saveTask">Add Task</button>
+                    <button @click="saveTask">Add card</button>
                     <button
                         class="el-icon-close"
                         @click="toggleAddTaskInput"

@@ -25,33 +25,26 @@
                 {{ task.title }}
             </div>
 
-            <div
-                class="task-show-details"
-                v-if="
-                    task.description &&
-                    task.comments &&
-                    task.checklists &&
-                    task.members
-                "
-            >
+            <div class="task-show-details" v-if="showIcons">
                 <div class="task-description" v-if="task.description">
                     <span class="material-icons-outlined"> notes </span>
                 </div>
 
-                <div class="comments" v-if="task.comments">
+                <div class="comments" v-if="task.comments.length">
                     <span class="task-comments" v-if="task.comments.length">
                         <span></span>
                     </span>
                     <span>{{ commentsLength }}</span>
                 </div>
 
-                <!-- <div class="task-attachment">
+                <div class="task-attachment" v-if="attachmentLength">
                     <span class="material-icons-outlined"> attach_file </span>
                     <span>{{ attachmentLength }}</span>
-                </div> -->
-
+                </div>
+                <div class="task-location" v-if="task.location">
+                    <span class=""> location </span>
+                </div>
                 <div class="task-checklists" v-if="task.checklists">
-                    <!-- v-if="task.checklists.length" -->
                     <span v-if="task.checklists.length">
                         <span class="material-icons-outlined"> check_box </span>
                         <p>0/2</p>
@@ -172,12 +165,24 @@
                     }
                 }
             },
-            // attachmentLength() {
-            //     let attachment = this.task.attachment.length
-            //         ? this.task.attachment.length
-            //         : null;
-            //     return attachment;
-            // },
+            showIcons() {
+                if (
+                    this.task.description ||
+                    this.task.comments.length > 0 ||
+                    this.task.checklists.length > 0 ||
+                    this.task.members.length > 0 ||
+                    this.task.attachments.length > 0 ||
+                    this.task.location
+                ) {
+                    return true;
+                } else return false;
+            },
+            attachmentLength() {
+                let attachment = this.task.attachments.length
+                    ? this.task.attachments.length
+                    : null;
+                return attachment;
+            },
         },
     };
 </script>

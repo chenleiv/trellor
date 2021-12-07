@@ -3,7 +3,8 @@
 }
 
 html {
-    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica, sans-serif;
+    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
+        Helvetica, sans-serif;
     //    line-height: 1.8;
     font-size: 14px;
     min-height: 100vh;
@@ -44,8 +45,6 @@ body {
     background-color: #fff;
     width: max-content;
     min-width: 100%;
-    // height: 100vh;
-    // min-height: 100%;
     margin: 0;
     // overflow-y: hidden;
     a {
@@ -63,17 +62,20 @@ body {
 }
 
 button {
-    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica, sans-serif;
+    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
+        Helvetica, sans-serif;
     cursor: pointer;
 }
 
 textarea {
-    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica, sans-serif;
+    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
+        Helvetica, sans-serif;
     cursor: pointer;
 }
 
 input {
-    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica, sans-serif;
+    font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans,
+        Helvetica, sans-serif;
 }
 
 .fade-enter-active,
@@ -83,9 +85,7 @@ input {
 
 .fade-enter,
 .fade-leave-to
-/* .fade-leave-active below version 2.1.8 */
-
-{
+/* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
 }
 
@@ -99,19 +99,17 @@ input {
 
 .slide-fade-enter,
 .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */
-
-{
+/* .slide-fade-leave-active below version 2.1.8 */ {
     transform: translateX(10px);
     opacity: 0;
 }
 
 .slide-up-enter-active {
-    transition: all .2s ease;
+    transition: all 0.2s ease;
 }
 
 .slide-up-leave-active {
-    transition: all .2s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
 .slide-up-enter,
