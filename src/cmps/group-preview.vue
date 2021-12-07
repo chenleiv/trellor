@@ -33,25 +33,24 @@
 
         <!-- </drag&drop> -->
         <div class="tasks-container">
-            <draggable
+            <!-- <draggable
                 v-model="group.tasks"
                 group="tasks"
-                class="tasks-container"
+            > -->
+            <router-link
+                v-for="task in group.tasks"
+                :key="task.id"
+                :to="`/board/${boardId}/task/${task.id}`"
+                class="sortable"
+                ghostClass="ghost"
             >
-                <router-link
-                    v-for="task in group.tasks"
-                    :key="task.id"
-                    :to="`/board/${boardId}/task/${task.id}`"
-                    class="sortable"
-                    ghostClass="ghost"
-                >
-                    <task-preview
-                        :task="task"
-                        :boardLabels="boardLabels"
-                        @deleteTask="removeTask"
-                    />
-                </router-link>
-            </draggable>
+                <task-preview
+                    :task="task"
+                    :boardLabels="boardLabels"
+                    @deleteTask="removeTask"
+                />
+            </router-link>
+            <!-- </draggable> -->
         </div>
 
         <!-- @end="dragEnd" -->

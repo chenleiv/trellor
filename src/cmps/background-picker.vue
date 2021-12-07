@@ -9,25 +9,35 @@
             @click="chooseBg('color', color)"
             :class="{ colorChoice: style.bgColor === color }"
         ></div>
-        <div
-            class="color-box"
-            :style="{
-                'background-image': `url(${require('@/assets/img/' + image)})`,
-            }"
-            v-for="(image, j) in imageList"
-            :key="'a' + j"
-            :id="'color-box' + 'a' + j"
-            @click="chooseBg('image', image)"
-            :class="{
-                colorChoice:
-                    style.bgImg === `url(${require('@/assets/img/' + image)})`,
-            }"
-        ></div>
+        <template v-if="withImgBg">
+            <div
+                class="color-box"
+                :style="{
+                    'background-image': `url(${require('@/assets/img/' +
+                        image)})`,
+                }"
+                v-for="(image, j) in imageList"
+                :key="'a' + j"
+                :id="'color-box' + 'a' + j"
+                @click="chooseBg('image', image)"
+                :class="{
+                    colorChoice:
+                        style.bgImg ===
+                        `url(${require('@/assets/img/' + image)})`,
+                }"
+            ></div
+        ></template>
     </section>
 </template>
 
 <script>
     export default {
+        props: {
+            withImgBg: {
+                type: Boolean,
+                default: true,
+            },
+        },
         data() {
             return {
                 colorList: [
@@ -40,15 +50,27 @@
                     '#4bbf6b',
                     '#00aecc',
                     '#afafaf',
+                    '#172b4d',
+                    '#f5dd29',
+                    '#d59a47',
                 ],
-                imageList: ['5.jpg', '2.jpg', '3.jpg'],
+                imageList: [
+                    '5.jpg',
+                    '2.jpg',
+                    '3.jpg',
+                    '7.jpg',
+                    '6.jpg',
+                    '1.jpg',
+                ],
                 style: {
                     bgColor: '',
                     bgImg: '',
                 },
             };
         },
-
+        created() {
+            console.log('withImgBg', this.withImgBg);
+        },
         methods: {
             chooseBg(val, styleEl) {
                 console.log('', val);

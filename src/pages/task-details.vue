@@ -5,6 +5,13 @@
         </router-link>
 
         <section class="task-details-container" @click="cancelEditLabel">
+            <!-- <div
+                class="cover-container"
+                :style="{
+                    backgroundColor: taskToEdit.coverStyle.bgColor,
+                    backgroundImage: taskToEdit.coverStyle.bgImg,
+                }"
+            ></div> -->
             <header class="task-modal-header">
                 <button
                     class="close-modal-btn el-icon-close"
@@ -173,7 +180,74 @@
                         </div>
                     </section>
 
-                    <section class="big-features-container">
+                    <section
+                        class="big-features-container"
+                        v-if="showBigFeatures"
+                    >
+                        <div class="attachments-container">
+                            <div
+                                v-for="(attach, i) in taskToEdit.attachments"
+                                :key="i"
+                            >
+                                <span class="attach-title">{{
+                                    attach.title
+                                }}</span>
+                                |
+                                <span
+                                    @click="removeAttachment(i)"
+                                    class="attach-btns"
+                                    >Delete</span
+                                >
+                                |
+                                <el-popover
+                                    placement="top"
+                                    width="180"
+                                    trigger="click"
+                                >
+                                    <input
+                                        class="titleAttachEdit"
+                                        v-model="newAttachTitle"
+                                        type="text"
+                                    />
+                                    <div style="text-align: right; margin: 0">
+                                        <el-button
+                                            type="primary"
+                                            size="mini"
+                                            @click="
+                                                editAttachmentTitle(attach, i)
+                                            "
+                                            >Confirm</el-button
+                                        >
+                                    </div>
+                                    <el-button
+                                        class="edit-attach-btn attach-btns"
+                                        slot="reference"
+                                        @click="newAttachTitle = attach.title"
+                                        >Edit</el-button
+                                    >
+                                </el-popover>
+
+                                <div
+                                    class="attachments-img"
+                                    :style="{
+                                        backgroundImage: `url(${attach.url})`,
+                                    }"
+                                ></div>
+                                <span
+                                    class="attach-btns"
+                                    v-if="!attach.isCover"
+                                    @click="attachmentMakeCover(i)"
+                                    >Make cover</span
+                                >
+                                <span
+                                    class="attach-btns"
+                                    v-if="attach.isCover"
+                                    @click="attachmentMakeCover(i)"
+                                    >Remove cover</span
+                                >
+                            </div>
+                        </div>
+
                         <div v-if="isMapShown" class="map-container">
                             <GmapMap
                                 ref="mapRef"
@@ -455,7 +529,17 @@
                                 v-if="btn.name === 'Location'"
                                 class="location-search-container"
                             ></div>
-
+                            <div v-if="btn.name === 'Cover'">
+                                Colors
+                                <background-picker
+                                    @chosenBg="chosenBg"
+                                    :withImgBg="withImgBg"
+                                ></background-picker>
+                                Images
+                                <background-unsplash
+                                    @onSaveImg="onSaveImgCover"
+                                ></background-unsplash>
+                            </div>
                             <div
                                 class="action-btn-content"
                                 slot="reference"
@@ -546,6 +630,8 @@
     import avatar from 'vue-avatar';
     import imgUpload from '@/cmps/img-upload';
     import GmapMap from '@/cmps/our-map';
+    import backgroundPicker from '@/cmps/background-picker';
+    import backgroundUnsplash from '@/cmps/background-unsplash';
 
     export default {
         name: 'taskDetails',
@@ -608,9 +694,9 @@
                 membersToShow: [],
 
                 isBigFeatureShown: false,
-
-                attachmentsToShow: [],
-
+                withImgBg: false,
+                newAttachTitle: '',
+                isCoverStyle: false,
                 isMapShown: false,
                 searchVal: '',
             };
@@ -875,10 +961,49 @@
                     url,
                     isCover: false,
                 });
-                if (this.taskToEdit.attachments.length === 1)
+                if (
+                    this.taskToEdit.attachments.length === 1 &&
+                    this.taskToEdit.coverStyle.bgImg === 'none' &&
+                    this.taskToEdit.coverStyle.bgColor === 'none'
+                )
                     this.taskToEdit.attachments[0].isCover = true;
                 this.updateTask();
                 //  = `url(${url})`;
+            },
+            removeAttachment(idx) {
+                this.taskToEdit.attachments.splice(idx, 1);
+                this.updateTask();
+            },
+            attachmentMakeCover(idx) {
+                if (!this.taskToEdit.attachments[idx].isCover) {
+                    for (
+                        let i = 0;
+                        i < this.taskToEdit.attachments.length;
+                        i++
+                    ) {
+                        this.taskToEdit.attachments[i].isCover = false;
+                    }
+                    this.taskToEdit.attachments[idx].isCover = true;
+                } else
+                    this.taskToEdit.attachments[idx].isCover =
+                        !this.taskToEdit.attachments[idx].isCover;
+                this.updateTask();
+            },
+            editAttachmentTitle(attach, idx) {
+                this.taskToEdit.attachments[idx].title = this.newAttachTitle;
+                this.updateTask();
+                this.newAttachTitle = '';
+            },
+            onSaveImgCover(url) {
+                this.taskToEdit.coverStyle.bgImg = `url(${url})`;
+                this.taskToEdit.coverStyle.bgColor = 'none';
+                this.updateTask();
+                this.isCoverStyle = true;
+            },
+            chosenBg(style) {
+                this.taskToEdit.coverStyle = style;
+                this.updateTask();
+                this.isCoverStyle = true;
             },
             addComment() {
                 this.taskToEdit.comments.push(this.comment);
@@ -894,6 +1019,11 @@
             saveCommentBtnStyle() {
                 return { 'save-comment-btn-typing-style': this.isCommentInput };
             },
+            showBigFeatures() {
+                if (this.isMapShown || this.taskToEdit.attachments.length > 0)
+                    return true;
+                else return false;
+            },
 
             // labelColor() {
             //     return {}
@@ -904,6 +1034,8 @@
             avatar,
             imgUpload,
             GmapMap,
+            backgroundPicker,
+            backgroundUnsplash,
         },
     };
 </script>
