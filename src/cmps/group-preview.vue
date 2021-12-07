@@ -69,11 +69,11 @@
 
         <section class="add-task-section">
             <div
-                class="add-a-task"
                 v-if="!isAddTaskClicked"
+                class="add-a-task"
                 @click="toggleAddTaskInput"
             >
-                <span class="el-icon-plus"> </span> Add a Task
+                <span class="el-icon-plus"> </span> Add a card
             </div>
 
             <div v-else class="task-add-container">
@@ -87,7 +87,7 @@
                     @keyup.enter="saveTask"
                 />
                 <div>
-                    <button @click="saveTask">Add Task</button>
+                    <button @click="saveTask">Add card</button>
                     <button
                         class="el-icon-close"
                         @click="toggleAddTaskInput"

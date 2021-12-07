@@ -45,7 +45,6 @@
                     <span class=""> location </span>
                 </div>
                 <div class="task-checklists" v-if="task.checklists">
-                    <!-- v-if="task.checklists.length" -->
                     <span v-if="task.checklists.length">
                         <span class="material-icons-outlined"> check_box </span>
                         <p>0/2</p>
