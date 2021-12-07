@@ -1,24 +1,13 @@
 <template>
-    <section class="background-picker-menu">
+    <section class="bgc-aside-menu">
         <div
-            class="color-box"
+            class="color-div"
             :style="{ 'background-color': color }"
             v-for="(color, i) in colorList"
             :key="i"
-            :id="'color-box' + i"
+            :id="'color-div' + i"
             @click="chooseBg('color', color)"
             :class="{ colorChoice: style.bgColor === color }"
-        ></div>
-        <div
-            class="color-box"
-            :style="{
-                'background-image': `url(${require('@/assets/img/' + image)})`,
-            }"
-            v-for="(image, j) in imageList"
-            :key="'a' + j"
-            :id="'color-box' + 'a' + j"
-            @click="chooseBg('image', image)"
-            :class="{ colorChoice: style.bgImg === image }"
         ></div>
     </section>
 </template>
@@ -38,26 +27,16 @@
                     '#00aecc',
                     '#afafaf',
                 ],
-                imageList: ['5.jpg', '2.jpg', '7.jpg'],
                 style: {
                     bgColor: '',
-                    bgImg: '',
+                    bgImg: 'none',
                 },
             };
         },
 
         methods: {
-            chooseBg(val, styleEl) {
-                console.log('', val);
-                if (val === 'color') {
-                    this.style.bgImg = 'none';
-                    this.style.bgColor = styleEl;
-                } else {
-                    this.style.bgColor = 'none';
-                    this.style.bgImg = `url(${require('@/assets/img/' +
-                        styleEl)})`;
-                }
-
+            chooseBg(style) {
+                this.style.bgColor = style;
                 this.$emit('chosenBg', this.style);
             },
         },

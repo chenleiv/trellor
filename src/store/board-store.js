@@ -3,16 +3,17 @@ import { boardService } from "@/services/board-service.js"
 export const boardStore = {
     state: {
         boards: [],
-        // currBoard: null,
+        currBoard: null,
         isLoading: false,
     },
     getters: {
         boards({ boards }) { return boards },
         boardsToShow(state) {
-            var boards = JSON.parse(JSON.stringify(state.boards));
-            return boards;
+            // var boards = JSON.parse(JSON.stringify(state.boards));
+
+            return state.boards;
         },
-        // getBoard({ currBoard }) { return currBoard },
+        getCurrBoard(state) { return state.currBoard },
         isLoading({ isLoading }) { return isLoading },
     },
     mutations: {
@@ -25,12 +26,16 @@ export const boardStore = {
         setBoards(state, { boards }) {
             state.boards = boards;
         },
+        setBoard(state, {board}) {
+            state.currBoard = board
+        },
         addBoard(state, { savedBoard }) {
             state.boards.push(savedBoard)
         },
         updateBoard(state, payload) {
             const idx = state.boards.findIndex(board => board._id === payload.board._id)
             state.boards.splice(idx, 1, payload.board)
+            state.currBoard = payload.board
         },
         removeBoard(state, payload) {
             const idx = state.boards.findIndex(board => board._id === payload.boardId)
@@ -60,6 +65,10 @@ export const boardStore = {
                 console.log('Error in Getting a Board (Store):', err);
                 throw err;
             }
+        },
+        async setBoard({commit}, {boardId}) {
+            const board = await boardService.getById(boardId);
+            commit({type: 'setBoard', board})
         },
         async addBoard({ commit }, { board }) {
             try {
@@ -158,6 +167,7 @@ export const boardStore = {
         async updateTask({ commit }, { boardId, groupId, task }) {
             try {
                 // , taskTitle, taskDescription, comment, commentIdx, labelId, members
+                console.log('task:', task);
                 const savedBoard = await boardService.updateTask(boardId, groupId, task);
                 commit({ type: 'updateBoard', board: savedBoard })
                 return savedBoard;

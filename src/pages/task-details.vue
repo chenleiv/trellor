@@ -6,7 +6,10 @@
 
         <section class="task-details-container" @click="cancelEditLabel">
             <header class="task-modal-header">
-                <button class="close-modal-btn" @click="backToBoard"></button>
+                <button
+                    class="close-modal-btn el-icon-close"
+                    @click="backToBoard"
+                ></button>
                 <svg viewBox="0 0 24 24">
                     <path
                         d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H3V5h18v11z"
@@ -46,13 +49,40 @@
                                         class="member-to-show-list"
                                     >
                                         <div class="member-to-show">
-                                            <avatar
-                                                class="user-avatar"
-                                                backgroundColor="lightblue"
-                                                color="black"
-                                                :size="30"
-                                                :username="member.fullname"
-                                            ></avatar>
+                                            <el-popover
+                                                placement="bottom-start"
+                                                :title="member.fullname"
+                                                width="200"
+                                                trigger="click"
+                                                content=""
+                                                class="member-to-show-modal"
+                                            >
+                                                <avatar
+                                                    class="member-modal-avatar"
+                                                    backgroundColor="lightblue"
+                                                    color="black"
+                                                    :size="30"
+                                                    :username="member.fullname"
+                                                ></avatar>
+                                                <span
+                                                    class="remove-member-btn"
+                                                    @click="
+                                                        chooseMember(
+                                                            member,
+                                                            member._id
+                                                        )
+                                                    "
+                                                    >Remove from card</span
+                                                >
+                                                <avatar
+                                                    slot="reference"
+                                                    class="user-avatar"
+                                                    backgroundColor="lightblue"
+                                                    color="black"
+                                                    :size="30"
+                                                    :username="member.fullname"
+                                                ></avatar>
+                                            </el-popover>
                                         </div>
                                     </section>
                                 </div>
@@ -140,6 +170,25 @@
                                     @click.prevent="cancelDescAdding"
                                 ></button>
                             </div>
+                        </div>
+                    </section>
+
+                    <section class="big-features-container">
+                        <div v-if="isMapShown" class="map-container">
+                            <GmapMap
+                                ref="mapRef"
+                                :searchV="searchVal"
+                                :options="{
+                                    zoomControl: true,
+                                    mapTypeControl: true,
+                                    scaleControl: false,
+                                    streetViewControl: true,
+                                    rotateControl: false,
+                                    fullscreenControl: true,
+                                    disableDefaultUi: false,
+                                }"
+                                @removeMap="isMapShown = false"
+                            />
                         </div>
                     </section>
 
@@ -253,9 +302,12 @@
                 </main>
 
                 <aside>
-                    <div class="suggested">
+                    <div class="suggested" v-if="!userJoined">
                         <h4 class="aside-headers">Suggested</h4>
-                        <button class="secondary-btn action-btn">
+                        <button
+                            class="secondary-btn action-btn"
+                            @click="joinMember"
+                        >
                             <div class="action-btn-content">
                                 <svg viewBox="0 0 24 24">
                                     <path
@@ -278,6 +330,7 @@
                             width="300"
                             trigger="click"
                             content=""
+                            :disabled="btn.name === 'Location'"
                         >
                             <hr />
                             <div
@@ -292,7 +345,11 @@
                                     :key="member._id"
                                     class="member-choosing"
                                 >
-                                    <div @click="chooseMember(member)">
+                                    <div
+                                        @click="
+                                            chooseMember(member, member._id)
+                                        "
+                                    >
                                         <avatar
                                             class="user-avatar"
                                             backgroundColor="lightblue"
@@ -301,6 +358,19 @@
                                             :username="member.fullname"
                                         ></avatar>
                                         {{ member.fullname }}
+                                        <svg
+                                            v-if="
+                                                taskToEdit.members.includes(
+                                                    member
+                                                )
+                                            "
+                                            viewBox="0 0 24 24"
+                                            class="delete-member-svg"
+                                        >
+                                            <path
+                                                d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                                            ></path>
+                                        </svg>
                                     </div>
                                 </section>
                             </div>
@@ -320,9 +390,14 @@
                                             'background-color': label.color,
                                         }"
                                         class="label-color"
-                                        @click="chooseLabel(label.id, idx)"
+                                        @click="chooseLabel(label.id)"
                                     >
                                         <!-- <svg
+                                            v-if="
+                                                taskToEdit.labelIds.includes(
+                                                    label.id
+                                                )
+                                            "
                                             viewBox="0 0 24 24"
                                             class="delete-label-svg"
                                         >
@@ -335,7 +410,7 @@
                                     <button
                                         v-if="!isLabelEdit"
                                         class="label-pencil"
-                                        @click="editLabelTitle(idx)"
+                                        @click="editLabelTitle(label.id, idx)"
                                     >
                                         <svg viewBox="0 0 24 24">
                                             <path
@@ -361,13 +436,31 @@
                                             @click="saveLabelTitle"
                                             >Save</el-button
                                         >
-                                        <el-button type="danger" class="delete"
+                                        <el-button
+                                            type="danger"
+                                            class="delete"
+                                            @click="removeLabel"
                                             >Delete</el-button
                                         >
                                     </div>
                                 </div>
                             </div>
-                            <div class="action-btn-content" slot="reference">
+                            <div v-if="btn.name === 'Attachment'">
+                                <img-upload
+                                    @onSaveImg="changeImgUrl"
+                                ></img-upload>
+                            </div>
+
+                            <div
+                                v-if="btn.name === 'Location'"
+                                class="location-search-container"
+                            ></div>
+
+                            <div
+                                class="action-btn-content"
+                                slot="reference"
+                                @click="showMap(btn.name)"
+                            >
                                 <svg viewBox="0 0 24 24">
                                     <path :d="btn.d"></path>
                                 </svg>
@@ -451,6 +544,8 @@
 
 <script>
     import avatar from 'vue-avatar';
+    import imgUpload from '@/cmps/img-upload';
+    import GmapMap from '@/cmps/our-map';
 
     export default {
         name: 'taskDetails',
@@ -467,7 +562,7 @@
                 isCommentInputOpen: false,
                 isCommentInput: '',
                 comment: '',
-                commentIdx: null,
+                // commentIdx: null,
                 showDetailsBtnTxt: 'Show details',
                 activityListIsShown: false,
                 asideBtns: [
@@ -497,6 +592,7 @@
                     },
                 ],
 
+                userJoined: false,
                 labels: [],
                 hasLabelChosen: false,
                 // labelTitleToShow: '',
@@ -507,8 +603,16 @@
                 isLabelEdit: false,
                 labelTitle: '',
                 labelIdxToEdit: null,
+                labelIdToEdit: null,
 
                 membersToShow: [],
+
+                isBigFeatureShown: false,
+
+                attachmentsToShow: [],
+
+                isMapShown: false,
+                searchVal: '',
             };
         },
 
@@ -517,10 +621,6 @@
         },
 
         methods: {
-            addComment() {
-                this.taskToEdit.comments.push(this.comment);
-                this.updateTask();
-            },
             async loadData() {
                 const { boardId } = this.$route.params;
                 const { taskId } = this.$route.params;
@@ -538,10 +638,8 @@
                             return task.id === taskId;
                         });
                     });
-                    // console.log('this.task', this.task);
                     this.task = taskArr.find((item) => item !== undefined);
                     this.taskTitle = this.task.title;
-                    // console.log('this.taskTitle', this.taskTitle);
                     // Loading Group:
                     const group = board.groups.find((gr) =>
                         gr.tasks.includes(this.task)
@@ -556,19 +654,13 @@
 
             async updateTask() {
                 this.isTextAreaVisible = false;
-                console.log('hello from update task');
+                console.log('this.taskToEdit:', this.taskToEdit);
                 try {
                     await this.$store.dispatch({
                         type: 'updateTask',
                         boardId: this.board._id,
                         groupId: this.group.id,
                         task: this.taskToEdit,
-                        // taskTitle: this.taskTitle,
-                        // taskDescription: this.description,
-                        // comment: this.comment,
-                        // commentIdx: this.commentIdx,
-                        // labelId: this.labelIdToShow,
-                        // members: this.membersToShow,
                     });
                     console.log(
                         `Task Succefully Updated with Id ${this.task.id}`
@@ -580,12 +672,7 @@
                     throw err;
                 } finally {
                     this.$refs.commInput.value = '';
-                    console.log(
-                        'this.$refs.commInput.value',
-                        this.$refs.commInput.value
-                    );
                     this.comment = '';
-                    console.log(' this.comment', this.comment);
                 }
             },
 
@@ -597,7 +684,6 @@
                     });
                     this.board = savedBoard;
                     console.log(`Board updated successfully`);
-                    console.log('savedBoard.labels:', savedBoard.labels);
                     this.$emit('loadBoard');
                     this.labelTitle = '';
                 } catch (err) {
@@ -631,8 +717,15 @@
                 this.isCommentInput = ev.target.value ? true : false;
             },
 
+            addComment() {
+                if (!this.comment.trim()) return;
+                this.taskToEdit.comments.push(this.comment);
+                this.updateTask();
+            },
+
             deleteComment(idx) {
-                this.commentIdx = idx;
+                // this.commentIdx = idx;
+                this.taskToEdit.comments.splice(idx, 1);
                 this.updateTask();
             },
 
@@ -643,11 +736,47 @@
                     : 'Show details';
             },
 
-            chooseMember(member) {
+            joinMember() {
+                this.userJoined = true;
+                // if (this.taskToEdit.members.length) {
+                this.chooseMember(
+                    this.board.members[0],
+                    this.board.members[0]._id
+                );
+                // }
+                // Next it will be the loggedIn User
+            },
+
+            chooseMember(member, memberId) {
                 // this.membersToShow.push(member);
-                this.taskToEdit.members.push(member);
+                const memberIdx = this.taskToEdit.members.findIndex(
+                    (m) => m._id === memberId
+                );
+                if (this.taskToEdit.members.includes(member)) {
+                    this.taskToEdit.members.splice(memberIdx, 1);
+                    if (member === this.board.members[0]) {
+                        this.userJoined = false;
+                    }
+                } else {
+                    this.taskToEdit.members.push(member);
+                    if (member === this.board.members[0]) {
+                        this.userJoined = true;
+                    }
+                }
                 this.updateTask();
             },
+
+            // removeMember(memberId) {
+            //     const lbIdx = this.taskToEdit.labelIds.findIndex(
+            //         (id) => id === this.labelIdToEdit
+            //     );
+            //     this.taskToEdit.labelIds.splice(lbIdx, 1);
+            //     this.labels[this.labelIdxToEdit].title = '';
+            //     const board = JSON.parse(JSON.stringify(this.board));
+            //     board.labels = this.labels;
+            //     this.updateTask();
+            //     this.updateBoard(board);
+            // },
 
             getLbColor(lbId) {
                 const label = this.board.labels.find(
@@ -662,13 +791,21 @@
                 return label.title;
             },
 
-            chooseLabel(id, idx) {
+            chooseLabel(id) {
                 this.hasLabelChosen = true;
 
                 this.labelIdToShow = id;
                 // this.labelIdsToShow.push(id);
-                this.taskToEdit.labelIds.push(id);
-                console.log('add label', id);
+
+                const labelIdx = this.taskToEdit.labelIds.findIndex(
+                    (lbId) => lbId === id
+                );
+                if (this.taskToEdit.labelIds.includes(id)) {
+                    this.taskToEdit.labelIds.splice(labelIdx, 1);
+                } else {
+                    this.taskToEdit.labelIds.push(id);
+                }
+
                 this.updateTask();
 
                 // const board = JSON.parse(JSON.stringify(this.board));
@@ -678,9 +815,10 @@
                 // this.loadBoard();
             },
 
-            editLabelTitle(idx) {
+            editLabelTitle(labelId, idx) {
                 this.isLabelEdit = true;
                 this.labelIdxToEdit = idx;
+                this.labelIdToEdit = labelId;
             },
 
             saveLabelTitle() {
@@ -691,27 +829,60 @@
                 this.updateBoard(board);
             },
 
+            removeLabel() {
+                this.isLabelEdit = false;
+                const lbIdx = this.taskToEdit.labelIds.findIndex(
+                    (id) => id === this.labelIdToEdit
+                );
+                this.taskToEdit.labelIds.splice(lbIdx, 1);
+                this.labels[this.labelIdxToEdit].title = '';
+                const board = JSON.parse(JSON.stringify(this.board));
+                board.labels = this.labels;
+                this.updateTask();
+                this.updateBoard(board);
+            },
+
             cancelEditLabel() {
                 setTimeout(() => {
                     this.isLabelEdit = false;
                 }, 500);
             },
 
+            changeImgUrl(url) {
+                let title = /[^/]*$/.exec(url)[0];
+                this.taskToEdit.attachments.push({
+                    title,
+                    url,
+                    isCover: false,
+                });
+                if (this.taskToEdit.attachments.length === 1)
+                    this.taskToEdit.attachments[0].isCover = true;
+                this.updateTask();
+                //  = `url(${url})`;
+            },
+
+            showMap(btnName) {
+                if (btnName === 'Location') this.isMapShown = true;
+            },
+
             backToBoard() {
                 this.$router.push(`/board/${this.board._id}`);
             },
-
-            async loadBoard() {
-                try {
-                    const board = await this.$store.dispatch({
-                        type: 'getBoard',
-                        boardId: this.board._id,
-                    });
-                    this.board = board;
-                } catch (err) {
-                    console.log('Board Loading Error (task-details):', err);
-                    throw err;
-                }
+            changeImgUrl(url) {
+                let title = /[^/]*$/.exec(url)[0];
+                this.taskToEdit.attachments.push({
+                    title,
+                    url,
+                    isCover: false,
+                });
+                if (this.taskToEdit.attachments.length === 1)
+                    this.taskToEdit.attachments[0].isCover = true;
+                this.updateTask();
+                //  = `url(${url})`;
+            },
+            addComment() {
+                this.taskToEdit.comments.push(this.comment);
+                this.updateTask();
             },
         },
 
@@ -731,6 +902,8 @@
 
         components: {
             avatar,
+            imgUpload,
+            GmapMap,
         },
     };
 </script>

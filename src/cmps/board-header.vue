@@ -187,6 +187,7 @@
             },
             async editTitle() {
                 this.toggleInput();
+                if (!this.title.trim()) this.title = 'Board name';
                 try {
                     await this.$store.dispatch({
                         type: 'updateBoardTitle',

@@ -20,7 +20,7 @@
                     <!-- <transition name="slide-up"> -->
                     <div class="add-group-btn-container" v-if="!isAddClicked">
                         <button class="add-group-btn" @click="openAddingInput">
-                            <span class="el-icon-plus"></span> Add another group
+                            <span class="el-icon-plus"></span> Add another list
                         </button>
                     </div>
                     <!-- </transition> -->
@@ -30,10 +30,10 @@
                             @keyup.enter="addGroup"
                             v-model="groupTitle"
                             type="text"
-                            placeholder="Enter group title..."
+                            placeholder="Enter list title..."
                         />
                         <div class="group-btns-container">
-                            <button @click="addGroup">Add group</button>
+                            <button @click="addGroup">Add list</button>
                             <button
                                 class="el-icon-close"
                                 @click="openAddingInput"
