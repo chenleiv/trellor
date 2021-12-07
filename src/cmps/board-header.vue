@@ -134,7 +134,7 @@
                 title: this.board.title,
                 boardId: '',
                 visible: false,
-                filterIsShown: true,
+                filterIsShown: false,
             };
         },
         created() {

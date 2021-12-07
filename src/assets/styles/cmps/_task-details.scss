@@ -145,7 +145,9 @@
                         transition: min-height 0.3s, box-shadow 0.3s;
                         margin: 0 0 8px 37px;
                         cursor: pointer;
-                        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+                        font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
+                            Roboto, Noto Sans, Ubuntu, Droid Sans,
+                            Helvetica Neue, sans-serif;
                         &:focus {
                             min-height: 108px;
                             background-color: #fff;
@@ -221,7 +223,12 @@
                         height: 80%;
                         font-size: 14px;
                         &:hover {
-                            background-color: rgba( 9, 30, 66, 0.0784313725490196);
+                            background-color: rgba(
+                                9,
+                                30,
+                                66,
+                                0.0784313725490196
+                            );
                         }
                         &:active {
                             color: #0079bf;
@@ -251,7 +258,9 @@
                         font-size: 14px;
                         line-height: 20px;
                         color: #172b4d;
-                        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+                        font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
+                            Roboto, Noto Sans, Ubuntu, Droid Sans,
+                            Helvetica Neue, sans-serif;
                         font-size: 14px;
                         font-weight: 400;
                         line-height: 20px;
@@ -285,7 +294,9 @@
                     font-weight: 400;
                     padding: 6px 12px;
                     // cursor: not-allowed;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
+                        Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue,
+                        sans-serif;
                     &:disabled {
                         // cursor: not-allowed;
                         background-color: #f4f5f7;
@@ -306,7 +317,9 @@
                     font-weight: 400;
                     line-height: 20px;
                     color: #172b4d;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
+                        Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue,
+                        sans-serif;
                     .user-avatar {
                         height: 32px;
                         left: -40px;
@@ -322,7 +335,8 @@
                             padding: 8px 12px;
                             background-color: #fff;
                             border-radius: 3px;
-                            box-shadow: 0 1px 2px -1px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
+                            box-shadow: 0 1px 2px -1px rgb(9 30 66 / 25%),
+                                0 0 0 1px rgb(9 30 66 / 8%);
                             box-sizing: border-box;
                             clear: both;
                             display: inline-block;
@@ -564,7 +578,7 @@
         display: flex;
         justify-content: space-between;
         margin-top: 8px;
-        >* {
+        > * {
             height: 32px;
             border: none;
             color: #fff;
@@ -604,7 +618,11 @@
 
 .task-features-container {
     display: flex;
-    // flex-direction: column;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    > * {
+        margin-top: 5px;
+    }
 }
 
 .labels-to-show-header,
@@ -637,7 +655,7 @@
     .label-to-show-list {
         display: flex;
         flex-wrap: wrap;
-        >* {
+        > * {
             color: #fff;
             margin-right: 5px;
             cursor: pointer;
@@ -659,7 +677,7 @@
 // members:
 .member-choosing {
     display: flex;
-    >* {
+    > * {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -692,7 +710,7 @@
     .member-to-show-list {
         display: flex;
         flex-wrap: wrap;
-        >* {
+        > * {
             // color: #fff;
             margin-right: 5px;
             cursor: pointer;
@@ -800,11 +818,13 @@
     justify-content: space-between;
 }
 
-.remove-map-modal {}
+.remove-map-modal {
+}
 
 .remove-map-inner-btn {
     cursor: pointer;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans,
+        Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
     font-size: 14px;
     line-height: 20px;
     cursor: pointer;
@@ -829,4 +849,108 @@
     &:hover {
         opacity: 0.6;
     }
+}
+
+// Date:
+.date-picking-container {
+    .edit-date-buttons {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        > * {
+            width: 100%;
+            box-shadow: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 400;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 3px;
+            line-height: 20px;
+            margin-bottom: 7px;
+        }
+        .save-date-btn {
+            background-color: #026aa7;
+            color: #fff;
+        }
+        .delete-date-btn {
+            background-color: rgba(9, 30, 66, 0.1);
+            color: #172b4d;
+            margin-left: 0;
+            &:hover {
+                color: #172b4d;
+                border: none;
+                background-color: rgba(9, 30, 66, 0.08);
+            }
+        }
+    }
+}
+
+.date-container {
+    display: flex;
+    flex-direction: column;
+}
+.date-to-show-header {
+    font-size: 12px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    color: #5e6c84;
+    font-weight: 600;
+}
+.date-to-show-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.date-svg {
+    cursor: pointer;
+    fill: #026aa7;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    font-size: 1.5rem;
+    transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, opacity 0.3s;
+    flex-shrink: 0;
+    user-select: none;
+    &:hover {
+        opacity: 0.7;
+    }
+}
+.date-to-show-btn {
+    display: flex;
+    align-items: center;
+    color: #172b4d;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    padding: 6px 12px;
+    box-shadow: none;
+    background-color: rgba(9, 30, 66, 0.04);
+    margin-inline-start: 4px;
+    align-items: center;
+    border: none;
+    &:hover {
+        background-color: rgba(9, 30, 66, 0.08);
+        box-shadow: none;
+        border: none;
+    }
+}
+.due-msg {
+    font-size: 12px;
+    line-height: 16px;
+    padding: 0 4px;
+    border-radius: 2px;
+    margin: auto 0 auto 8px;
+    font-weight: 400;
+}
+.done {
+    color: #fff;
+    background-color: #61bd4f;
+}
+.date-drop-btn {
+    display: inline-block;
+    fill: inherit;
+    margin-left: 5px;
+    width: 15px;
+    height: 15px;
 }

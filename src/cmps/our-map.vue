@@ -66,16 +66,24 @@
     import axios from 'axios';
 
     export default {
+        props: {
+            mapCenter: {
+                type: Object,
+                required: true,
+                default: function () {
+                    return { msg: 'No mapCenter' };
+                },
+            },
+        },
+
         data() {
             return {
                 searchVal: '',
                 API_KEY: 'AIzaSyAwGiZvHMgXknOgVGzfiqUHedPY-M9aRpM',
-                center: { lat: 31.769218, lng: 35.208144 },
+                center: this.mapCenter,
                 locAddress: '',
             };
         },
-
-        created() {},
 
         methods: {
             moveTo(position) {
@@ -85,7 +93,8 @@
                     .then((map) => {
                         map.panTo({ lat, lng });
                     })
-                    .then(this.getLocAddress(this.center.lat, this.center.lng));
+                    .then(this.getLocAddress(this.center.lat, this.center.lng))
+                    .then(this.$emit('saveLoc', { lat, lng }));
             },
 
             searchLoc() {

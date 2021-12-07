@@ -87,6 +87,7 @@
                                     </section>
                                 </div>
                             </div>
+
                             <div
                                 v-if="task.labelIds.length"
                                 class="labels-container"
@@ -128,6 +129,55 @@
                                             ></path>
                                         </svg>
                                     </button> -->
+                                </div>
+                            </div>
+
+                            <div class="date-container">
+                                <h3 class="date-to-show-header">Due date</h3>
+                                <div
+                                    class="date-to-show-container flex wrap align-center"
+                                >
+                                    <div class="date-check-boxes">
+                                        <svg
+                                            v-if="!isComplete"
+                                            @click="markComplete"
+                                            class="date-svg MuiSvgIcon-root MuiSvgIcon-fontSizeMedium pointer css-vubbuv"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                                            ></path>
+                                        </svg>
+                                        <svg
+                                            v-else
+                                            @click="markComplete"
+                                            class="date-svg MuiSvgIcon-root MuiSvgIcon-fontSizeMedium todo-check pointer css-vubbuv"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                                            ></path>
+                                        </svg>
+                                    </div>
+
+                                    <button
+                                        class="date-to-show-btn secondary-btn"
+                                    >
+                                        <span class="date-context"
+                                            >16 Dec at 10:54 PM</span
+                                        ><span
+                                            v-if="isComplete"
+                                            class="due-msg done"
+                                            >complete</span
+                                        >
+                                        <span class="date-drop-btn"
+                                            ><svg viewBox="0 0 24 24">
+                                                <path
+                                                    d="M11.2929 16.7071L4.22185 9.63606C3.83132 9.24554 3.83132 8.61237 4.22185 8.22185C4.61237 7.83133 5.24554 7.83133 5.63606 8.22185L12 14.5858L18.364 8.22185C18.7545 7.83132 19.3877 7.83132 19.7782 8.22185C20.1687 8.61237 20.1687 9.24554 19.7782 9.63606L12.7071 16.7071C12.3166 17.0977 11.6834 17.0977 11.2929 16.7071Z"
+                                                    fill="currentColor"
+                                                ></path></svg
+                                        ></span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -177,7 +227,7 @@
                         <div v-if="isMapShown" class="map-container">
                             <GmapMap
                                 ref="mapRef"
-                                :searchV="searchVal"
+                                :mapCenter="mapCenter"
                                 :options="{
                                     zoomControl: true,
                                     mapTypeControl: true,
@@ -187,7 +237,8 @@
                                     fullscreenControl: true,
                                     disableDefaultUi: false,
                                 }"
-                                @removeMap="isMapShown = false"
+                                @saveLoc="saveLoc"
+                                @removeMap="removeMap"
                             />
                         </div>
                     </section>
@@ -445,6 +496,34 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div
+                                v-if="btn.name === 'Dates'"
+                                class="date-picking-container"
+                            >
+                                <el-date-picker
+                                    v-model="dateVal"
+                                    type="date"
+                                    placeholder="Pick a day"
+                                >
+                                </el-date-picker>
+                                <div class="edit-date-buttons">
+                                    <el-button
+                                        type="primary"
+                                        class="save-date-btn"
+                                        @click="saveDate"
+                                        >Save</el-button
+                                    >
+                                    <el-button
+                                        type="danger"
+                                        class="delete-date-btn"
+                                        @click="removeDate"
+                                        plain
+                                        >Remove</el-button
+                                    >
+                                </div>
+                            </div>
+
                             <div v-if="btn.name === 'Attachment'">
                                 <img-upload
                                     @onSaveImg="changeImgUrl"
@@ -463,6 +542,10 @@
                             >
                                 <svg viewBox="0 0 24 24">
                                     <path :d="btn.d"></path>
+                                    <path
+                                        v-if="btn.name === 'Dates'"
+                                        d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
+                                    ></path>
                                 </svg>
                                 <span>{{ btn.name }}</span>
                             </div>
@@ -491,20 +574,6 @@
                                 <path :d="btn.d"></path>
                             </svg>
                             <span>{{ btn.name }}</span>
-                        </div>
-                    </button> -->
-
-                    <!-- Date: -->
-                    <!-- <button class="secondary-btn action-btn">
-                        <div class="action-btn-content">
-                            <svg viewBox="0 0 24 24">
-                                <path
-                                    d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                                ></path>
-                                <path
-                                    d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
-                                ></path></svg
-                            ><span>Date</span>
                         </div>
                     </button> -->
 
@@ -575,6 +644,10 @@
                         d: 'M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.06-.59-1.42zM13 20.01L4 11V4h7v-.01l9 9-7 7.02z',
                     },
                     {
+                        name: 'Dates',
+                        d: 'M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z',
+                    },
+                    {
                         name: 'Checklist',
                         d: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM17.99 9l-1.41-1.42-6.59 6.59-2.58-2.57-1.42 1.41 4 3.99z',
                     },
@@ -612,7 +685,10 @@
                 attachmentsToShow: [],
 
                 isMapShown: false,
-                searchVal: '',
+                mapCenter: { lat: 31.769218, lng: 35.208144 },
+
+                dateVal: '',
+                isComplete: false,
             };
         },
 
@@ -646,6 +722,7 @@
                     );
                     this.group = group;
                     this.taskToEdit = this.task;
+                    this.isLocation(this.taskToEdit);
                 } catch (err) {
                     console.log('Error in loadData (task-details):', err);
                     throw err;
@@ -848,6 +925,19 @@
                 }, 500);
             },
 
+            saveDate() {
+                this.taskToEdit.dueDate = this.dateVal;
+                this.updateTask();
+            },
+
+            removeDate() {
+                console.log('removeDate');
+            },
+
+            markComplete() {
+                this.isComplete = !this.isComplete;
+            },
+
             changeImgUrl(url) {
                 let title = /[^/]*$/.exec(url)[0];
                 this.taskToEdit.attachments.push({
@@ -863,6 +953,24 @@
 
             showMap(btnName) {
                 if (btnName === 'Location') this.isMapShown = true;
+            },
+
+            saveLoc(location) {
+                this.taskToEdit.location = location;
+                this.updateTask();
+            },
+
+            removeMap() {
+                this.isMapShown = false;
+                this.taskToEdit.location = null;
+                this.updateTask();
+            },
+
+            isLocation(taskToEdit) {
+                if (taskToEdit.location) {
+                    this.mapCenter = taskToEdit.location;
+                    this.isMapShown = true;
+                }
             },
 
             backToBoard() {

@@ -6,6 +6,8 @@ import store from './store/store'
 import './assets/styles/style.scss'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
+import locale from 'element-ui/lib/locale';
+import en from 'element-ui/lib/locale/lang/en';
 import VModal from 'vue-js-modal'
 import VueInputAutowidth from 'vue-input-autowidth'
 import vueDebounce from 'vue-debounce'
@@ -17,6 +19,7 @@ Vue.use(VueInputAutowidth)
     // import 'bootstrap/dist/css/bootstrap.min.css'
 
 Vue.use(Element)
+locale.use(en)
 Vue.use(VModal)
 Vue.config.productionTip = false
 
