@@ -43,13 +43,13 @@
     }
     .aside-close {
         opacity: 0;
-        margin-right: -330px;
+        margin-right: -400px;
         transition: all 0.4s;
     }
     .background-menu {
         .cmp-unsplash {
-            & > div {
-                height: 60vh;
+            &>div {
+                height: 77vh;
             }
         }
         opacity: 1;
@@ -211,5 +211,5 @@
 
 .aside-close {
     opacity: 0;
-    margin-right: -330px;
+    margin-right: -400px;
 }

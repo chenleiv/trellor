@@ -234,7 +234,7 @@ function getEmptyBoard() {
                     createdAt: '',
                     dueDate: '',
                     byMember: {},
-                    coverStyle: { 'color': '#26de81' },
+                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
                     location: null
                 }, ]
             }, {
@@ -252,7 +252,7 @@ function getEmptyBoard() {
                     createdAt: '',
                     dueDate: '',
                     byMember: {},
-                    coverStyle: { 'color': '#26de81' },
+                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
                     location: null
                 }, ]
             },
@@ -271,7 +271,7 @@ function getEmptyBoard() {
                     createdAt: '',
                     dueDate: '',
                     byMember: {},
-                    coverStyle: { 'color': '#26de81' },
+                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
                     location: null
                 }, ]
             }

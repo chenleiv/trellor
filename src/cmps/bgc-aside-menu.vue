@@ -6,7 +6,7 @@
             v-for="(color, i) in colorList"
             :key="i"
             :id="'color-div' + i"
-            @click="chooseBg('color', color)"
+            @click="chooseBg(color)"
             :class="{ colorChoice: style.bgColor === color }"
         ></div>
     </section>

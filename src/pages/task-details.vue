@@ -1,129 +1,154 @@
 <template>
     <section v-if="task">
-        <router-link :to="`/board/${board._id}`">
-            <div class="modal-background"></div>
-        </router-link>
+        <!-- <router-link :to="`/board/${board._id}`"> -->
+        <div class="modal-background" @click.self="backToBoard">
+            <section class="task-details-container" @click="cancelEditLabel">
+                <template v-if="isCoverStyle">
+                    <div
+                        :class="{
+                            'smaller-cover':
+                                taskToEdit.coverStyle.bgImg === 'none',
+                        }"
+                        class="cover-container"
+                        :style="{
+                            backgroundColor: taskToEdit.coverStyle.bgColor,
+                        }"
+                    >
+                        <div
+                            :class="{
+                                'bigger-cover':
+                                    taskToEdit.coverStyle.bgColor ===
+                                    'transparent',
+                            }"
+                            class="img-cover-container"
+                            :style="{
+                                backgroundImage: `url(${taskToEdit.coverStyle.bgImg})`,
+                            }"
+                        ></div>
+                        <!-- <div
+                        class="trytrytry"
+                        v-if="isAttachCover"
+                        :style="{ backgroundImage: cover }"
+                    ></div> -->
+                    </div>
+                </template>
 
-        <section class="task-details-container" @click="cancelEditLabel">
-            <!-- <div
-                class="cover-container"
-                :style="{
-                    backgroundColor: taskToEdit.coverStyle.bgColor,
-                    backgroundImage: taskToEdit.coverStyle.bgImg,
-                }"
-            ></div> -->
-            <header class="task-modal-header">
-                <button
-                    class="close-modal-btn el-icon-close"
-                    @click="backToBoard"
-                ></button>
-                <svg viewBox="0 0 24 24">
-                    <path
-                        d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H3V5h18v11z"
-                    ></path>
-                </svg>
-                <textarea
-                    v-model="taskToEdit.title"
-                    type="text"
-                    @blur="updateTask"
-                    @keydown.enter.prevent
-                ></textarea>
-                <!-- <h1><span></span>{{ task.title }}</h1> -->
-                <p>
-                    in list
-                    <span>{{ group.title }}</span>
-                </p>
-            </header>
+                <header class="task-modal-header">
+                    <button
+                        class="close-modal-btn el-icon-close"
+                        @click="backToBoard"
+                    ></button>
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H3V5h18v11z"
+                        ></path>
+                    </svg>
+                    <textarea
+                        v-model="taskToEdit.title"
+                        type="text"
+                        @blur="updateTask"
+                        @keydown.enter.prevent
+                    ></textarea>
+                    <!-- <h1><span></span>{{ task.title }}</h1> -->
+                    <p>
+                        in list
+                        <span>{{ group.title }}</span>
+                    </p>
+                </header>
 
-            <section class="task-details-content">
-                <main>
-                    <div class="task-features">
-                        <div class="task-features-container">
-                            <div
-                                v-if="task.members.length"
-                                class="members-container"
-                            >
-                                <h4
+                <section class="task-details-content">
+                    <main>
+                        <div class="task-features">
+                            <div class="task-features-container">
+                                <div
                                     v-if="task.members.length"
-                                    class="members-to-show-header"
+                                    class="members-container"
                                 >
-                                    Members
-                                </h4>
-                                <div class="member-to-show-container">
-                                    <section
-                                        v-for="member in task.members"
-                                        :key="member._id"
-                                        class="member-to-show-list"
+                                    <h4
+                                        v-if="task.members.length"
+                                        class="members-to-show-header"
                                     >
-                                        <div class="member-to-show">
-                                            <el-popover
-                                                placement="bottom-start"
-                                                :title="member.fullname"
-                                                width="200"
-                                                trigger="click"
-                                                content=""
-                                                class="member-to-show-modal"
-                                            >
-                                                <avatar
-                                                    class="member-modal-avatar"
-                                                    backgroundColor="lightblue"
-                                                    color="black"
-                                                    :size="30"
-                                                    :username="member.fullname"
-                                                ></avatar>
-                                                <span
-                                                    class="remove-member-btn"
-                                                    @click="
-                                                        chooseMember(
-                                                            member,
-                                                            member._id
-                                                        )
-                                                    "
-                                                    >Remove from card</span
-                                                >
-                                                <avatar
-                                                    slot="reference"
-                                                    class="user-avatar"
-                                                    backgroundColor="lightblue"
-                                                    color="black"
-                                                    :size="30"
-                                                    :username="member.fullname"
-                                                ></avatar>
-                                            </el-popover>
-                                        </div>
-                                    </section>
-                                </div>
-                            </div>
-
-                            <div
-                                v-if="task.labelIds.length"
-                                class="labels-container"
-                            >
-                                <h4
-                                    v-if="task.labelIds.length"
-                                    class="labels-to-show-header"
-                                >
-                                    Labels
-                                </h4>
-                                <div class="label-to-show-container">
-                                    <section
-                                        v-for="lbId in task.labelIds"
-                                        :key="lbId"
-                                        class="label-to-show-list"
-                                    >
-                                        <div
-                                            class="label-to-show"
-                                            :style="{
-                                                'background-color':
-                                                    getLbColor(lbId),
-                                            }"
+                                        Members
+                                    </h4>
+                                    <div class="member-to-show-container">
+                                        <section
+                                            v-for="member in task.members"
+                                            :key="member._id"
+                                            class="member-to-show-list"
                                         >
-                                            {{ getLbTitle(lbId) }}
-                                        </div>
-                                    </section>
-                                    <!-- v-if="lb.title" -->
+                                            <div class="member-to-show">
+                                                <el-popover
+                                                    placement="bottom-start"
+                                                    :title="member.fullname"
+                                                    width="200"
+                                                    trigger="click"
+                                                    content=""
+                                                    class="member-to-show-modal"
+                                                >
+                                                    <avatar
+                                                        class="member-modal-avatar"
+                                                        backgroundColor="lightblue"
+                                                        color="black"
+                                                        :size="30"
+                                                        :username="
+                                                            member.fullname
+                                                        "
+                                                    ></avatar>
+                                                    <span
+                                                        class="remove-member-btn"
+                                                        @click="
+                                                            chooseMember(
+                                                                member,
+                                                                member._id
+                                                            )
+                                                        "
+                                                        >Remove from card</span
+                                                    >
+                                                    <avatar
+                                                        slot="reference"
+                                                        class="user-avatar"
+                                                        backgroundColor="lightblue"
+                                                        color="black"
+                                                        :size="30"
+                                                        :username="
+                                                            member.fullname
+                                                        "
+                                                    ></avatar>
+                                                </el-popover>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
 
-                                    <!-- <button class="secondary-btn">
+                                <div
+                                    v-if="task.labelIds.length"
+                                    class="labels-container"
+                                >
+                                    <h4
+                                        v-if="task.labelIds.length"
+                                        class="labels-to-show-header"
+                                    >
+                                        Labels
+                                    </h4>
+                                    <div class="label-to-show-container">
+                                        <section
+                                            v-for="lbId in task.labelIds"
+                                            :key="lbId"
+                                            class="label-to-show-list"
+                                        >
+                                            <div
+                                                class="label-to-show"
+                                                :style="{
+                                                    'background-color':
+                                                        getLbColor(lbId),
+                                                }"
+                                            >
+                                                {{ getLbTitle(lbId) }}
+                                            </div>
+                                        </section>
+                                        <!-- v-if="lb.title" -->
+
+                                        <!-- <button class="secondary-btn">
                                         <svg
                                             class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv"
                                             focusable="false"
@@ -136,234 +161,213 @@
                                             ></path>
                                         </svg>
                                     </button> -->
-                                </div>
-                            </div>
-
-                            <div class="date-container">
-                                <h3 class="date-to-show-header">Due date</h3>
-                                <div
-                                    class="date-to-show-container flex wrap align-center"
-                                >
-                                    <div class="date-check-boxes">
-                                        <svg
-                                            v-if="!isComplete"
-                                            @click="markComplete"
-                                            class="date-svg MuiSvgIcon-root MuiSvgIcon-fontSizeMedium pointer css-vubbuv"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
-                                            ></path>
-                                        </svg>
-                                        <svg
-                                            v-else
-                                            @click="markComplete"
-                                            class="date-svg MuiSvgIcon-root MuiSvgIcon-fontSizeMedium todo-check pointer css-vubbuv"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                                            ></path>
-                                        </svg>
                                     </div>
+                                </div>
 
-                                    <button
-                                        class="date-to-show-btn secondary-btn"
+                                <div class="date-container">
+                                    <h3 class="date-to-show-header">
+                                        Due date
+                                    </h3>
+                                    <div
+                                        class="date-to-show-container flex wrap align-center"
                                     >
-                                        <span class="date-context"
-                                            >16 Dec at 10:54 PM</span
-                                        ><span
-                                            v-if="isComplete"
-                                            class="due-msg done"
-                                            >complete</span
-                                        >
-                                        <span class="date-drop-btn"
-                                            ><svg viewBox="0 0 24 24">
+                                        <div class="date-check-boxes">
+                                            <svg
+                                                v-if="!isComplete"
+                                                @click="markComplete"
+                                                class="date-svg MuiSvgIcon-root MuiSvgIcon-fontSizeMedium pointer css-vubbuv"
+                                                viewBox="0 0 24 24"
+                                            >
                                                 <path
-                                                    d="M11.2929 16.7071L4.22185 9.63606C3.83132 9.24554 3.83132 8.61237 4.22185 8.22185C4.61237 7.83133 5.24554 7.83133 5.63606 8.22185L12 14.5858L18.364 8.22185C18.7545 7.83132 19.3877 7.83132 19.7782 8.22185C20.1687 8.61237 20.1687 9.24554 19.7782 9.63606L12.7071 16.7071C12.3166 17.0977 11.6834 17.0977 11.2929 16.7071Z"
-                                                    fill="currentColor"
-                                                ></path></svg
-                                        ></span>
-                                    </button>
+                                                    d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                                                ></path>
+                                            </svg>
+                                            <svg
+                                                v-else
+                                                @click="markComplete"
+                                                class="date-svg MuiSvgIcon-root MuiSvgIcon-fontSizeMedium todo-check pointer css-vubbuv"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                                                ></path>
+                                            </svg>
+                                        </div>
+
+                                        <button
+                                            class="date-to-show-btn secondary-btn"
+                                        >
+                                            <span class="date-context"
+                                                >16 Dec at 10:54 PM</span
+                                            ><span
+                                                v-if="isComplete"
+                                                class="due-msg done"
+                                                >complete</span
+                                            >
+                                            <span class="date-drop-btn"
+                                                ><svg viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M11.2929 16.7071L4.22185 9.63606C3.83132 9.24554 3.83132 8.61237 4.22185 8.22185C4.61237 7.83133 5.24554 7.83133 5.63606 8.22185L12 14.5858L18.364 8.22185C18.7545 7.83132 19.3877 7.83132 19.7782 8.22185C20.1687 8.61237 20.1687 9.24554 19.7782 9.63606L12.7071 16.7071C12.3166 17.0977 11.6834 17.0977 11.2929 16.7071Z"
+                                                        fill="currentColor"
+                                                    ></path></svg
+                                            ></span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <section class="description-container">
-                        <h4>
-                            <svg>
-                                <path
-                                    d="M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z"
-                                ></path>
-                            </svg>
-                            <span>Description</span>
-                        </h4>
-
-                        <div class="description-edit">
-                            <textarea
-                                v-model="taskToEdit.description"
-                                type="text"
-                                @blur="updateTask"
-                                @click="openTextArea"
-                                placeholder="Add a more detailed description..."
-                                ref="descriptionInput"
-                                @focus="$event.target.select()"
-                            ></textarea>
-                            <div
-                                class="description-btns"
-                                v-if="isTextAreaVisible"
-                            >
-                                <el-button
-                                    type="primary"
-                                    class="save-task-description-btn"
-                                    @click.prevent="updateTask"
-                                >
-                                    <span>Save</span>
-                                </el-button>
-
-                                <button
-                                    class="close-task-description-btn"
-                                    @click.prevent="cancelDescAdding"
-                                ></button>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section
-                        class="big-features-container"
-                        v-if="showBigFeatures"
-                    >
-                        <div class="attachments-container">
-                            <div
-                                v-for="(attach, i) in taskToEdit.attachments"
-                                :key="i"
-                            >
-                                <span class="attach-title">{{
-                                    attach.title
-                                }}</span>
-                                |
-                                <span
-                                    @click="removeAttachment(i)"
-                                    class="attach-btns"
-                                    >Delete</span
-                                >
-                                |
-                                <el-popover
-                                    placement="top"
-                                    width="180"
-                                    trigger="click"
-                                >
-                                    <input
-                                        class="titleAttachEdit"
-                                        v-model="newAttachTitle"
-                                        type="text"
-                                    />
-                                    <div style="text-align: right; margin: 0">
-                                        <el-button
-                                            type="primary"
-                                            size="mini"
-                                            @click="
-                                                editAttachmentTitle(attach, i)
-                                            "
-                                            >Confirm</el-button
-                                        >
-                                    </div>
-                                    <el-button
-                                        class="edit-attach-btn attach-btns"
-                                        slot="reference"
-                                        @click="newAttachTitle = attach.title"
-                                        >Edit</el-button
-                                    >
-                                </el-popover>
-
-                                <div
-                                    class="attachments-img"
-                                    :style="{
-                                        backgroundImage: `url(${attach.url})`,
-                                    }"
-                                ></div>
-                                <span
-                                    class="attach-btns"
-                                    v-if="!attach.isCover"
-                                    @click="attachmentMakeCover(i)"
-                                    >Make cover</span
-                                >
-                                <span
-                                    class="attach-btns"
-                                    v-if="attach.isCover"
-                                    @click="attachmentMakeCover(i)"
-                                    >Remove cover</span
-                                >
-                            </div>
-                        </div>
-
-                        <div v-if="isMapShown" class="map-container">
-                            <GmapMap
-                                ref="mapRef"
-                                :mapCenter="mapCenter"
-                                :options="{
-                                    zoomControl: true,
-                                    mapTypeControl: true,
-                                    scaleControl: false,
-                                    streetViewControl: true,
-                                    rotateControl: false,
-                                    fullscreenControl: true,
-                                    disableDefaultUi: false,
-                                }"
-                                @saveLoc="saveLoc"
-                                @removeMap="removeMap"
-                            />
-                        </div>
-                    </section>
-
-                    <section class="activity-container">
-                        <header class="activity-header">
+                        <section class="description-container">
                             <h4>
                                 <svg>
                                     <path
-                                        d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"
+                                        d="M14 17H4v2h10v-2zm6-8H4v2h16V9zM4 15h16v-2H4v2zM4 5v2h16V5H4z"
                                     ></path>
                                 </svg>
-                                <span>Activity</span>
+                                <span>Description</span>
                             </h4>
-                            <button @click="showDetails">
-                                {{ showDetailsBtnTxt }}
-                            </button>
-                        </header>
-                        <div class="comments-container">
-                            <avatar
-                                class="user-avatar"
-                                backgroundColor="lightblue"
-                                color="black"
-                                :size="30"
-                                username="Ben Ernst"
-                            ></avatar>
-                            <textarea
-                                v-model="comment"
-                                type="text"
-                                placeholder="Write a comment..."
-                                @click="openCommentInput"
-                                @blur="closeCommentInput"
-                                @keyup="setCommentInputValue"
-                                ref="commInput"
-                            />
-                        </div>
-                        <button
-                            class="save-comment-btn"
-                            :class="[visibility, saveCommentBtnStyle]"
-                            @click="addComment"
-                            :disabled="!comment"
-                        >
-                            <span>Save</span>
-                        </button>
 
-                        <div class="comments-list">
-                            <div
-                                v-for="(comm, idx) in task.comments"
-                                :key="idx"
-                                class="activity-preview-container"
-                            >
+                            <div class="description-edit">
+                                <textarea
+                                    v-model="taskToEdit.description"
+                                    type="text"
+                                    @blur="updateTask"
+                                    @click="openTextArea"
+                                    placeholder="Add a more detailed description..."
+                                    ref="descriptionInput"
+                                    @focus="$event.target.select()"
+                                ></textarea>
+                                <div
+                                    class="description-btns"
+                                    v-if="isTextAreaVisible"
+                                >
+                                    <el-button
+                                        type="primary"
+                                        class="save-task-description-btn"
+                                        @click.prevent="updateTask"
+                                    >
+                                        <span>Save</span>
+                                    </el-button>
+
+                                    <button
+                                        class="close-task-description-btn"
+                                        @click.prevent="cancelDescAdding"
+                                    ></button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section
+                            class="big-features-container"
+                            v-if="showBigFeatures"
+                        >
+                            <div class="attachments-container">
+                                <div
+                                    v-for="(
+                                        attach, i
+                                    ) in taskToEdit.attachments"
+                                    :key="i"
+                                >
+                                    <span class="attach-title">{{
+                                        attach.title
+                                    }}</span>
+                                    |
+                                    <span
+                                        @click="removeAttachment(i)"
+                                        class="attach-btns"
+                                        >Delete</span
+                                    >
+                                    |
+                                    <el-popover
+                                        placement="top"
+                                        width="180"
+                                        trigger="click"
+                                    >
+                                        <input
+                                            class="titleAttachEdit"
+                                            v-model="newAttachTitle"
+                                            type="text"
+                                        />
+                                        <div
+                                            style="text-align: right; margin: 0"
+                                        >
+                                            <el-button
+                                                type="primary"
+                                                size="mini"
+                                                @click="
+                                                    editAttachmentTitle(
+                                                        attach,
+                                                        i
+                                                    )
+                                                "
+                                                >Confirm</el-button
+                                            >
+                                        </div>
+                                        <el-button
+                                            class="edit-attach-btn attach-btns"
+                                            slot="reference"
+                                            @click="
+                                                newAttachTitle = attach.title
+                                            "
+                                            >Edit</el-button
+                                        >
+                                    </el-popover>
+
+                                    <div
+                                        class="attachments-img"
+                                        :style="{
+                                            backgroundImage: `url(${attach.url})`,
+                                        }"
+                                    ></div>
+                                    <span
+                                        class="attach-btns"
+                                        v-if="!attach.isCover"
+                                        @click="attachmentMakeCover(i)"
+                                        >Make cover</span
+                                    >
+                                    <span
+                                        class="attach-btns"
+                                        v-if="attach.isCover"
+                                        @click="removeTaskCover"
+                                        >Remove cover</span
+                                    >
+                                </div>
+                            </div>
+
+                            <div v-if="isMapShown" class="map-container">
+                                <GmapMap
+                                    ref="mapRef"
+                                    :mapCenter="mapCenter"
+                                    :options="{
+                                        zoomControl: true,
+                                        mapTypeControl: true,
+                                        scaleControl: false,
+                                        streetViewControl: true,
+                                        rotateControl: false,
+                                        fullscreenControl: true,
+                                        disableDefaultUi: false,
+                                    }"
+                                    @saveLoc="saveLoc"
+                                    @removeMap="removeMap"
+                                />
+                            </div>
+                        </section>
+
+                        <section class="activity-container">
+                            <header class="activity-header">
+                                <h4>
+                                    <svg>
+                                        <path
+                                            d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.68-1.5 1.5s.68 1.5 1.5 1.5 1.5-.68 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z"
+                                        ></path>
+                                    </svg>
+                                    <span>Activity</span>
+                                </h4>
+                                <button @click="showDetails">
+                                    {{ showDetailsBtnTxt }}
+                                </button>
+                            </header>
+                            <div class="comments-container">
                                 <avatar
                                     class="user-avatar"
                                     backgroundColor="lightblue"
@@ -371,153 +375,191 @@
                                     :size="30"
                                     username="Ben Ernst"
                                 ></avatar>
-                                <div class="activity-details">
-                                    <div class="activity-member-container">
-                                        <span class="member-name"
-                                            >Ben Ernst</span
-                                        >
-                                        <span
+                                <textarea
+                                    v-model="comment"
+                                    type="text"
+                                    placeholder="Write a comment..."
+                                    @click="openCommentInput"
+                                    @blur="closeCommentInput"
+                                    @keyup="setCommentInputValue"
+                                    ref="commInput"
+                                />
+                            </div>
+                            <button
+                                class="save-comment-btn"
+                                :class="[visibility, saveCommentBtnStyle]"
+                                @click="addComment"
+                                :disabled="!comment"
+                            >
+                                <span>Save</span>
+                            </button>
+
+                            <div class="comments-list">
+                                <div
+                                    v-for="(comm, idx) in task.comments"
+                                    :key="idx"
+                                    class="activity-preview-container"
+                                >
+                                    <avatar
+                                        class="user-avatar"
+                                        backgroundColor="lightblue"
+                                        color="black"
+                                        :size="30"
+                                        username="Ben Ernst"
+                                    ></avatar>
+                                    <div class="activity-details">
+                                        <div class="activity-member-container">
+                                            <span class="member-name"
+                                                >Ben Ernst</span
+                                            >
+                                            <span
+                                                class="activity-created-at-container"
+                                            >
+                                                <span
+                                                    class="activity-created-at"
+                                                    >Some time ago</span
+                                                >
+                                            </span>
+                                        </div>
+                                        <div class="comment-content">
+                                            {{ comm }}
+                                        </div>
+                                    </div>
+                                    <h5 @click="deleteComment(idx)">Delete</h5>
+                                </div>
+                            </div>
+
+                            <!-- Need to get the activity from the specific task -->
+                            <div
+                                class="activity-list"
+                                v-if="activityListIsShown"
+                            >
+                                <div
+                                    v-for="activity in board.activities"
+                                    :key="activity.id"
+                                    class="activity-preview-container"
+                                >
+                                    <avatar
+                                        class="user-avatar"
+                                        backgroundColor="lightblue"
+                                        color="black"
+                                        :size="30"
+                                        username="Tal Tarablus"
+                                    ></avatar>
+                                    <div class="activity-details">
+                                        <div class="activity-member-container">
+                                            <span class="member-name">{{
+                                                activity.byMember.fullname
+                                            }}</span
+                                            ><span class="activity-content">{{
+                                                activity.txt
+                                            }}</span>
+                                        </div>
+                                        <div
                                             class="activity-created-at-container"
                                         >
                                             <span class="activity-created-at"
-                                                >Some time ago</span
+                                                >3 days ago</span
                                             >
-                                        </span>
-                                    </div>
-                                    <div class="comment-content">
-                                        {{ comm }}
-                                    </div>
-                                </div>
-                                <h5 @click="deleteComment(idx)">Delete</h5>
-                            </div>
-                        </div>
-
-                        <!-- Need to get the activity from the specific task -->
-                        <div class="activity-list" v-if="activityListIsShown">
-                            <div
-                                v-for="activity in board.activities"
-                                :key="activity.id"
-                                class="activity-preview-container"
-                            >
-                                <avatar
-                                    class="user-avatar"
-                                    backgroundColor="lightblue"
-                                    color="black"
-                                    :size="30"
-                                    username="Tal Tarablus"
-                                ></avatar>
-                                <div class="activity-details">
-                                    <div class="activity-member-container">
-                                        <span class="member-name">{{
-                                            activity.byMember.fullname
-                                        }}</span
-                                        ><span class="activity-content">{{
-                                            activity.txt
-                                        }}</span>
-                                    </div>
-                                    <div class="activity-created-at-container">
-                                        <span class="activity-created-at"
-                                            >3 days ago</span
-                                        >
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
-                </main>
+                        </section>
+                    </main>
 
-                <aside>
-                    <div class="suggested" v-if="!userJoined">
-                        <h4 class="aside-headers">Suggested</h4>
-                        <button
-                            class="secondary-btn action-btn"
-                            @click="joinMember"
-                        >
-                            <div class="action-btn-content">
-                                <svg viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"
-                                    ></path>
-                                </svg>
-                                <span>Join</span>
-                            </div>
-                        </button>
-                    </div>
-
-                    <div class="add-to-card">
-                        <h4 class="aside-headers">Add to card</h4>
-                        <el-popover
-                            v-for="btn in asideBtns"
-                            :key="btn.name"
-                            class="secondary-btn action-btn"
-                            placement="top"
-                            :title="btn.name"
-                            width="300"
-                            trigger="click"
-                            content=""
-                            :disabled="btn.name === 'Location'"
-                        >
-                            <hr />
-                            <div
-                                v-if="btn.name === 'Members'"
-                                class="member-choosing-container"
+                    <aside>
+                        <div class="suggested" v-if="!userJoined">
+                            <h4 class="aside-headers">Suggested</h4>
+                            <button
+                                class="secondary-btn action-btn"
+                                @click="joinMember"
                             >
-                                <h4 class="members-to-show-header">
-                                    Board members
-                                </h4>
-                                <section
-                                    v-for="member in board.members"
-                                    :key="member._id"
-                                    class="member-choosing"
+                                <div class="action-btn-content">
+                                    <svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"
+                                        ></path>
+                                    </svg>
+                                    <span>Join</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <div class="add-to-card">
+                            <h4 class="aside-headers">Add to card</h4>
+                            <el-popover
+                                v-for="btn in asideBtns"
+                                :key="btn.name"
+                                class="secondary-btn action-btn"
+                                placement="top"
+                                :title="btn.name"
+                                width="300"
+                                trigger="click"
+                                content=""
+                                :disabled="btn.name === 'Location'"
+                            >
+                                <hr />
+                                <div
+                                    v-if="btn.name === 'Members'"
+                                    class="member-choosing-container"
                                 >
-                                    <div
-                                        @click="
-                                            chooseMember(member, member._id)
-                                        "
+                                    <h4 class="members-to-show-header">
+                                        Board members
+                                    </h4>
+                                    <section
+                                        v-for="member in board.members"
+                                        :key="member._id"
+                                        class="member-choosing"
                                     >
-                                        <avatar
-                                            class="user-avatar"
-                                            backgroundColor="lightblue"
-                                            color="black"
-                                            :size="30"
-                                            :username="member.fullname"
-                                        ></avatar>
-                                        {{ member.fullname }}
-                                        <svg
-                                            v-if="
-                                                taskToEdit.members.includes(
-                                                    member
-                                                )
+                                        <div
+                                            @click="
+                                                chooseMember(member, member._id)
                                             "
-                                            viewBox="0 0 24 24"
-                                            class="delete-member-svg"
                                         >
-                                            <path
-                                                d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-                                            ></path>
-                                        </svg>
-                                    </div>
-                                </section>
-                            </div>
+                                            <avatar
+                                                class="user-avatar"
+                                                backgroundColor="lightblue"
+                                                color="black"
+                                                :size="30"
+                                                :username="member.fullname"
+                                            ></avatar>
+                                            {{ member.fullname }}
+                                            <svg
+                                                v-if="
+                                                    taskToEdit.members.includes(
+                                                        member
+                                                    )
+                                                "
+                                                viewBox="0 0 24 24"
+                                                class="delete-member-svg"
+                                            >
+                                                <path
+                                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                                                ></path>
+                                            </svg>
+                                        </div>
+                                    </section>
+                                </div>
 
-                            <div
-                                v-if="btn.name === 'Labels'"
-                                class="label-choosing-container"
-                            >
-                                <section
-                                    v-for="(label, idx) in labels"
-                                    :key="label.id"
-                                    class="label-choosing"
+                                <div
+                                    v-if="btn.name === 'Labels'"
+                                    class="label-choosing-container"
                                 >
-                                    <div
-                                        v-if="!isLabelEdit"
-                                        :style="{
-                                            'background-color': label.color,
-                                        }"
-                                        class="label-color"
-                                        @click="chooseLabel(label.id)"
+                                    <section
+                                        v-for="(label, idx) in labels"
+                                        :key="label.id"
+                                        class="label-choosing"
                                     >
-                                        <!-- <svg
+                                        <div
+                                            v-if="!isLabelEdit"
+                                            :style="{
+                                                'background-color': label.color,
+                                            }"
+                                            class="label-color"
+                                            @click="chooseLabel(label.id)"
+                                        >
+                                            <!-- <svg
                                             v-if="
                                                 taskToEdit.labelIds.includes(
                                                     label.id
@@ -530,113 +572,119 @@
                                                 d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
                                             ></path>
                                         </svg> -->
-                                        {{ label.title }}
-                                    </div>
-                                    <button
-                                        v-if="!isLabelEdit"
-                                        class="label-pencil"
-                                        @click="editLabelTitle(label.id, idx)"
+                                            {{ label.title }}
+                                        </div>
+                                        <button
+                                            v-if="!isLabelEdit"
+                                            class="label-pencil"
+                                            @click="
+                                                editLabelTitle(label.id, idx)
+                                            "
+                                        >
+                                            <svg viewBox="0 0 24 24">
+                                                <path
+                                                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                                                ></path>
+                                            </svg>
+                                        </button>
+                                    </section>
+                                    <div
+                                        v-if="isLabelEdit"
+                                        class="edit-label-container"
                                     >
-                                        <svg viewBox="0 0 24 24">
-                                            <path
-                                                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                                            ></path>
-                                        </svg>
-                                    </button>
-                                </section>
+                                        <label for="labelTitle">Name</label>
+                                        <el-input
+                                            name="labelTitle"
+                                            v-model="labelTitle"
+                                            class="labelTitleInput"
+                                        ></el-input>
+                                        <div class="edit-label-buttons">
+                                            <el-button
+                                                type="primary"
+                                                class="save"
+                                                @click="saveLabelTitle"
+                                                >Save</el-button
+                                            >
+                                            <el-button
+                                                type="danger"
+                                                class="delete"
+                                                @click="removeLabel"
+                                                >Delete</el-button
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div
-                                    v-if="isLabelEdit"
-                                    class="edit-label-container"
+                                    v-if="btn.name === 'Dates'"
+                                    class="date-picking-container"
                                 >
-                                    <label for="labelTitle">Name</label>
-                                    <el-input
-                                        name="labelTitle"
-                                        v-model="labelTitle"
-                                        class="labelTitleInput"
-                                    ></el-input>
-                                    <div class="edit-label-buttons">
+                                    <el-date-picker
+                                        v-model="dateVal"
+                                        type="date"
+                                        placeholder="Pick a day"
+                                    >
+                                    </el-date-picker>
+                                    <div class="edit-date-buttons">
                                         <el-button
                                             type="primary"
-                                            class="save"
-                                            @click="saveLabelTitle"
+                                            class="save-date-btn"
+                                            @click="saveDate"
                                             >Save</el-button
                                         >
                                         <el-button
                                             type="danger"
-                                            class="delete"
-                                            @click="removeLabel"
-                                            >Delete</el-button
+                                            class="delete-date-btn"
+                                            @click="removeDate"
+                                            plain
+                                            >Remove</el-button
                                         >
                                     </div>
                                 </div>
-                            </div>
 
-                            <div
-                                v-if="btn.name === 'Dates'"
-                                class="date-picking-container"
-                            >
-                                <el-date-picker
-                                    v-model="dateVal"
-                                    type="date"
-                                    placeholder="Pick a day"
-                                >
-                                </el-date-picker>
-                                <div class="edit-date-buttons">
-                                    <el-button
-                                        type="primary"
-                                        class="save-date-btn"
-                                        @click="saveDate"
-                                        >Save</el-button
-                                    >
-                                    <el-button
-                                        type="danger"
-                                        class="delete-date-btn"
-                                        @click="removeDate"
-                                        plain
-                                        >Remove</el-button
-                                    >
+                                <div v-if="btn.name === 'Attachment'">
+                                    <img-upload
+                                        @onSaveImg="changeImgUrl"
+                                    ></img-upload>
                                 </div>
-                            </div>
 
-                            <div v-if="btn.name === 'Attachment'">
-                                <img-upload
-                                    @onSaveImg="changeImgUrl"
-                                ></img-upload>
-                            </div>
+                                <div
+                                    v-if="btn.name === 'Location'"
+                                    class="location-search-container"
+                                ></div>
 
-                            <div
-                                v-if="btn.name === 'Location'"
-                                class="location-search-container"
-                            ></div>
-                            <div v-if="btn.name === 'Cover'">
-                                Colors
-                                <background-picker
-                                    @chosenBg="chosenBg"
-                                    :withImgBg="withImgBg"
-                                ></background-picker>
-                                Images
-                                <background-unsplash
-                                    @onSaveImg="onSaveImgCover"
-                                ></background-unsplash>
-                            </div>
-                            <div
-                                class="action-btn-content"
-                                slot="reference"
-                                @click="showMap(btn.name)"
-                            >
-                                <svg viewBox="0 0 24 24">
-                                    <path :d="btn.d"></path>
-                                    <path
-                                        v-if="btn.name === 'Dates'"
-                                        d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
-                                    ></path>
-                                </svg>
-                                <span>{{ btn.name }}</span>
-                            </div>
-                        </el-popover>
-                    </div>
+                                <div v-if="btn.name === 'Cover'">
+                                    <div @click="removeTaskCover">
+                                        Remove cover
+                                    </div>
+                                    Colors
+                                    <background-picker
+                                        @chosenBg="chosenBg"
+                                        :withImgBg="withImgBg"
+                                    ></background-picker>
+                                    Images
+                                    <background-unsplash
+                                        @onSaveImg="onSaveImgCover"
+                                    ></background-unsplash>
+                                </div>
+                                <div
+                                    class="action-btn-content"
+                                    slot="reference"
+                                    @click="showMap(btn.name)"
+                                >
+                                    <svg viewBox="0 0 24 24">
+                                        <path :d="btn.d"></path>
+                                        <path
+                                            v-if="btn.name === 'Dates'"
+                                            d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"
+                                        ></path>
+                                    </svg>
+                                    <span>{{ btn.name }}</span>
+                                </div>
+                            </el-popover>
+                        </div>
 
-                    <!-- <el-popover
+                        <!-- <el-popover
                         placement="bottom"
                         title="Title"
                         width="200"
@@ -648,7 +696,7 @@
                         >
                     </el-popover> -->
 
-                    <!-- <button
+                        <!-- <button
                         v-for="btn in asideBtns"
                         :key="btn.name"
                         class="secondary-btn action-btn"
@@ -661,7 +709,7 @@
                         </div>
                     </button> -->
 
-                    <!-- <div class="actions">
+                        <!-- <div class="actions">
                         <h4 class="aside-headers">Actions</h4>
                         <button class="secondary-btn action-btn">
                             <div class="action-btn-content">
@@ -689,9 +737,11 @@
                             </div>
                         </button>
                     </div> -->
-                </aside>
+                    </aside>
+                </section>
             </section>
-        </section>
+        </div>
+        <!-- </router-link> -->
     </section>
 </template>
 
@@ -769,7 +819,7 @@
                 isBigFeatureShown: false,
                 withImgBg: false,
                 newAttachTitle: '',
-                isCoverStyle: false,
+                cover: '',
                 isMapShown: false,
                 mapCenter: { lat: 31.769218, lng: 35.208144 },
 
@@ -1031,10 +1081,14 @@
                     url,
                     isCover: false,
                 });
-                if (this.taskToEdit.attachments.length === 1)
+                if (
+                    this.taskToEdit.attachments.length === 1 &&
+                    this.taskToEdit.coverStyle.bgColor !== 'transparent' &&
+                    this.taskToEdit.coverStyle.bgImg !== 'none'
+                )
                     this.taskToEdit.attachments[0].isCover = true;
                 this.updateTask();
-                //  = `url(${url})`;
+                this.cover = url;
             },
 
             showMap(btnName) {
@@ -1062,22 +1116,6 @@
             backToBoard() {
                 this.$router.push(`/board/${this.board._id}`);
             },
-            changeImgUrl(url) {
-                let title = /[^/]*$/.exec(url)[0];
-                this.taskToEdit.attachments.push({
-                    title,
-                    url,
-                    isCover: false,
-                });
-                if (
-                    this.taskToEdit.attachments.length === 1 &&
-                    this.taskToEdit.coverStyle.bgImg === 'none' &&
-                    this.taskToEdit.coverStyle.bgColor === 'none'
-                )
-                    this.taskToEdit.attachments[0].isCover = true;
-                this.updateTask();
-                //  = `url(${url})`;
-            },
             removeAttachment(idx) {
                 this.taskToEdit.attachments.splice(idx, 1);
                 this.updateTask();
@@ -1092,10 +1130,27 @@
                         this.taskToEdit.attachments[i].isCover = false;
                     }
                     this.taskToEdit.attachments[idx].isCover = true;
-                } else
+                } else {
                     this.taskToEdit.attachments[idx].isCover =
                         !this.taskToEdit.attachments[idx].isCover;
-                this.updateTask();
+                    if (
+                        this.taskToEdit.coverStyle.bgColor === 'transparent' &&
+                        this.taskToEdit.coverStyle.bgImg === 'none'
+                    )
+                        this.taskToEdit.attachments[idx].isCover = true;
+                }
+
+                this.taskToEdit.coverStyle.bgColor = 'transparent';
+                this.attachCover();
+            },
+            attachCover() {
+                if (this.isAttachCover) {
+                    const attach = this.task.attachments.find(
+                        (attach) => attach.isCover
+                    );
+                    this.taskToEdit.coverStyle.bgImg = attach.url;
+                    this.updateTask();
+                }
             },
             editAttachmentTitle(attach, idx) {
                 this.taskToEdit.attachments[idx].title = this.newAttachTitle;
@@ -1103,15 +1158,40 @@
                 this.newAttachTitle = '';
             },
             onSaveImgCover(url) {
-                this.taskToEdit.coverStyle.bgImg = `url(${url})`;
-                this.taskToEdit.coverStyle.bgColor = 'none';
+                this.taskToEdit.coverStyle.bgColor = 'transparent';
+                this.taskToEdit.coverStyle.bgImg = url;
+                if (this.isAttachCover) {
+                    const idx = this.task.attachments.findIndex(
+                        (attach) => attach.isCover
+                    );
+                    this.taskToEdit.attachments[idx].isCover = false;
+                }
                 this.updateTask();
-                this.isCoverStyle = true;
+                // this.isCoverStyle = true;
             },
             chosenBg(style) {
-                this.taskToEdit.coverStyle = style;
+                this.taskToEdit.coverStyle.bgColor = style.bgColor;
+                this.taskToEdit.coverStyle.bgImg = 'none';
+                if (this.isAttachCover) {
+                    const idx = this.task.attachments.findIndex(
+                        (attach) => attach.isCover
+                    );
+                    this.taskToEdit.attachments[idx].isCover = false;
+                }
                 this.updateTask();
-                this.isCoverStyle = true;
+
+                // this.isCoverStyle = true;
+            },
+            removeTaskCover() {
+                this.taskToEdit.coverStyle.bgColor = 'transparent';
+                this.taskToEdit.coverStyle.bgImg = 'none';
+                if (this.isAttachCover) {
+                    const idx = this.task.attachments.findIndex(
+                        (attach) => attach.isCover
+                    );
+                    this.taskToEdit.attachments[idx].isCover = false;
+                }
+                this.updateTask();
             },
             addComment() {
                 this.taskToEdit.comments.push(this.comment);
@@ -1131,6 +1211,23 @@
                 if (this.isMapShown || this.taskToEdit.attachments.length > 0)
                     return true;
                 else return false;
+            },
+            isAttachCover() {
+                if (this.taskToEdit.attachments.length > 0) {
+                    return this.task.attachments.some(
+                        (attach) => attach.isCover
+                    );
+                }
+            },
+
+            isCoverStyle() {
+                if (
+                    this.taskToEdit.coverStyle.bgColor === 'transparent' &&
+                    this.taskToEdit.coverStyle.bgImg === 'none'
+                ) {
+                    if (this.isAttachCover) return true;
+                    else return false;
+                } else return true;
             },
 
             // labelColor() {

@@ -19,8 +19,28 @@
     overflow: hidden;
     z-index: 25;
     min-height: 500px;
-    .cover-container {
+    .bigger-cover {
+        height: 160px;
+    }
+    .smaller-cover {
         height: 116px;
+    }
+    .cover-container {
+        .trytrytry {
+            height: 100px;
+            width: 100px;
+        }
+        // height: auto;
+        // min-height: 116px;
+        max-height: 160px;
+        .img-cover-container {
+            height: 160px;
+            background-position: center;
+            // width: 100px;
+            background-size: contain;
+            // display: inline;
+            background-repeat: no-repeat;
+        }
     }
     .task-modal-header {
         width: 94%;
@@ -148,9 +168,7 @@
                         transition: min-height 0.3s, box-shadow 0.3s;
                         margin: 0 0 8px 37px;
                         cursor: pointer;
-                        font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                            Roboto, Noto Sans, Ubuntu, Droid Sans,
-                            Helvetica Neue, sans-serif;
+                        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
                         &:focus {
                             min-height: 108px;
                             background-color: #fff;
@@ -226,12 +244,7 @@
                         height: 80%;
                         font-size: 14px;
                         &:hover {
-                            background-color: rgba(
-                                9,
-                                30,
-                                66,
-                                0.0784313725490196
-                            );
+                            background-color: rgba( 9, 30, 66, 0.0784313725490196);
                         }
                         &:active {
                             color: #0079bf;
@@ -261,9 +274,7 @@
                         font-size: 14px;
                         line-height: 20px;
                         color: #172b4d;
-                        font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                            Roboto, Noto Sans, Ubuntu, Droid Sans,
-                            Helvetica Neue, sans-serif;
+                        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
                         font-size: 14px;
                         font-weight: 400;
                         line-height: 20px;
@@ -297,9 +308,7 @@
                     font-weight: 400;
                     padding: 6px 12px;
                     // cursor: not-allowed;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                        Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue,
-                        sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
                     &:disabled {
                         // cursor: not-allowed;
                         background-color: #f4f5f7;
@@ -320,9 +329,7 @@
                     font-weight: 400;
                     line-height: 20px;
                     color: #172b4d;
-                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
-                        Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue,
-                        sans-serif;
+                    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
                     .user-avatar {
                         height: 32px;
                         left: -40px;
@@ -338,8 +345,7 @@
                             padding: 8px 12px;
                             background-color: #fff;
                             border-radius: 3px;
-                            box-shadow: 0 1px 2px -1px rgb(9 30 66 / 25%),
-                                0 0 0 1px rgb(9 30 66 / 8%);
+                            box-shadow: 0 1px 2px -1px rgb(9 30 66 / 25%), 0 0 0 1px rgb(9 30 66 / 8%);
                             box-sizing: border-box;
                             clear: both;
                             display: inline-block;
@@ -581,7 +587,7 @@
         display: flex;
         justify-content: space-between;
         margin-top: 8px;
-        > * {
+        >* {
             height: 32px;
             border: none;
             color: #fff;
@@ -623,7 +629,7 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 20px;
-    > * {
+    >* {
         margin-top: 5px;
     }
 }
@@ -658,7 +664,7 @@
     .label-to-show-list {
         display: flex;
         flex-wrap: wrap;
-        > * {
+        >* {
             color: #fff;
             margin-right: 5px;
             cursor: pointer;
@@ -680,7 +686,7 @@
 // members:
 .member-choosing {
     display: flex;
-    > * {
+    >* {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -713,7 +719,7 @@
     .member-to-show-list {
         display: flex;
         flex-wrap: wrap;
-        > * {
+        >* {
             // color: #fff;
             margin-right: 5px;
             cursor: pointer;
@@ -850,13 +856,11 @@
     justify-content: space-between;
 }
 
-.remove-map-modal {
-}
+.remove-map-modal {}
 
 .remove-map-inner-btn {
     cursor: pointer;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans,
-        Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
     font-size: 14px;
     line-height: 20px;
     cursor: pointer;
@@ -889,7 +893,7 @@
         display: flex;
         flex-direction: column;
         margin-top: 20px;
-        > * {
+        >* {
             width: 100%;
             box-shadow: none;
             border: none;
@@ -922,6 +926,7 @@
     display: flex;
     flex-direction: column;
 }
+
 .date-to-show-header {
     font-size: 12px;
     margin-bottom: 10px;
@@ -929,11 +934,13 @@
     color: #5e6c84;
     font-weight: 600;
 }
+
 .date-to-show-container {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
 }
+
 .date-svg {
     cursor: pointer;
     fill: #026aa7;
@@ -948,6 +955,7 @@
         opacity: 0.7;
     }
 }
+
 .date-to-show-btn {
     display: flex;
     align-items: center;
@@ -967,6 +975,7 @@
         border: none;
     }
 }
+
 .due-msg {
     font-size: 12px;
     line-height: 16px;
@@ -975,10 +984,12 @@
     margin: auto 0 auto 8px;
     font-weight: 400;
 }
+
 .done {
     color: #fff;
     background-color: #61bd4f;
 }
+
 .date-drop-btn {
     display: inline-block;
     fill: inherit;

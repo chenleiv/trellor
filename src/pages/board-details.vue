@@ -7,15 +7,25 @@
         />
 
         <main class="main-layout">
-            <section class="groups-container">
+            <Container
+                class="groups-container"
+                behaviour="contain"
+                @drop-ready="dropReady($event)"
+                orientation="horizontal"
+                @drop="onDrop"
+                @drag-end="dropEnd"
+                :remove-on-drop-out="true"
+                drop-class="card-ghost-drop"
+                drag-class="dragging"
+            >
                 <!-- Group-preview -->
-                <div v-for="group in board.groups" :key="group.id">
+                <Draggable v-for="group in board.groups" :key="group.id">
                     <group-preview
                         :group="group"
                         :boardLabels="board.labels"
                         @loadBoard="loadBoard"
                     />
-                </div>
+                </Draggable>
                 <section>
                     <!-- <transition name="slide-up"> -->
                     <div class="add-group-btn-container" v-if="!isAddClicked">
@@ -42,7 +52,7 @@
                     </div>
                     <!-- </transition> -->
                 </section>
-            </section>
+            </Container>
         </main>
 
         <transition name="fade" :duration="50">
@@ -54,7 +64,8 @@
 <script>
     import groupPreview from '@/cmps/group-preview.vue';
     import boardHeader from '@/cmps/board-header.vue';
-
+    import { Container, Draggable, smoothDnD } from 'vue-smooth-dnd';
+    import { applyDrag } from '@/services/util-drag.js';
     export default {
         name: 'boardDetails',
 
@@ -72,6 +83,16 @@
         },
 
         methods: {
+            dropEnd(ev) {
+                // console.log('arguments', ev);
+            },
+            onDrop(dropResult) {
+                const board = JSON.parse(JSON.stringify(this.board));
+                board.groups = applyDrag(this.board.groups, dropResult);
+                // console.log('dropResult', dropResult);
+                this.updateBoard(board);
+            },
+            dropReady() {},
             editBgcBoard(style) {
                 this.$emit('setBg', style);
             },
@@ -122,6 +143,19 @@
                     this.$el.scrollTo(this.$el.scrollWidth + 270, 0);
                 }
             },
+            async updateBoard(changedBoard) {
+                try {
+                    const savedBoard = await this.$store.dispatch({
+                        type: 'updateBoard',
+                        board: changedBoard,
+                    });
+                    console.log(`Board changed successfully`);
+                    this.loadBoard();
+                } catch (err) {
+                    console.log('Error in adding a board (workspace):', err);
+                    throw err;
+                }
+            },
         },
 
         computed: {
@@ -143,6 +177,8 @@
         components: {
             groupPreview,
             boardHeader,
+            Container,
+            Draggable,
         },
     };
 </script>
