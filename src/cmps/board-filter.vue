@@ -62,7 +62,8 @@
                         <div class="label label4"></div
                     ></el-checkbox>
                 </div>
-                <!-- <div>
+
+                <div>
                     <p>Due date</p>
                     <ul>
                         <li>No dates</li>
@@ -70,7 +71,7 @@
                         <li>Due in the next day</li>
                         <p>Due date</p>
                     </ul>
-                </div> -->
+                </div>
                 <hr />
             </div>
         </div>

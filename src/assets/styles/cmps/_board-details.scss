@@ -37,7 +37,7 @@
         .groups-container {
             display: flex;
             gap: 8px;
-            &>section {
+            & > section {
                 border-radius: 3px;
                 width: 270px;
             }
