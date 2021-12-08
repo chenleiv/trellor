@@ -163,19 +163,18 @@ export const boardStore = {
                 throw err;
             }
         },
-        // , taskTitle, taskDescription, comment, commentIdx, labelId, members
+        
         async updateTask({ commit }, { boardId, groupId, task }) {
             try {
-                // , taskTitle, taskDescription, comment, commentIdx, labelId, members
-                console.log('task:', task);
                 const savedBoard = await boardService.updateTask(boardId, groupId, task);
                 commit({ type: 'updateBoard', board: savedBoard })
                 return savedBoard;
-            } catch {
+            } catch (err) {
                 console.log("updateTask Error (Store):", err);
                 throw err;
             }
         },
+
         async removeTask({ commit }, { boardId, groupId, task }) {
             try {
                 const savedBoard = await boardService.removeTask(boardId, groupId, task);
