@@ -31,42 +31,27 @@
             </el-popover>
         </div>
 
-        <!-- </drag&drop> -->
-        <div class="tasks-container">
-            <!-- <draggable
-                v-model="group.tasks"
-                group="tasks"
-            > -->
-            <router-link
-                v-for="task in group.tasks"
-                :key="task.id"
-                :to="`/board/${boardId}/task/${task.id}`"
-                class="sortable"
-                ghostClass="ghost"
-            >
+        <Container
+            class="tasks-container"
+            behaviour="contain"
+            @drop-ready="dropReady($event)"
+            orientation="vertical"
+            @drop="onDrop"
+            @drag-end="dropEnd"
+            :remove-on-drop-out="true"
+            drop-class="card-ghost-drop"
+            drag-class="dragging"
+        >
+            <Draggable v-for="task in group.tasks" :key="task.id">
+                <!-- <router-link :to="`/board/${boardId}/task/${task.id}`"> -->
                 <task-preview
                     :task="task"
                     :boardLabels="boardLabels"
                     @deleteTask="removeTask"
                 />
-            </router-link>
-            <!-- </draggable> -->
-        </div>
-
-        <!-- @end="dragEnd" -->
-        <!-- </drag&drop> -->
-
-        <!-- <div class="tasks-container">
-            <template v-for="task in group.tasks">
-                <router-link
-                    :key="task.id"
-                    :to="`/board/${boardId}/task/${task.id}`"
-                >
-                    <task-preview :task="task" :boardLabels="boardLabels" />
-                </router-link>
-            </template>
-        </div> -->
-
+                <!-- </router-link> -->
+            </Draggable>
+        </Container>
         <section class="add-task-section">
             <div
                 v-if="!isAddTaskClicked"
@@ -101,7 +86,8 @@
 <script>
     import taskPreview from '@/cmps/task-preview.vue';
     import draggable from 'vuedraggable';
-    // import Sortable from 'sortablejs/modular/sortable.complete.esm.js';
+    import { Container, Draggable, smoothDnD } from 'vue-smooth-dnd';
+    import { applyDrag } from '@/services/util-drag.js';
 
     export default {
         name: 'groupPreview',
@@ -136,18 +122,20 @@
         },
 
         methods: {
-            // show() {
-            //     this.$modal.show('my-first-modal');
-            // },
-            // hide() {
-            //     this.$modal.hide('my-first-modal');
-            // },
-            async editTitle() {
-                // this.toggleEditMode();
-                if (!this.newTitle.trim()) this.newTitle = 'List title';
-
+            dropEnd(ev) {
+                // console.log('arguments', ev);
+            },
+            onDrop(dropResult) {
                 const group = JSON.parse(JSON.stringify(this.group));
-                group.title = this.newTitle;
+
+                group.tasks = applyDrag(this.group.tasks, dropResult);
+                console.log('dropResult', dropResult);
+
+                this.editGroup(group);
+            },
+            dropReady() {},
+
+            async editGroup(group) {
                 try {
                     const board = await this.$store.dispatch({
                         type: 'updateGroup',
@@ -160,6 +148,13 @@
                     console.log('Error in updateGroup (group-preview):', err);
                     throw err;
                 }
+            },
+            editTitle() {
+                // this.toggleEditMode();
+                if (!this.newTitle.trim()) this.newTitle = 'List title';
+                const group = JSON.parse(JSON.stringify(this.group));
+                group.title = this.newTitle;
+                this.editGroup(group);
             },
             toggleGroupMenu() {
                 this.toggleMenu = !this.toggleMenu;
@@ -239,6 +234,8 @@
             taskPreview,
             draggable,
             // Sortable,
+            Container,
+            Draggable,
         },
     };
 </script>

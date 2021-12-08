@@ -26,8 +26,28 @@
     overflow: hidden;
     z-index: 25;
     min-height: 500px;
-    .cover-container {
+    .bigger-cover {
+        height: 160px;
+    }
+    .smaller-cover {
         height: 116px;
+    }
+    .cover-container {
+        .trytrytry {
+            height: 100px;
+            width: 100px;
+        }
+        // height: auto;
+        // min-height: 116px;
+        max-height: 160px;
+        .img-cover-container {
+            height: 160px;
+            background-position: center;
+            // width: 100px;
+            background-size: contain;
+            // display: inline;
+            background-repeat: no-repeat;
+        }
     }
     .task-modal-header {
         width: 94%;
@@ -303,6 +323,7 @@
                     line-height: 20px;
                     font-weight: 400;
                     padding: 6px 12px;
+                    // cursor: not-allowed;
                     font-family: -apple-system, BlinkMacSystemFont, Segoe UI,
                         Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue,
                         sans-serif;
@@ -733,12 +754,6 @@
     }
 }
 
-.member-to-show {
-    // padding: 1px 8px;
-    // border-radius: 3px;
-    // min-height: 15px;
-}
-
 .member-to-show-modal {
     display: flex;
 }
@@ -857,9 +872,6 @@
     justify-content: space-between;
 }
 
-.remove-map-modal {
-}
-
 .remove-map-inner-btn {
     cursor: pointer;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans,
@@ -929,6 +941,7 @@
     display: flex;
     flex-direction: column;
 }
+
 .date-to-show-header {
     font-size: 12px;
     margin-bottom: 10px;
@@ -936,11 +949,13 @@
     color: #5e6c84;
     font-weight: 600;
 }
+
 .date-to-show-container {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
 }
+
 .date-svg {
     cursor: pointer;
     fill: #026aa7;
@@ -955,6 +970,7 @@
         opacity: 0.7;
     }
 }
+
 .date-to-show-btn {
     display: flex;
     align-items: center;
@@ -974,6 +990,7 @@
     //     border: none;
     // }
 }
+
 .due-msg {
     font-size: 12px;
     line-height: 16px;
@@ -982,10 +999,12 @@
     margin: auto 0 auto 8px;
     font-weight: 400;
 }
+
 .done {
     color: #fff;
     background-color: #61bd4f;
 }
+
 .date-drop-btn {
     display: inline-block;
     fill: inherit;

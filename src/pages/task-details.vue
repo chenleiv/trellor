@@ -3,13 +3,36 @@
         <!-- <router-link :to="`/board/${board._id}`"> -->
         <div class="modal-background" @click.self="backToBoard">
             <section class="task-details-container" @click="cancelEditLabel">
-                <!-- <div
-                class="cover-container"
-                :style="{
-                    backgroundColor: taskToEdit.coverStyle.bgColor,
-                    backgroundImage: taskToEdit.coverStyle.bgImg,
-                }"
-            ></div> -->
+                <template v-if="isCoverStyle">
+                    <div
+                        :class="{
+                            'smaller-cover':
+                                taskToEdit.coverStyle.bgImg === 'none',
+                        }"
+                        class="cover-container"
+                        :style="{
+                            backgroundColor: taskToEdit.coverStyle.bgColor,
+                        }"
+                    >
+                        <div
+                            :class="{
+                                'bigger-cover':
+                                    taskToEdit.coverStyle.bgColor ===
+                                    'transparent',
+                            }"
+                            class="img-cover-container"
+                            :style="{
+                                backgroundImage: `url(${taskToEdit.coverStyle.bgImg})`,
+                            }"
+                        ></div>
+                        <!-- <div
+                        class="trytrytry"
+                        v-if="isAttachCover"
+                        :style="{ backgroundImage: cover }"
+                    ></div> -->
+                    </div>
+                </template>
+
                 <header class="task-modal-header">
                     <button
                         class="close-modal-btn el-icon-close"
@@ -407,7 +430,7 @@
                                     <span
                                         class="attach-btns"
                                         v-if="attach.isCover"
-                                        @click="attachmentMakeCover(i)"
+                                        @click="removeTaskCover"
                                         >Remove cover</span
                                     >
                                 </div>
@@ -751,6 +774,9 @@
                                 ></div>
 
                                 <div v-if="btn.name === 'Cover'">
+                                    <div @click="removeTaskCover">
+                                        Remove cover
+                                    </div>
                                     Colors
                                     <background-picker
                                         @chosenBg="chosenBg"
@@ -761,7 +787,6 @@
                                         @onSaveImg="onSaveImgCover"
                                     ></background-unsplash>
                                 </div>
-
                                 <div
                                     class="action-btn-content"
                                     slot="reference"
@@ -778,60 +803,6 @@
                                 </div>
                             </el-popover>
                         </div>
-
-                        <!-- <el-popover
-                        placement="bottom"
-                        title="Title"
-                        width="200"
-                        trigger="click"
-                        content="this is content, this is content, this is content"
-                    >
-                        <el-button slot="reference"
-                            >Click to activate</el-button
-                        >
-                    </el-popover> -->
-
-                        <!-- <button
-                        v-for="btn in asideBtns"
-                        :key="btn.name"
-                        class="secondary-btn action-btn"
-                    >
-                        <div class="action-btn-content">
-                            <svg viewBox="0 0 24 24">
-                                <path :d="btn.d"></path>
-                            </svg>
-                            <span>{{ btn.name }}</span>
-                        </div>
-                    </button> -->
-
-                        <!-- <div class="actions">
-                        <h4 class="aside-headers">Actions</h4>
-                        <button class="secondary-btn action-btn">
-                            <div class="action-btn-content">
-                                <svg viewBox="0 0 24 24">
-                                    <path
-                                        d="m12 4-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"
-                                    ></path></svg
-                                ><span>Move</span>
-                            </div></button
-                        ><button class="secondary-btn action-btn">
-                            <div class="action-btn-content">
-                                <svg viewBox="0 0 24 24">
-                                    <path
-                                        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11l-6-6zM8 21V7h6v5h5v9H8z"
-                                    ></path></svg
-                                ><span>Copy</span>
-                            </div></button
-                        ><button class="secondary-btn action-btn">
-                            <div class="action-btn-content">
-                                <svg viewBox="0 0 24 24">
-                                    <path
-                                        d="m20.54 5.23-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5 6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"
-                                    ></path></svg
-                                ><span>Archive</span>
-                            </div>
-                        </button>
-                    </div> -->
                     </aside>
                 </section>
             </section>
@@ -907,14 +878,11 @@
                 isBigFeatureShown: false,
                 withImgBg: false,
                 newAttachTitle: '',
-
                 checklistTitle: '',
-
                 dateIsShown: false,
                 dateVal: '',
-
                 isCoverStyle: false,
-
+                cover: '',
                 isMapShown: false,
                 mapCenter: { lat: 31.769218, lng: 35.208144 },
                 mapAddress: 'Jerusalem',
@@ -1095,18 +1063,6 @@
                 this.updateTask();
             },
 
-            // removeMember(memberId) {
-            //     const lbIdx = this.taskToEdit.labelIds.findIndex(
-            //         (id) => id === this.labelIdToEdit
-            //     );
-            //     this.taskToEdit.labelIds.splice(lbIdx, 1);
-            //     this.labels[this.labelIdxToEdit].title = '';
-            //     const board = JSON.parse(JSON.stringify(this.board));
-            //     board.labels = this.labels;
-            //     this.updateTask();
-            //     this.updateBoard(board);
-            // },
-
             getLbColor(lbId) {
                 const label = this.board.labels.find(
                     (label) => label.id === lbId
@@ -1124,7 +1080,6 @@
                 this.hasLabelChosen = true;
 
                 this.labelIdToShow = id;
-                // this.labelIdsToShow.push(id);
 
                 const labelIdx = this.taskToEdit.labelIds.findIndex(
                     (lbId) => lbId === id
@@ -1136,12 +1091,6 @@
                 }
 
                 this.updateTask();
-
-                // const board = JSON.parse(JSON.stringify(this.board));
-                // board.labels[idx].title = this.labelTitle;
-
-                // this.updateBoard(board);
-                // this.loadBoard();
             },
 
             editLabelTitle(labelId, idx) {
@@ -1209,30 +1158,18 @@
                     url,
                     isCover: false,
                 });
-                if (this.taskToEdit.attachments.length === 1)
+                if (
+                    this.taskToEdit.attachments.length === 1 &&
+                    this.taskToEdit.coverStyle.bgColor !== 'transparent' &&
+                    this.taskToEdit.coverStyle.bgImg !== 'none'
+                )
                     this.taskToEdit.attachments[0].isCover = true;
                 this.updateTask();
-                //  = `url(${url})`;
+                this.cover = url;
             },
 
             backToBoard() {
                 this.$router.push(`/board/${this.board._id}`);
-            },
-            changeImgUrl(url) {
-                let title = /[^/]*$/.exec(url)[0];
-                this.taskToEdit.attachments.push({
-                    title,
-                    url,
-                    isCover: false,
-                });
-                if (
-                    this.taskToEdit.attachments.length === 1 &&
-                    this.taskToEdit.coverStyle.bgImg === 'none' &&
-                    this.taskToEdit.coverStyle.bgColor === 'none'
-                )
-                    this.taskToEdit.attachments[0].isCover = true;
-                this.updateTask();
-                //  = `url(${url})`;
             },
             removeAttachment(idx) {
                 this.taskToEdit.attachments.splice(idx, 1);
@@ -1248,10 +1185,27 @@
                         this.taskToEdit.attachments[i].isCover = false;
                     }
                     this.taskToEdit.attachments[idx].isCover = true;
-                } else
+                } else {
                     this.taskToEdit.attachments[idx].isCover =
                         !this.taskToEdit.attachments[idx].isCover;
-                this.updateTask();
+                    if (
+                        this.taskToEdit.coverStyle.bgColor === 'transparent' &&
+                        this.taskToEdit.coverStyle.bgImg === 'none'
+                    )
+                        this.taskToEdit.attachments[idx].isCover = true;
+                }
+
+                this.taskToEdit.coverStyle.bgColor = 'transparent';
+                this.attachCover();
+            },
+            attachCover() {
+                if (this.isAttachCover) {
+                    const attach = this.task.attachments.find(
+                        (attach) => attach.isCover
+                    );
+                    this.taskToEdit.coverStyle.bgImg = attach.url;
+                    this.updateTask();
+                }
             },
             editAttachmentTitle(attach, idx) {
                 this.taskToEdit.attachments[idx].title = this.newAttachTitle;
@@ -1259,15 +1213,40 @@
                 this.newAttachTitle = '';
             },
             onSaveImgCover(url) {
-                this.taskToEdit.coverStyle.bgImg = `url(${url})`;
-                this.taskToEdit.coverStyle.bgColor = 'none';
+                this.taskToEdit.coverStyle.bgColor = 'transparent';
+                this.taskToEdit.coverStyle.bgImg = url;
+                if (this.isAttachCover) {
+                    const idx = this.task.attachments.findIndex(
+                        (attach) => attach.isCover
+                    );
+                    this.taskToEdit.attachments[idx].isCover = false;
+                }
                 this.updateTask();
-                this.isCoverStyle = true;
+                // this.isCoverStyle = true;
             },
             chosenBg(style) {
-                this.taskToEdit.coverStyle = style;
+                this.taskToEdit.coverStyle.bgColor = style.bgColor;
+                this.taskToEdit.coverStyle.bgImg = 'none';
+                if (this.isAttachCover) {
+                    const idx = this.task.attachments.findIndex(
+                        (attach) => attach.isCover
+                    );
+                    this.taskToEdit.attachments[idx].isCover = false;
+                }
                 this.updateTask();
-                this.isCoverStyle = true;
+
+                // this.isCoverStyle = true;
+            },
+            removeTaskCover() {
+                this.taskToEdit.coverStyle.bgColor = 'transparent';
+                this.taskToEdit.coverStyle.bgImg = 'none';
+                if (this.isAttachCover) {
+                    const idx = this.task.attachments.findIndex(
+                        (attach) => attach.isCover
+                    );
+                    this.taskToEdit.attachments[idx].isCover = false;
+                }
+                this.updateTask();
             },
             addComment() {
                 this.taskToEdit.comments.push(this.comment);
@@ -1288,10 +1267,23 @@
                     return true;
                 else return false;
             },
+            isAttachCover() {
+                if (this.taskToEdit.attachments.length > 0) {
+                    return this.task.attachments.some(
+                        (attach) => attach.isCover
+                    );
+                }
+            },
 
-            // labelColor() {
-            //     return {}
-            // }
+            isCoverStyle() {
+                if (
+                    this.taskToEdit.coverStyle.bgColor === 'transparent' &&
+                    this.taskToEdit.coverStyle.bgImg === 'none'
+                ) {
+                    if (this.isAttachCover) return true;
+                    else return false;
+                } else return true;
+            },
         },
 
         components: {
