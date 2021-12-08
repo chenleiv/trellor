@@ -12,7 +12,7 @@
             <h4 class="board-preview-title">{{ board.title }}</h4>
             <span
                 :class="{ starred: isStarred }"
-                @click.prevent="updateBoard"
+                @click.prevent="updateStarBoard"
             ></span>
 
             <!-- <button @click="removeBoard">...</button> -->
@@ -38,10 +38,13 @@
             };
         },
         methods: {
-            async updateBoard() {
+            updateStarBoard() {
                 this.isStarred = !this.isStarred;
                 const changedBoard = JSON.parse(JSON.stringify(this.board));
                 changedBoard.isStarred = this.isStarred;
+                this.updateBoard(changedBoard);
+            },
+            async updateBoard(changedBoard) {
                 try {
                     const savedBoard = await this.$store.dispatch({
                         type: 'updateBoard',

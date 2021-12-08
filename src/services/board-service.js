@@ -64,7 +64,9 @@ function getEmptyTask() {
         createdAt: '',
         dueDate: '',
         byMember: {},
-        coverStyle: { 'color': '' }
+        coverStyle: { 'color': '' },
+        location: null,
+        isComplete: false
     }
 }
 
@@ -94,7 +96,6 @@ async function removeTask(boardId, groupId, task) {
         throw err;
     }
 }
-
 
 
 async function updateTask(boardId, groupId, task) {
@@ -234,8 +235,9 @@ function getEmptyBoard() {
                     createdAt: '',
                     dueDate: '',
                     byMember: {},
-                    coverStyle: { 'color': '#26de81' },
-                    location: null
+                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
+                    location: null,
+                    isComplete: false
                 }, ]
             }, {
                 id: utilService.makeId(4) + 'f',
@@ -252,8 +254,9 @@ function getEmptyBoard() {
                     createdAt: '',
                     dueDate: '',
                     byMember: {},
-                    coverStyle: { 'color': '#26de81' },
-                    location: null
+                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
+                    location: null,
+                    isComplete: false
                 }, ]
             },
             {
@@ -271,8 +274,9 @@ function getEmptyBoard() {
                     createdAt: '',
                     dueDate: '',
                     byMember: {},
-                    coverStyle: { 'color': '#26de81' },
-                    location: null
+                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
+                    location: null,
+                    isComplete: false
                 }, ]
             }
         ],
@@ -346,7 +350,8 @@ function _createBoard() {
                         imgUrl: ''
                     },
                     coverStyle: { 'color': '#26de81' },
-                    location: null
+                    location: null,
+                    isComplete: false
                 }, ]
             },
             {
@@ -370,7 +375,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                     {
                         id: 't103',
@@ -390,7 +396,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                 ]
             },
@@ -415,7 +422,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                     {
                         id: 't105',
@@ -435,7 +443,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                 ],
             },
@@ -460,7 +469,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                     {
                         id: 't107',
@@ -480,7 +490,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                     {
                         id: 't108',
@@ -500,7 +511,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                     {
                         id: 't109',
@@ -520,7 +532,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                     {
                         id: 't110',
@@ -540,7 +553,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                     {
                         id: 't111',
@@ -560,7 +574,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                     {
                         id: 't112',
@@ -580,7 +595,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                     {
                         id: 't113',
@@ -600,7 +616,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                     {
                         id: 't114',
@@ -620,7 +637,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                 ]
             },
@@ -645,7 +663,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                     {
                         id: 't116',
@@ -665,7 +684,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                     {
                         id: 't117',
@@ -685,7 +705,8 @@ function _createBoard() {
                             imgUrl: ''
                         },
                         coverStyle: { 'color': '#26de81' },
-                        location: null
+                        location: null,
+                        isComplete: false
                     },
                 ]
             },
@@ -728,3 +749,5 @@ function _createBoard() {
         isStarred: false,
     }
 }
+
+

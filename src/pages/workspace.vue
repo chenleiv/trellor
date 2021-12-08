@@ -87,7 +87,7 @@
                 newBoard: boardService.getEmptyBoard(),
                 openUnsplash: false,
                 boardStyle: {
-                    bgColor: 'none',
+                    bgColor: 'transparent',
                     bgImg: `url(${require('@/assets/img/' + '2.jpg')})`,
                 },
             };
@@ -105,7 +105,7 @@
         methods: {
             onSaveImg(url) {
                 this.boardStyle.bgImg = `url(${url})`;
-                this.boardStyle.bgColor = 'none';
+                this.boardStyle.bgColor = 'transparent';
             },
             openBoardModal() {
                 this.isModalOpen = !this.isModalOpen;

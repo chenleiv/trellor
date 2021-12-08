@@ -15,9 +15,6 @@ import * as VueGoogleMaps from 'vue2-google-maps'
 
 Vue.use(vueDebounce)
 Vue.use(VueInputAutowidth)
-    // import 'bootstrap'
-    // import 'bootstrap/dist/css/bootstrap.min.css'
-
 Vue.use(Element)
 locale.use(en)
 Vue.use(VModal)

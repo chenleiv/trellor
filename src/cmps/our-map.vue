@@ -52,13 +52,6 @@
                 :draggable="false"
             />
         </GmapMap>
-        <!-- @click="center = pos" -->
-        <!-- <el-button
-            v-for="(marker, idx) in markers"
-            :key="idx"
-            @click="moveTo(marker.position)"
-            >{{ marker.city }}</el-button -->
-        <!-- > -->
     </section>
 </template>
 
@@ -74,48 +67,70 @@
                     return { msg: 'No mapCenter' };
                 },
             },
+            mapAddress: {
+                type: String,
+                required: true,
+                default: function () {
+                    return { msg: 'No mapAddress' };
+                },
+            },
         },
 
         data() {
             return {
-                searchVal: '',
                 API_KEY: 'AIzaSyAwGiZvHMgXknOgVGzfiqUHedPY-M9aRpM',
+                searchVal: '',
                 center: this.mapCenter,
-                locAddress: '',
+                locAddress: this.mapAddress,
             };
         },
 
         methods: {
-            moveTo(position) {
-                this.center = position;
-                const { lat, lng } = position;
-                this.$refs.mapRef.$mapPromise
-                    .then((map) => {
-                        map.panTo({ lat, lng });
-                    })
-                    .then(this.getLocAddress(this.center.lat, this.center.lng))
-                    .then(this.$emit('saveLoc', { lat, lng }));
-            },
-
-            searchLoc() {
-                axios
-                    .get(
-                        `https://maps.googleapis.com/maps/api/geocode/json?address=${this.searchVal}&key=${this.API_KEY}`
-                    )
-                    .then((res) => res.data.results[0].geometry.location)
-                    .then(this.moveTo);
-            },
-
-            getLocAddress(lat, lng) {
-                return axios
-                    .get(
-                        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${this.API_KEY}`
-                    )
-                    .then((res) => {
-                        this.locAddress = res.data.results[0].formatted_address;
+            async moveTo(position) {
+                try {
+                    this.center = position;
+                    const { lat, lng } = position;
+                    const map = await this.$refs.mapRef.$mapPromise;
+                    await map.panTo({ lat, lng });
+                    const address = await this.getLocAddress(
+                        this.center.lat,
+                        this.center.lng
+                    );
+                    this.$emit('saveLoc', {
+                        address,
+                        coords: { lat, lng },
                     });
+                } catch (err) {
+                    console.log('Error in moveTo (our-map):', err);
+                    throw err;
+                }
+            },
+
+            async searchLoc() {
+                try {
+                    const res = await axios.get(
+                        `https://maps.googleapis.com/maps/api/geocode/json?address=${this.searchVal}&key=${this.API_KEY}`
+                    );
+                    const location = res.data.results[0].geometry.location;
+                    this.moveTo(location);
+                } catch (err) {
+                    console.log('Error in searchLoc (our-map):', err);
+                    throw err;
+                }
+            },
+
+            async getLocAddress(lat, lng) {
+                try {
+                    const res = await axios.get(
+                        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${this.API_KEY}`
+                    );
+                    this.locAddress = res.data.results[0].formatted_address;
+                    return this.locAddress;
+                } catch (err) {
+                    console.log('Error in getLocAddress (our-map):', err);
+                    throw err;
+                }
             },
         },
-        computed: {},
     };
 </script>

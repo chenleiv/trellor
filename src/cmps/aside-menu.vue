@@ -184,7 +184,7 @@
             changeImgUrl(url) {
                 this.bgcType === true;
                 this.boardStyle.bgImg = `url(${url})`;
-                this.boardStyle.bgColor = 'none';
+                this.boardStyle.bgColor = 'transparent';
                 this.$emit('updateBgcBoard', this.boardStyle);
             },
             closeMenu() {

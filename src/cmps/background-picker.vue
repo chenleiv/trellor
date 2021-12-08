@@ -69,7 +69,7 @@
             };
         },
         created() {
-            console.log('withImgBg', this.withImgBg);
+            // console.log('withImgBg', this.withImgBg);
         },
         methods: {
             chooseBg(val, styleEl) {

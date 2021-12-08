@@ -18,10 +18,8 @@
             background-color: rgb(9 30 66 / 8%);
         }
     }
-
     .group-header {
         position: relative;
-
         input {
             font-weight: 700;
             width: 100%;
@@ -41,10 +39,8 @@
         display: flex;
         justify-content: space-between;
     }
-
     .group-actions-modal {
-        box-shadow: 0 0 0 0 transparent, 0 0 0 0 transparent,
-            0 2px 15px rgb(0 0 0 / 30%);
+        box-shadow: 0 0 0 0 transparent, 0 0 0 0 transparent, 0 2px 15px rgb(0 0 0 / 30%);
         // padding: 12px;
         position: absolute;
         background-color: #fff;
@@ -67,8 +63,8 @@
             width: 100%;
         }
     }
-
     .tasks-container {
+        cursor: grab;
         margin: 0 4px;
         padding: 0 4px;
         display: flex;
@@ -100,16 +96,14 @@
             background: rgba(167, 167, 167, 0);
         }
     }
-
     .add-task-section {
         color: rgb(107, 119, 140);
         margin: 0 4px;
         padding: 0 4px;
         padding-bottom: 8px;
-        & > div {
+        &>div {
             width: 100%;
         }
-
         .add-a-task {
             color: rgb(94 108 132);
             border-radius: 3px;
@@ -123,7 +117,6 @@
                 color: rgb(23 43 77);
             }
         }
-
         .task-add-container {
             div {
                 margin-top: 6px;
@@ -170,24 +163,27 @@
     }
 }
 
-.modal-background {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: rgb(92 92 92 / 76%);
+// .modal-background {
+//     position: fixed;
+//     top: 0;
+//     right: 0;
+//     bottom: 0;
+//     left: 0;
+//     background-color: rgb(92 92 92 / 76%);
+// }
+
+.smooth-dnd-ghost {
+    z-index: 3000 !important;
+    box-shadow: none;
 }
 
-// Drag & Drop
-.sortable-drag {
-    opacity: 1;
-    transform: rotate(10deg);
-    cursor: grabbing;
+.smooth-dnd-draggable-wrapper {
+    position: relative;
+    // box-shadow: 0 1px 0 #091e4240;
+    border-radius: 3px;
 }
 
-.ghost {
-    background: green;
-    z-index: 10;
-    opacity: 1;
+.dragging {
+    transform: rotate(5deg);
+    box-shadow: none;
 }
