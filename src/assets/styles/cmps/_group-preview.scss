@@ -178,12 +178,20 @@
 }
 
 .smooth-dnd-container {
+    overflow: visible;
+    min-height: 4px;
     // cursor: grabbing;
 }
 
+.smooth-dnd-container.vertical>.smooth-dnd-draggable-wrapper {
+    overflow: visible;
+}
+
 .smooth-dnd-draggable-wrapper {
-    position: relative;
+    height: fit-content;
+    // position: relative;
     background-color: transparent;
+    overflow: visible;
     // box-shadow: 0 1px 0 #091e4240;
     // border-radius: 3px;
 }

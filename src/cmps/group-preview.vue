@@ -47,8 +47,13 @@
             :get-child-payload="getTaskPayload(group.id)"
             drop-class="card-ghost-drop"
             drag-class="dragging"
+            :auto-scroll-enabled="true"
         >
-            <Draggable v-for="task in group.tasks" :key="task.id">
+            <Draggable
+                v-for="task in group.tasks"
+                :key="task.id"
+                :auto-scroll-enabled="true"
+            >
                 <!-- <router-link :to="`/board/${boardId}/task/${task.id}`"> -->
                 <task-preview
                     :task="task"

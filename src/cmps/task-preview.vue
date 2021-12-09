@@ -53,9 +53,7 @@
                     </div>
 
                     <div class="task-attachment" v-if="attachmentLength">
-                        <span class="material-icons-outlined">
-                            attach_file
-                        </span>
+                        <span> </span>
                         <span>{{ attachmentLength }}</span>
                     </div>
                     <div class="task-location" v-if="task.location">
