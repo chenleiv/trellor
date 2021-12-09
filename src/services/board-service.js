@@ -64,7 +64,7 @@ function getEmptyTask() {
         createdAt: '',
         dueDate: '',
         byMember: {},
-        coverStyle: { 'color': '' },
+        coverStyle: { bgColor: 'transparent', bgImg: 'none' },
         location: null,
         isComplete: false
     }
@@ -336,7 +336,7 @@ function _createBoard() {
                     id: 't101',
                     title: 'Meeting with Asi, scss',
                     description: 'Tuesday, 15:45',
-                    comments: ['preparing qeustions'],
+                    comments: [],
                     attachments: [],
                     checklists: [],
                     members: [],
@@ -421,7 +421,7 @@ function _createBoard() {
                             fullname: 'Chen leiv',
                             imgUrl: ''
                         },
-                        coverStyle: { 'color': '#26de81' },
+                        coverStyle: { bgColor: 'transparent', bgImg: 'none' },
                         location: null,
                         isComplete: false
                     },

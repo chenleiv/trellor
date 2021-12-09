@@ -4,6 +4,8 @@ import home from '@/pages/home.vue'
 import workspace from '@/pages/workspace.vue'
 import boardDetails from '@/pages/board-details.vue'
 import taskDetails from '@/pages/task-details.vue'
+import dashboard from '@/pages/dashboard.vue'
+import mainMap from '@/pages/main-map.vue'
 
 Vue.use(VueRouter)
 
@@ -25,6 +27,16 @@ const routes = [{
         path: 'task/:taskId',
         name: 'taskDetails',
         component: taskDetails
+    },
+    {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: dashboard
+    },
+    {
+        path: 'main-map',
+        name: 'mainMap',
+        component: mainMap
     }]
 },
 ]
@@ -36,11 +48,8 @@ const router = new VueRouter({
 export default router
 
 
-// {
-//     path: '/board/:boardId/task/:taskId',
-//     name: 'taskDetails',
-//     component: taskDetails
-// }
+
+
 
 // {
 //   path: '/about',
