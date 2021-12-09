@@ -790,6 +790,7 @@
 
         created() {
             this.loadData();
+            // console.log('mapAddress', typeof this.mapAddress);
         },
 
         methods: {

@@ -26,12 +26,12 @@
                                 </span>
                                 Calender</el-dropdown-item
                             >
-                            <el-dropdown-item
+                            <!-- <el-dropdown-item
                                 ><span class="material-icons-outlined">
                                     location_on
                                 </span>
                                 Map</el-dropdown-item
-                            >
+                            > -->
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -87,6 +87,14 @@
                 <div class="vl"></div>
 
                 <!-- filter button open dropdown -->
+                <button class="filter-btn" @click="openMainMap">
+                    <span class="material-icons-outlined"> map </span>
+                    Map
+                </button>
+                <button class="filter-btn" @click="openDashboard">
+                    <span class="material-icons-outlined"> map </span>
+                    Dashboard
+                </button>
                 <button class="filter-btn" @click="openFilter">
                     <span class="material-icons-outlined"> filter_list </span>
                     Filter
@@ -200,6 +208,12 @@
                     console.log('Error in updateBoard (board-header):', err);
                     throw err;
                 }
+            },
+            openMainMap() {
+                this.$router.push(`/board/${this.boardId}/main-map`);
+            },
+            openDashboard() {
+                this.$router.push(`/board/${this.boardId}/dashboard`);
             },
         },
 
