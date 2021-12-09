@@ -8,19 +8,21 @@
 
         <main class="main-layout">
             <Container
+                group-name="bo"
                 class="groups-container"
                 behaviour="contain"
-                @drop-ready="dropReady($event)"
                 orientation="horizontal"
-                @drop="onDrop"
-                @drag-end="dropEnd"
+                @drop="onGroupDrop"
                 :remove-on-drop-out="true"
                 drop-class="card-ghost-drop"
                 drag-class="dragging"
             >
+                <!-- drag-handle-selector=".column-drag-handle" -->
                 <!-- Group-preview -->
                 <Draggable v-for="group in board.groups" :key="group.id">
                     <group-preview
+                        @updateBoard="updateBoard"
+                        :board="board"
                         :group="group"
                         :boardLabels="board.labels"
                         @loadBoard="loadBoard"
@@ -86,13 +88,13 @@
             dropEnd(ev) {
                 // console.log('arguments', ev);
             },
-            onDrop(dropResult) {
+            onGroupDrop(dropResult) {
+                console.log('hi');
                 const board = JSON.parse(JSON.stringify(this.board));
                 board.groups = applyDrag(this.board.groups, dropResult);
                 // console.log('dropResult', dropResult);
                 this.updateBoard(board);
             },
-            dropReady() {},
             editBgcBoard(style) {
                 this.$emit('setBg', style);
             },

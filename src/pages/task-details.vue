@@ -881,7 +881,6 @@
                 checklistTitle: '',
                 dateIsShown: false,
                 dateVal: '',
-                isCoverStyle: false,
                 cover: '',
                 isMapShown: false,
                 mapCenter: { lat: 31.769218, lng: 35.208144 },
