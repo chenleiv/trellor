@@ -59,7 +59,7 @@
                         <span>{{ attachmentLength }}</span>
                     </div>
                     <div class="task-location" v-if="task.location">
-                        <span class=""> location </span>
+                        <span class=""></span>
                     </div>
                     <div class="task-checklists" v-if="task.checklists">
                         <span v-if="task.checklists.length">

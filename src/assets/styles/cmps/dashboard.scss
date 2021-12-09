@@ -1,0 +1,27 @@
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    position: absolute;
+    top: 35px;
+    left: 0;
+    right: 0;
+    border-radius: 2px;
+    min-height: 500px;
+    flex-wrap: wrap;
+    h1 {
+        margin: auto;
+        position: absolute;
+        font-family: monospace;
+        font-size: 3.5rem;
+        color: hsla(0, 0%, 100%, 0.699);
+    }
+}
+.chart {
+    background-color: #2d2d2d;
+    opacity: 0.7;
+    border-radius: 20px;
+    border: 1px solid #fff;
+    width: 35%;
+    margin: 70px 30px 0;
+}

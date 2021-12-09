@@ -41,12 +41,10 @@
 
         <Container
             class="tasks-container"
-            behaviour="contain"
-            @drop-ready="dropReady($event)"
+            group-name="col"
             orientation="vertical"
-            @drop="onDrop"
-            @drag-end="dropEnd"
-            :remove-on-drop-out="true"
+            @drop="onTaskDrop(group.id, $event)"
+            :get-child-payload="getTaskPayload(group.id)"
             drop-class="card-ghost-drop"
             drag-class="dragging"
         >
@@ -108,6 +106,9 @@
                     return { msg: 'No Group' };
                 },
             },
+            board: {
+                type: Object,
+            },
             boardLabels: {
                 type: Array,
             },
@@ -117,7 +118,6 @@
             return {
                 newTitle: JSON.parse(JSON.stringify(this.group.title)),
                 isInputVisible: false,
-                board: null,
                 boardId: '',
                 isAddTaskClicked: false,
                 taskTitle: '',
@@ -130,18 +130,30 @@
         },
 
         methods: {
-            dropEnd(ev) {
-                // console.log('arguments', ev);
+            getTaskPayload(groupId) {
+                return (index) => {
+                    return this.board.groups.filter((g) => g.id === groupId)[0]
+                        .tasks[index];
+                };
             },
-            onDrop(dropResult) {
-                const group = JSON.parse(JSON.stringify(this.group));
 
-                group.tasks = applyDrag(this.group.tasks, dropResult);
-                console.log('dropResult', dropResult);
+            onTaskDrop(groupId, dropResult) {
+                if (
+                    dropResult.removedIndex !== null ||
+                    dropResult.addedIndex !== null
+                ) {
+                    const board = Object.assign({}, this.board);
+                    const group = this.board.groups.find(
+                        (g) => g.id === groupId
+                    );
+                    const groupIndex = board.groups.indexOf(group);
+                    const newGroup = Object.assign({}, group);
+                    newGroup.tasks = applyDrag(newGroup.tasks, dropResult);
+                    board.groups.splice(groupIndex, 1, newGroup);
 
-                this.editGroup(group);
+                    this.$emit('updateBoard', board);
+                }
             },
-            dropReady() {},
 
             async editGroup(group) {
                 try {
