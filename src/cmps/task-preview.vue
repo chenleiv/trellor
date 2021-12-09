@@ -72,7 +72,13 @@
 
                     <div v-for="member in task.members" :key="member.id">
                         <div class="list-task-members">
-                            {{ member.fullname }}
+                            <avatar
+                                class="user-avatar"
+                                backgroundColor="lightblue"
+                                color="black"
+                                :size="30"
+                                :username="member.fullname"
+                            ></avatar>
                         </div>
                     </div>
                 </div>
@@ -83,40 +89,91 @@
                     style="z-index: 10"
                     placement="bottom-end"
                     width="100"
-                    v-model="toggleDeleteMenu"
+                    v-model="toggleEditCard"
+                    title="Card actions"
                 >
-                    <p>Delete this task?</p>
-                    <div style="text-align: right">
-                        <el-button
+                    <hr />
+                    <div>
+                        <!-- <el-button
                             size="mini"
                             type="text"
-                            style="color: black"
-                            @click="toggleTaskDelete"
-                            >cancel</el-button
-                        >
+                            style="
+                                display: flex;
+                                margin: 0;
+                                color: black;
+                                font-size: 14px;
+                            "
+                            @click.prevent="toggleTaskEdit"
+                            >Edit title</el-button
+                        > -->
                         <el-button
-                            type="info"
+                            type="text"
                             size="mini"
+                            style="
+                                display: flex;
+
+                                margin: 0;
+                                color: black;
+                                font-size: 14px;
+                            "
                             @click.prevent="removeTask"
-                            >confirm</el-button
+                            >Archive this list</el-button
                         >
+                        <!-- @click="toggleTaskDelete" -->
                     </div>
+
                     <el-button
                         class="edit-task-btn btn-group"
                         slot="reference"
                         @click.prevent
                     ></el-button>
                 </el-popover>
-                <!-- <button
-                @click.prevent="deleteTask"
-                class="edit-task-btn btn-group"
-            ></button> -->
+                <!-- 
+                <div v-if="deleteCard">
+                    <el-popover
+                        style="z-index: 10"
+                        placement="bottom-end"
+                        width="100"
+                    >
+                        <p>Delete this task?</p>
+                        <div style="text-align: right">
+                            <el-button
+                                size="mini"
+                                type="text"
+                                style="color: black"
+                                >cancel</el-button
+                            >
+                            <el-button
+                                type="info"
+                                size="mini"
+                                @click.prevent="removeTask"
+                                >confirm</el-button
+                            >
+                        </div>
+                        <el-button
+                            class="edit-task-btn btn-group"
+                            slot="reference"
+                            @click.prevent
+                        ></el-button>
+                    </el-popover>
+                </div> -->
+                <!-- 
+                <div v-if="editTitle" class="edit-title">
+                    <h3 class="new-title">edit card title</h3>
+                    <el-input
+                        placeholder="Enter a title..."
+                        v-model="taskTitle"
+                    ></el-input>
+                    <el-button class="edit-task-title">Add</el-button>
+                </div> -->
             </div></router-link
         >
     </section>
 </template>
 
 <script>
+    import Avatar from 'vue-avatar';
+
     export default {
         name: 'taskPreview',
 
@@ -138,8 +195,10 @@
                 changeLabelSize: true,
                 boardId: '',
                 taskLabels: [],
-                toggleDeleteMenu: false,
                 coverUrl: '',
+                toggleEditCard: false,
+                editTitle: false,
+                deleteCard: false,
             };
         },
 
@@ -170,8 +229,19 @@
             },
             toggleTaskDelete() {
                 this.toggleDeleteMenu = !this.toggleDeleteMenu;
+                console.log('toggleDeleteMenu', toggleDeleteMenu);
                 // this.$emit('openModalBg');
             },
+            // toggleTaskEdit() {
+            //     this.toggleDeleteMenu = false;
+            //     this.editTitle = !this.editTitle;
+            //     console.log('editTitle', this.editTitle);
+            // },
+            // toggleTaskDelete() {
+            //     this.toggleDeleteMenu = false;
+            //     this.deleteCard = !this.deleteCard;
+            //     console.log('deleteCard', this.deleteCard);
+            // },
         },
         computed: {
             findCoverImg() {
@@ -225,6 +295,9 @@
                     : null;
                 return attachment;
             },
+        },
+        components: {
+            Avatar,
         },
     };
 </script>

@@ -10,19 +10,27 @@
                 @focus="$event.target.select()"
             />
 
-            <el-popover placement="top" width="150" v-model="toggleMenu">
-                <p>Delete this list?</p>
-                <div style="text-align: right; margin: 0">
+            <el-popover
+                placement="bottom-end"
+                width="100"
+                v-model="toggleMenu"
+                title="List actions"
+            >
+                <hr />
+                <div>
                     <el-button
-                        size="mini"
                         type="text"
-                        style="color: black"
-                        @click="toggleGroupMenu"
-                        >cancel</el-button
+                        size="mini"
+                        style="
+                            display: flex;
+                            margin: 0;
+                            color: black;
+                            font-size: 14px;
+                        "
+                        @click.prevent="removeGroup"
+                        >Archive this list</el-button
                     >
-                    <el-button type="info" size="mini" @click="removeGroup"
-                        >confirm</el-button
-                    >
+                    <!-- @click="toggleTaskDelete" -->
                 </div>
                 <el-button
                     slot="reference"

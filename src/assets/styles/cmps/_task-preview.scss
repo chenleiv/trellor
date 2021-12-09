@@ -134,6 +134,7 @@
         }
         .list-task-members {
             display: flex;
+            float: right;
             margin: 0 -2px 0 0;
         }
     }
@@ -146,7 +147,6 @@
     background-color: rgb(113 130 159 / 8%);
 }
 
-
 /* always present */
 
 .expand-transition {
@@ -157,9 +157,7 @@
     overflow: hidden;
 }
 
-
 /* .expand-enter defines the starting state for entering */
-
 
 /* .expand-leave defines the ending state for leaving */
 
