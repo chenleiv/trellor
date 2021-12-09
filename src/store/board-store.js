@@ -26,7 +26,7 @@ export const boardStore = {
         setBoards(state, { boards }) {
             state.boards = boards;
         },
-        setBoard(state, {board}) {
+        setBoard(state, { board }) {
             state.currBoard = board
         },
         addBoard(state, { savedBoard }) {
@@ -66,9 +66,9 @@ export const boardStore = {
                 throw err;
             }
         },
-        async setBoard({commit}, {boardId}) {
+        async setBoard({ commit }, { boardId }) {
             const board = await boardService.getById(boardId);
-            commit({type: 'setBoard', board})
+            commit({ type: 'setBoard', board })
         },
         async addBoard({ commit }, { board }) {
             try {
@@ -163,7 +163,7 @@ export const boardStore = {
                 throw err;
             }
         },
-        
+
         async updateTask({ commit }, { boardId, groupId, task }) {
             try {
                 const savedBoard = await boardService.updateTask(boardId, groupId, task);

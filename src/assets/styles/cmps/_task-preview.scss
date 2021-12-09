@@ -105,8 +105,14 @@
         .task-attachment {
             span {
                 padding-right: 3px;
-                align-items: center;
-                font-size: 15px;
+                &:first-of-type {
+                    align-items: center;
+                    font-size: 14px;
+                    font-family: fa-solid;
+                    &::before {
+                        content: '\f0c6';
+                    }
+                }
             }
         }
         .task-location {
@@ -148,6 +154,7 @@
     background-color: rgb(113 130 159 / 8%);
 }
 
+
 /* always present */
 
 .expand-transition {
@@ -158,7 +165,9 @@
     overflow: hidden;
 }
 
+
 /* .expand-enter defines the starting state for entering */
+
 
 /* .expand-leave defines the ending state for leaving */
 

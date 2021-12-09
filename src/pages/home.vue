@@ -2,7 +2,7 @@
     <div class="home">
         <div class="links">
             <router-link to="/workspace"
-                ><h2>Get started <span></span></h2> </router-link
+                ><h2>Try Demo <span></span></h2> </router-link
             ><br />
             <!-- <router-link to="/"
                 ><h2>Login <span></span></h2>
