@@ -2,15 +2,9 @@
     <section class="modal-background" @click.self="backToBoard">
         <GmapMap
             :center="center"
-            :zoom="2"
+            :zoom="3"
             map-type-id="satellite"
-            style="
-                width: 1000px;
-                height: 520px;
-                margin: 50px auto;
-                border: 4px solid black;
-                opacity: 0.6;
-            "
+            class="main-map"
         >
             <GmapMarker
                 v-for="(pos, index) in positions"

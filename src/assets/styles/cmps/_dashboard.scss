@@ -9,6 +9,23 @@
     border-radius: 2px;
     min-height: 500px;
     flex-wrap: wrap;
+    .close-dashboard-btn {
+        position: absolute;
+        top: 0px;
+        right: 30px;
+        transform: scale(3);
+        font-family: fa-solid;
+        border: none;
+        background: none;
+        color: rgb(196, 191, 191);
+        &::before {
+            content: '\f00d';
+            opacity: 0.8;
+        }
+        &:hover {
+            opacity: 0.7;
+        }
+    }
     h1 {
         margin: auto;
         position: absolute;

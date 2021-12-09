@@ -1,7 +1,11 @@
 <template>
-    <section class="modal-background" @click.self="backToBoard">
+    <section class="modal-background">
         <div class="dashboard-container" v-if="board">
             <h1>DASHBOARD</h1>
+            <button
+                @click.self="backToBoard"
+                class="close-dashboard-btn"
+            ></button>
             <tasksPerMemberChart
                 class="chart"
                 :chartData="charts.barChartData"
