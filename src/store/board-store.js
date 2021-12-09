@@ -1,6 +1,4 @@
 import { boardService } from "@/services/board-service.js"
-import { socketService, SOCKET_EVENT_BOARD_UPDATED } from '../services/socket.service'
-
 
 export const boardStore = {
     state: {
@@ -169,11 +167,7 @@ export const boardStore = {
         async updateTask({ commit }, { boardId, groupId, task }) {
             try {
                 const savedBoard = await boardService.updateTask(boardId, groupId, task);
-                socketService.off(SOCKET_EVENT_BOARD_UPDATED)
-                socketService.on(SOCKET_EVENT_BOARD_UPDATED, savedBoard => {
-                    console.log('Got savedBoard ##$%%^&&** from socket', savedBoard);
-                    commit({ type: 'updateBoard', board: savedBoard })
-                })
+                commit({ type: 'updateBoard', board: savedBoard })
                 return savedBoard;
             } catch (err) {
                 console.log("updateTask Error (Store):", err);
