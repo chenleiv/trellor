@@ -33,7 +33,7 @@ new Vue({
 // Google Maps:
 Vue.use(VueGoogleMaps, {
     load: {
-      key: 'AIzaSyAwGiZvHMgXknOgVGzfiqUHedPY-M9aRpM',
-      libraries: 'places', // This is required if you use the Autocomplete plugin
+        key: 'AIzaSyAwGiZvHMgXknOgVGzfiqUHedPY-M9aRpM',
+        libraries: 'places', // This is required if you use the Autocomplete plugin
     },
 })

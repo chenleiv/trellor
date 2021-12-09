@@ -117,7 +117,7 @@
                                 font-size: 14px;
                             "
                             @click.prevent="removeTask"
-                            >Archive this list</el-button
+                            >Archive this task</el-button
                         >
                         <!-- @click="toggleTaskDelete" -->
                     </div>
