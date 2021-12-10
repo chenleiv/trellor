@@ -1,6 +1,6 @@
 <template>
     <section class="task-preview">
-        <router-link :to="`/board/${boardId}/task/${task.id}`">
+        <router-link :to="`/board/${board._id}/task/${task.id}`">
             <div class="cover-preview-container">
                 <div
                     v-if="findCoverColor"
@@ -191,7 +191,7 @@
         data() {
             return {
                 changeLabelSize: true,
-                boardId: '',
+                // boardId: '',
                 taskLabels: [],
                 coverUrl: '',
                 toggleEditCard: false,
@@ -201,8 +201,9 @@
         },
 
         created() {
-            const { boardId } = this.$route.params;
-            this.boardId = boardId;
+            // console.log(`/board/${this.board._id}/task/${this.task.id}`);
+            // console.log('this.board from TASK PREVIEW', this.board);
+            // console.log('boardId', this.boardId);
             if (this.task.labelIds) {
                 if (this.task.labelIds.length > 0) this.getLabels();
             }
@@ -228,20 +229,12 @@
             toggleTaskDelete() {
                 this.toggleDeleteMenu = !this.toggleDeleteMenu;
                 console.log('toggleDeleteMenu', toggleDeleteMenu);
-                // this.$emit('openModalBg');
             },
-            // toggleTaskEdit() {
-            //     this.toggleDeleteMenu = false;
-            //     this.editTitle = !this.editTitle;
-            //     console.log('editTitle', this.editTitle);
-            // },
-            // toggleTaskDelete() {
-            //     this.toggleDeleteMenu = false;
-            //     this.deleteCard = !this.deleteCard;
-            //     console.log('deleteCard', this.deleteCard);
-            // },
         },
         computed: {
+            board() {
+                return this.$store.getters.getCurrBoard;
+            },
             findCoverImg() {
                 if (this.task.attachments.some((attach) => attach.isCover)) {
                     const attach = this.task.attachments.find(
@@ -294,6 +287,8 @@
                 return attachment;
             },
         },
+        watch: {},
+
         components: {
             Avatar,
         },
