@@ -722,7 +722,7 @@
 
         data() {
             return {
-                board: null,
+                // board: null,
                 task: null,
                 group: null,
                 taskToEdit: {},
@@ -794,16 +794,18 @@
 
         methods: {
             async loadData() {
-                const { boardId } = this.$route.params;
-                const { taskId } = this.$route.params;
+                const board = this.board;
+                // const { boardId } = this.$route.params;
+                const { taskId } = this.$route.params; /// Ask avior if we need getters for this.
                 try {
                     // Getting Board:
-                    const board = await this.$store.dispatch({
-                        type: 'getBoard',
-                        boardId,
-                    });
-                    this.board = board;
-                    this.labels = this.board.labels;
+                    // const board = await this.$store.dispatch({
+                    //     type: 'getBoard',
+                    //     boardId,
+                    // });
+                    // this.board = board;
+                    // this.labels = this.board.labels;
+                    this.labels = board.labels;
                     // Loading Task:
                     const taskArr = board.groups.map((group) => {
                         return group.tasks.find((task) => {
@@ -839,7 +841,7 @@
                     console.log(
                         `Task Succefully Updated with Id ${this.task.id}`
                     );
-                    this.$emit('loadBoard');
+                    // this.$emit('loadBoard');
                 } catch (err) {
                     console.log('Error in updateTask (task-details):', err);
                     throw err;
@@ -878,9 +880,9 @@
                         type: 'updateBoard',
                         board,
                     });
-                    this.board = savedBoard;
+                    // this.board = savedBoard;
                     console.log(`Board updated successfully`);
-                    this.$emit('loadBoard');
+                    // this.$emit('loadBoard');
                     this.labelTitle = '';
                 } catch (err) {
                     console.log('Error in updateBoard (task-details):', err);
@@ -1157,6 +1159,9 @@
         },
 
         computed: {
+            board() {
+                return this.$store.getters.getCurrBoard;
+            },
             visibility() {
                 return { hidden: !this.isCommentInputOpen };
             },

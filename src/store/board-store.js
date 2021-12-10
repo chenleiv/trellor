@@ -86,6 +86,7 @@ export const boardStore = {
             const board = await boardService.getById(boardId);
             commit({ type: 'setCurrBoard', board })
         },
+
         async addBoard({ commit }, { board }) {
             try {
                 const savedBoard = await boardService.save(board);

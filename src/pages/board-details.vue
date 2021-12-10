@@ -1,10 +1,7 @@
 <template>
     <section v-if="board" class="board-details">
-        <board-header
-            :board="board"
-            @loadBoard="loadBoard"
-            @editBgcBoard="editBgcBoard"
-        />
+        <board-header :board="board" @editBgcBoard="editBgcBoard" />
+        <!-- @loadBoard="loadBoard" -->
 
         <main class="main-layout">
             <Container
@@ -25,9 +22,9 @@
                         :board="board"
                         :group="group"
                         :boardLabels="board.labels"
-                        @loadBoard="loadBoard"
                     />
                 </Draggable>
+                <!-- @loadBoard="loadBoard" -->
                 <section>
                     <!-- <transition name="slide-up"> -->
                     <div class="add-group-btn-container" v-if="!isAddClicked">
@@ -58,7 +55,8 @@
         </main>
 
         <transition name="fade" :duration="50">
-            <router-view @loadBoard="loadBoard" />
+            <router-view />
+            <!-- @loadBoard="loadBoard" -->
         </transition>
     </section>
 </template>
@@ -96,21 +94,21 @@
             editBgcBoard(style) {
                 this.$emit('setBg', style);
             },
-            async loadBoard() {
-                const { boardId } = this.board;
-                console.log('this.board boardDetails loadBoard', this.board);
-                console.log('boardId', boardId);
-                try {
-                    const board = await this.$store.dispatch({
-                        type: 'getCurrBoard',
-                        boardId,
-                    });
-                    this.board = board;
-                } catch (err) {
-                    console.log('Board Loading Error (board-details):', err);
-                    throw err;
-                }
-            },
+            // async loadBoard() {
+            //     const { boardId } = this.board;
+            //     console.log('this.board boardDetails loadBoard', this.board);
+            //     console.log('boardId', boardId);
+            //     try {
+            //         const board = await this.$store.dispatch({
+            //             type: 'getBoard',
+            //             boardId,
+            //         });
+            //         this.board = board;
+            //     } catch (err) {
+            //         console.log('Board Loading Error (board-details):', err);
+            //         throw err;
+            //     }
+            // },
             openAddingInput() {
                 this.isAddClicked = !this.isAddClicked;
             },
