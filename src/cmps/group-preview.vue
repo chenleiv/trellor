@@ -132,6 +132,7 @@
 
         created() {
             this.boardId = this.$route.params.boardId;
+            console.log('boardIdboardId', this.boardId);
         },
 
         methods: {

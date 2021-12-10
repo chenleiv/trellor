@@ -32,7 +32,7 @@ async function query() {
         // const res = await axios.get(BOARD_URL, { params: filterBy })
         // return res.data
         return httpService.get(`board`)
-        //(`board`,filterBy)
+            //(`board`,filterBy)
     } catch (err) {
         console.log('Error in Query board (Front board Service):', err);
         throw err;
@@ -53,15 +53,15 @@ async function remove(boardId) {
 async function save(board) {
     try {
         if (board._id) {
-            console.log('board._id', board._id);
+            console.log('board._id board service front ', board._id);
             // var res = await axios.put(TOY_URL, toy)
             return httpService.put('board', board)
         } else {
             return httpService.post('board', board)
-            // var res = await axios.post(TOY_URL, toy)
+                // var res = await axios.post(TOY_URL, toy)
         }
     } catch (err) {
-        console.log('Saving Error (Front Toy Service):', err);
+        console.log('Saving Error (Front board Service):', err);
         throw err;
     }
     // const savedBoard = (board._id) ? await storageService.put(BOARD_KEY, board) : await storageService.post(BOARD_KEY, board)
@@ -220,25 +220,25 @@ function getEmptyBoard() {
         },
         style: { bgColor: '', bgImg: '' },
         labels: [{
-            id: 'l101',
-            title: '',
-            color: '#409EFF'
-        },
-        {
-            id: 'l102',
-            title: '',
-            color: '#67C23A'
-        },
-        {
-            id: 'l103',
-            title: '',
-            color: '#E6A23C'
-        },
-        {
-            id: 'l104',
-            title: '',
-            color: '#F56C6C'
-        },
+                id: 'l101',
+                title: '',
+                color: '#409EFF'
+            },
+            {
+                id: 'l102',
+                title: '',
+                color: '#67C23A'
+            },
+            {
+                id: 'l103',
+                title: '',
+                color: '#E6A23C'
+            },
+            {
+                id: 'l104',
+                title: '',
+                color: '#F56C6C'
+            },
         ],
         members: [{
             _id: '',
@@ -246,64 +246,64 @@ function getEmptyBoard() {
             imgUrl: ''
         }],
         groups: [{
-            id: utilService.makeId(4) + 's',
-            title: 'To do',
-            tasks: [{
-                id: utilService.makeId(4) + 'j',
-                title: 'Do that',
-                description: '',
-                comments: [],
-                attachments: [],
-                checklists: [],
-                members: [],
-                labelIds: ['l101'],
-                createdAt: '',
-                dueDate: '',
-                byMember: {},
-                coverStyle: { bgColor: 'transparent', bgImg: 'none' },
-                location: null,
-                isComplete: false
-            },]
-        }, {
-            id: utilService.makeId(4) + 'f',
-            title: 'Doing',
-            tasks: [{
-                id: utilService.makeId(4) + 5,
-                title: 'Do that',
-                description: '',
-                comments: [],
-                attachments: [],
-                checklists: [],
-                members: [],
-                labelIds: [],
-                createdAt: '',
-                dueDate: '',
-                byMember: {},
-                coverStyle: { bgColor: 'transparent', bgImg: 'none' },
-                location: null,
-                isComplete: false
-            },]
-        },
-        {
-            id: utilService.makeId(),
-            title: 'Done',
-            tasks: [{
+                id: utilService.makeId(4) + 's',
+                title: 'To do',
+                tasks: [{
+                    id: utilService.makeId(4) + 'j',
+                    title: 'Do that',
+                    description: '',
+                    comments: [],
+                    attachments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: ['l101'],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {},
+                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
+                    location: null,
+                    isComplete: false
+                }, ]
+            }, {
+                id: utilService.makeId(4) + 'f',
+                title: 'Doing',
+                tasks: [{
+                    id: utilService.makeId(4) + 5,
+                    title: 'Do that',
+                    description: '',
+                    comments: [],
+                    attachments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {},
+                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
+                    location: null,
+                    isComplete: false
+                }, ]
+            },
+            {
                 id: utilService.makeId(),
-                title: 'Do that',
-                description: '',
-                comments: [],
-                attachments: [],
-                checklists: [],
-                members: [],
-                labelIds: [],
-                createdAt: '',
-                dueDate: '',
-                byMember: {},
-                coverStyle: { bgColor: 'transparent', bgImg: 'none' },
-                location: null,
-                isComplete: false
-            },]
-        }
+                title: 'Done',
+                tasks: [{
+                    id: utilService.makeId(),
+                    title: 'Do that',
+                    description: '',
+                    comments: [],
+                    attachments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {},
+                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
+                    location: null,
+                    isComplete: false
+                }, ]
+            }
         ],
         activities: [],
         isStarred: false
@@ -774,5 +774,3 @@ function getEmptyBoard() {
 //         isStarred: false,
 //     }
 // }
-
-

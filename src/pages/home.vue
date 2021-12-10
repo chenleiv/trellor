@@ -1,14 +1,23 @@
 <template>
     <div class="home">
-        <div class="links">
-            <router-link to="/workspace"
-                ><h2>Try Demo <span></span></h2> </router-link
-            ><br />
-            <!-- <router-link to="/"
-                ><h2>Login <span></span></h2>
-            </router-link> -->
+        <div>
+            <div class="link">
+                <article>
+                    <h1>Trellor: where powerful work gets done.</h1>
+                    <p>
+                        Make every project a success: customize your Trello
+                        workspace with more ways to visualize your work and
+                        dashboards to help every team do their best work
+                    </p>
+                </article>
+                <router-link to="/workspace"
+                    ><h2>Try Demo <span></span></h2>
+                </router-link>
+            </div>
+
+            <img src="@/assets/img/undraw_completed_tasks_vs6q.svg" alt="" />
         </div>
-        <img src="@/assets/img/undraw_completed_tasks_vs6q.svg" alt="" />
+
         <!-- <img src="@/assets/img/undraw_taking_notes_re_bnaf.svg" alt="" /> -->
         <!-- <img src="@/assets/img/undraw_work_chat_re_qes4.svg" alt="" /> -->
     </div>

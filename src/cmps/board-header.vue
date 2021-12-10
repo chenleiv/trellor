@@ -186,7 +186,7 @@
                         type: 'updateBoard',
                         board: changedBoard,
                     });
-                    console.log(`Board changed successfully`);
+                    console.log(`Board ${savedBoard._id} changed successfully`);
                     this.$emit('loadBoard');
                 } catch (err) {
                     console.log('Error in adding a board (workspace):', err);

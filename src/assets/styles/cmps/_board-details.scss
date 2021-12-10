@@ -7,7 +7,7 @@
     main {
         height: 100%;
         max-width: 100vw;
-        overflow-x: scroll;
+        overflow-x: auto;
         overflow-y: hidden;
         &::-webkit-scrollbar {
             width: 32px;
@@ -37,7 +37,7 @@
         .groups-container {
             display: flex;
             gap: 8px;
-            & > section {
+            &>section {
                 border-radius: 3px;
                 width: 270px;
             }
@@ -46,10 +46,12 @@
                 border: 0;
             }
             .add-group-btn-container {
+                width: 270px;
                 span {
                     font-weight: 600;
                 }
                 button {
+                    margin-right: 8px;
                     border-radius: 3px;
                     text-align: left;
                     color: #fff;
@@ -62,6 +64,8 @@
                 }
             }
             .group-add-container {
+                width: 270px;
+                margin-right: 8px;
                 border-radius: 3px;
                 background-color: rgb(235 236 240);
                 padding: 4px;
@@ -120,8 +124,17 @@
     // box-shadow: none;
 }
 
+.smooth-dnd-container {
+    margin-right: 8px;
+}
+
+.smooth-dnd-container.horizontal>.smooth-dnd-draggable-wrapper {
+    height: fit-content;
+}
+
 .smooth-dnd-draggable-wrapper {
     position: relative;
+    height: fit-content;
     // box-shadow: 0 1px 0 #091e4240;
     border-radius: 3px;
 }
