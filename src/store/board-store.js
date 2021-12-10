@@ -1,19 +1,24 @@
 import { boardService } from "@/services/board-service.js"
+import { getJSON } from "jquery";
 
 export const boardStore = {
     state: {
         boards: [],
         currBoard: null,
         isLoading: false,
+        filterBy: null
     },
     getters: {
-        boards({ boards }) { return boards },
+        boards({ boards }) {
+            console.log('boards', boards);
+            return boards
+        },
         boardsToShow(state) {
-            // var boards = JSON.parse(JSON.stringify(state.boards));
-
             return state.boards;
         },
-        getCurrBoard(state) { return state.currBoard },
+        getCurrBoard(state) {
+            return state.currBoard
+        },
         isLoading({ isLoading }) { return isLoading },
     },
     mutations: {
@@ -22,11 +27,13 @@ export const boardStore = {
         },
         getBoard(state, { board }) {
             state.currBoard = board
+            console.log('state.currBoard from store getBoard', state.currBoard);
         },
         setBoards(state, { boards }) {
             state.boards = boards;
+            console.log('state.boards from store setBoard', state.boards);
         },
-        setBoard(state, { board }) {
+        setCurrBoard(state, { board }) {
             state.currBoard = board
         },
         addBoard(state, { savedBoard }) {
@@ -36,7 +43,12 @@ export const boardStore = {
             const idx = state.boards.findIndex(board => board._id === payload.board._id)
             state.boards.splice(idx, 1, payload.board)
             state.currBoard = payload.board
+            console.log('state.currBoard MUT updateBoard', state.currBoard);
         },
+        // setNewBoard(state, { board }) {
+        //     console.log('board', board);
+        //     state.currBoard = board
+        // },
         removeBoard(state, payload) {
             const idx = state.boards.findIndex(board => board._id === payload.boardId)
             state.boards.splice(idx, 1)
@@ -69,6 +81,10 @@ export const boardStore = {
         async setBoard({ commit }, { boardId }) {
             const board = await boardService.getById(boardId);
             commit({ type: 'setBoard', board })
+        },
+        async setCurrBoard({ commit }, { boardId }) {
+            const board = await boardService.getById(boardId);
+            commit({ type: 'setCurrBoard', board })
         },
         async addBoard({ commit }, { board }) {
             try {
@@ -147,8 +163,9 @@ export const boardStore = {
             try {
                 const savedBoard = await boardService.addGroup(boardId, groupTitle);
                 commit({ type: 'updateBoard', board: savedBoard })
+                console.log('savedBoard', savedBoard);
                 return savedBoard;
-            } catch {
+            } catch (err) {
                 console.log("addGroup (Store):", err);
                 throw err;
             }
@@ -156,9 +173,11 @@ export const boardStore = {
         async addTask({ commit }, { boardId, groupId, taskTitle }) {
             try {
                 const savedBoard = await boardService.addTask(boardId, groupId, taskTitle);
-                commit({ type: 'updateBoard', board: savedBoard })
+                console.log('savedBoard', savedBoard);
+                console.log('boardId', boardId);
+                commit({ type: 'updateBoard', board: savedBoard, boardId: boardId })
                 return savedBoard;
-            } catch {
+            } catch (err) {
                 console.log("addTask Error (Store):", err);
                 throw err;
             }

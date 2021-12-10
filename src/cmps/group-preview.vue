@@ -131,7 +131,7 @@
         },
 
         created() {
-            this.boardId = this.$route.params.boardId;
+            this.boardId = this.board._id;
         },
 
         methods: {
@@ -167,8 +167,8 @@
                         boardId: this.boardId,
                         group,
                     });
-                    console.log(`Group Saved Successfully in ${board._id}`);
-                    this.$emit('loadBoard');
+                    console.log(`Group Saved Successfully in ${this.boardId}`);
+                    // this.$emit('loadBoard');
                 } catch (err) {
                     console.log('Error in updateGroup (group-preview):', err);
                     throw err;
@@ -183,7 +183,6 @@
             },
             toggleGroupMenu() {
                 this.toggleMenu = !this.toggleMenu;
-                // this.$emit('openModalBg');
             },
 
             async removeGroup() {
@@ -197,7 +196,7 @@
                         console.log(
                             `Group Removed Successfully in BoardId ${this.boardId}`
                         );
-                        this.$emit('loadBoard');
+                        // this.$emit('loadBoard');
                     } catch (err) {
                         console.log(
                             'Error in removeGroup (group-preview):',
@@ -216,9 +215,9 @@
                         task: task,
                     });
                     console.log(
-                        `Task ${task.id}  Successfully deleted in GroupId ${this.group.id}`
+                        `Task ${task.id}  Successfully deleted in GroupId ${this.boardId}`
                     );
-                    this.$emit('loadBoard');
+                    // this.$emit('loadBoard');
                 } catch (err) {
                     console.log('Error in deleteTask (group-preview):', err);
                     throw err;
@@ -238,7 +237,7 @@
                     console.log(
                         `Task Successfully Added in GroupId ${this.group.id}`
                     );
-                    this.$emit('loadBoard');
+                    // this.$emit('loadBoard');
                 } catch (err) {
                     console.log('Error in saveTask (group-preview):', err);
                     throw err;
@@ -255,10 +254,11 @@
             },
         },
 
+        computed: {},
+
         components: {
             taskPreview,
             draggable,
-            // Sortable,
             Container,
             Draggable,
         },

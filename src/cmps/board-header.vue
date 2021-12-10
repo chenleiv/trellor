@@ -132,7 +132,15 @@
 
     export default {
         name: 'boardHeader',
-        props: ['board'],
+        props: {
+            board: {
+                type: Object,
+                required: true,
+                default: function () {
+                    return { msg: 'No Board' };
+                },
+            },
+        },
 
         data() {
             return {
@@ -140,13 +148,13 @@
                 value: '',
                 isStarred: this.board.isStarred,
                 title: this.board.title,
-                boardId: '',
+                // boardId: '',
                 visible: false,
                 filterIsShown: false,
             };
         },
         created() {
-            this.boardId = this.$route.params.boardId;
+            // this.boardId = this.board._id;
         },
 
         methods: {

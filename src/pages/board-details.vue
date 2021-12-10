@@ -68,21 +68,20 @@
     import boardHeader from '@/cmps/board-header.vue';
     import { Container, Draggable, smoothDnD } from 'vue-smooth-dnd';
     import { applyDrag } from '@/services/util-drag.js';
+    // import { boardService } from '../services/board-service.js';
+
     export default {
         name: 'boardDetails',
 
         data() {
             return {
-                board: null,
                 isAddClicked: false,
                 groupTitle: '',
                 toggleMenu: false,
             };
         },
 
-        created() {
-            this.loadBoard();
-        },
+        created() {},
 
         methods: {
             dropEnd(ev) {
@@ -92,26 +91,21 @@
                 console.log('hi');
                 const board = JSON.parse(JSON.stringify(this.board));
                 board.groups = applyDrag(this.board.groups, dropResult);
-                // console.log('dropResult', dropResult);
                 this.updateBoard(board);
             },
             editBgcBoard(style) {
                 this.$emit('setBg', style);
             },
             async loadBoard() {
-                const { boardId } = this.$route.params;
+                const { boardId } = this.board;
+                console.log('this.board boardDetails loadBoard', this.board);
+                console.log('boardId', boardId);
                 try {
                     const board = await this.$store.dispatch({
-                        type: 'getBoard',
+                        type: 'getCurrBoard',
                         boardId,
                     });
                     this.board = board;
-                    // console.log('this.board ', this.board);
-                    // console.log(
-                    //     'this.board.style from details',
-                    //     this.board.style
-                    // );
-                    // this.toyToEdit = JSON.parse(JSON.stringify(toy));
                 } catch (err) {
                     console.log('Board Loading Error (board-details):', err);
                     throw err;
@@ -124,15 +118,10 @@
                 if (!this.groupTitle) return;
                 try {
                     await this.$store.dispatch({
-                        // const group = JSON.parse(JSON.stringify(this.newGroup));
                         type: 'addGroup',
                         boardId: this.board._id,
                         groupTitle: this.groupTitle,
                     });
-                    // console.log(
-                    //     `Group Added Successfully in ${this.board._id}`
-                    // );
-                    this.loadBoard();
                 } catch (err) {
                     console.log(
                         'Error in Adding a Group (board-details):',
@@ -141,7 +130,6 @@
                     throw err;
                 } finally {
                     this.groupTitle = '';
-                    // console.log('', this.$el.scrollWidth);
                     this.$el.scrollTo(this.$el.scrollWidth + 270, 0);
                 }
             },
@@ -152,7 +140,7 @@
                         board: changedBoard,
                     });
                     console.log(`Board changed successfully`);
-                    this.loadBoard();
+                    // this.loadBoard();
                 } catch (err) {
                     console.log('Error in adding a board (workspace):', err);
                     throw err;
@@ -161,20 +149,21 @@
         },
 
         computed: {
-            // getBoard
+            board() {
+                return this.$store.getters.getCurrBoard;
+            },
         },
 
-        //ask Avior if nessecery
-        // watch: {
-        //   "$route.params.BoardId": {
-        //     handler() {
-        //       let toyId = this.$route.params.BoardId;
-        //       console.log("Changed to", BoardId);
-        //       this.$store.dispatch({ type: "setCurrToy", BoardId });
-        //     },
-        //     immediate: true,
-        //   },
-        // },
+        watch: {
+            // '$route.params.BoardId': {
+            //     handler() {
+            //         let boardId = this.$route.params.boardId;
+            //         this.boardId = boardId;
+            //         this.$store.dispatch({ type: 'setCurrBoard', boardId });
+            //     },
+            //     immediate: true,
+            // },
+        },
 
         components: {
             groupPreview,
