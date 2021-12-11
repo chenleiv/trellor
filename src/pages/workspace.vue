@@ -94,6 +94,9 @@
         },
 
         computed: {
+            loggedInUser() {
+                return this.$store.getters.loggedinUser;
+            },
             boards() {
                 return this.$store.getters.boardsToShow;
             },
@@ -116,6 +119,8 @@
             },
             async addBoard() {
                 if (!this.newBoard.title) return;
+                if (this.loggedInUser)
+                    this.newBoard.members.push(this.loggedInUser);
                 console.log('', this.newBoard);
                 this.newBoard.style = this.boardStyle;
                 const board = JSON.parse(JSON.stringify(this.newBoard));

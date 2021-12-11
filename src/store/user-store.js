@@ -1,4 +1,4 @@
-import { userService } from '../services/user-service'
+import { userService } from '../services/user-service-upgrade.js'
 // import { socketService, SOCKET_EMIT_USER_WATCH, SOCKET_EVENT_USER_UPDATED } from '../services/socket.service'
 
 // var localLoggedinUser = null;
@@ -18,8 +18,14 @@ export const userStore = {
     mutations: {
         setLoggedinUser(state, { user }) {
             console.log('user', user);
+            // const guest = {
+            //         fullname: "Guest",
+            //         username: "guest@gmail.com",
+            //         password: "guest123",
+            //         imgUrl: "https://res.cloudinary.com/cloudinaryorb/image/upload/v1639142324/guest_b8lh6r.png"
+            //     }
             // Yaron: needed this workaround as for score not reactive from birth
-            state.loggedinUser = (user) ? { ...user } : null;
+            state.loggedinUser = (user) ? {...user } : null;
         },
         setWatchedUser(state, { user }) {
             state.watchedUser = user;
@@ -35,20 +41,20 @@ export const userStore = {
         // },
     },
     actions: {
-        async login({ commit }, { userCred }) {
+        async login({ commit }, { user }) {
             try {
-                const user = await userService.login(userCred);
-                commit({ type: 'setLoggedinUser', user })
+                const currUser = await userService.login(user);
+                commit({ type: 'setLoggedinUser', user: currUser })
                 return user;
             } catch (err) {
                 console.log('userStore: Error in login', err)
                 throw err
             }
         },
-        async signup({ commit }, { userCred }) {
+        async signup({ commit }, { user }) {
             try {
-                const user = await userService.signup(userCred)
-                commit({ type: 'setLoggedinUser', user })
+                const currUser = await userService.signup(user)
+                commit({ type: 'setLoggedinUser', user: currUser })
                 return user;
             } catch (err) {
                 console.log('userStore: Error in signup', err)

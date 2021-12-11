@@ -86,8 +86,8 @@
                 // console.log('arguments', ev);
             },
             onGroupDrop(dropResult) {
-                console.log('hi');
-                const board = JSON.parse(JSON.stringify(this.board));
+                // console.log('drop', this.board);
+                const board = Object.assign({}, this.board);
                 board.groups = applyDrag(this.board.groups, dropResult);
                 this.updateBoard(board);
             },

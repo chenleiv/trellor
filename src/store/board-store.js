@@ -59,7 +59,7 @@ export const boardStore = {
             const filterBy = state.filterBy;
             commit({ type: 'setLoading', isLoading: true });
             try {
-                const boards = await boardService.query(filterBy);
+                const boards = await boardService.query();
                 commit({ type: 'setBoards', boards });
             } catch (err) {
                 console.log('Error in Query Boards (Store):', err);
@@ -98,6 +98,7 @@ export const boardStore = {
             }
         },
         async updateBoard({ commit }, { board }) {
+            // board.activities.push({name:''});
             try {
                 const savedBoard = await boardService.save(board);
                 commit({ type: 'updateBoard', board: savedBoard })

@@ -23,6 +23,7 @@ Vue.config.productionTip = false
 new Vue({
     created() {
         this.$store.dispatch({ type: 'loadBoards' });
+        this.$store.dispatch({ type: 'loadUsers' });
     },
     router,
     store,

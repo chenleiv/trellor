@@ -366,11 +366,21 @@
                             </header>
                             <div class="comments-container">
                                 <avatar
+                                    v-if="!loggedInUser"
                                     class="user-avatar"
                                     backgroundColor="lightblue"
                                     color="black"
                                     :size="30"
-                                    username="Ben Ernst"
+                                    username="Guest"
+                                ></avatar>
+                                <avatar
+                                    v-if="loggedInUser"
+                                    class="user-avatar"
+                                    backgroundColor="lightblue"
+                                    color="black"
+                                    :size="30"
+                                    :src="loggedInUser.imgUrl"
+                                    :username="loggedInUser.fullname"
                                 ></avatar>
                                 <textarea
                                     v-model="comment"
@@ -398,16 +408,35 @@
                                     class="activity-preview-container"
                                 >
                                     <avatar
+                                        v-if="!loggedInUser"
                                         class="user-avatar"
                                         backgroundColor="lightblue"
                                         color="black"
                                         :size="30"
-                                        username="Ben Ernst"
+                                        username="Guest"
+                                    ></avatar>
+                                    <avatar
+                                        v-if="loggedInUser"
+                                        class="user-avatar"
+                                        backgroundColor="lightblue"
+                                        color="black"
+                                        :size="30"
+                                        :src="loggedInUser.imgUrl"
+                                        :username="loggedInUser.fullname"
                                     ></avatar>
                                     <div class="activity-details">
                                         <div class="activity-member-container">
-                                            <span class="member-name"
-                                                >Ben Ernst</span
+                                            <span
+                                                class="member-name"
+                                                v-if="loggedInUser"
+                                                >{{
+                                                    loggedInUser.fullname
+                                                }}</span
+                                            >
+                                            <span
+                                                class="member-name"
+                                                v-if="!loggedInUser"
+                                                >Guest</span
                                             >
                                             <span
                                                 class="activity-created-at-container"
@@ -961,6 +990,12 @@
                         this.userJoined = true;
                     }
                 }
+                // this.taskToEdit['activities'] = [
+                //     {
+                //         name: this.loggedInUser.fullname,
+                //         txt: ` has added ${member}`,
+                //     },
+                // ];
                 this.updateTask();
             },
 
@@ -1134,6 +1169,7 @@
                     );
                     this.taskToEdit.attachments[idx].isCover = false;
                 }
+
                 this.updateTask();
 
                 // this.isCoverStyle = true;
@@ -1159,6 +1195,9 @@
         },
 
         computed: {
+            loggedInUser() {
+                return this.$store.getters.loggedinUser;
+            },
             board() {
                 return this.$store.getters.getCurrBoard;
             },

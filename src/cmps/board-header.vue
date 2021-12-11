@@ -52,34 +52,47 @@
                 </section>
                 <span
                     :class="{ starred: isStarred }"
-                    @click="updateBoard"
+                    @click="starUpdate"
                     class="star-favorite"
                 ></span>
                 <div class="members-container">
                     <div class="vl"></div>
-                    <div class="avatar-icon">
+                    <div class="avatar-icon" v-if="board.members.length">
                         <avatar
-                            backgroundColor="lightblue"
-                            color="black"
-                            :size="30"
-                            username="Ben Ernst"
-                        ></avatar>
-                        <avatar
-                            backgroundColor="darkslateblue"
-                            color="#fff"
-                            :size="30"
-                            username="Or Baadani"
-                        ></avatar>
-
-                        <avatar
+                            v-for="mem in board.members"
+                            :key="mem._id"
                             backgroundColor="cadetblue"
                             color="#fff"
                             :size="30"
-                            username="Chen Leiv"
+                            :src="mem.imgUrl"
+                            :username="mem.fullname"
                         ></avatar>
                     </div>
 
-                    <a class="add-btn"> <span class="user"></span> Invite </a>
+                    <el-popover
+                        placement="bottom-end"
+                        width="100"
+                        v-model="toggleUserInvite"
+                        title="Add to board"
+                    >
+                        <div
+                            v-for="(user, i) in availUsers"
+                            :key="i"
+                            @click="addMembers(user)"
+                        >
+                            <avatar
+                                backgroundColor="cadetblue"
+                                color="#fff"
+                                :size="30"
+                                :username="user.fullname"
+                                :src="user.imgUrl"
+                            ></avatar
+                            >{{ user.fullname }}
+                        </div>
+                        <a class="add-btn" slot="reference">
+                            <span class="user"></span> Invite
+                        </a>
+                    </el-popover>
                 </div>
             </div>
 
@@ -144,6 +157,7 @@
 
         data() {
             return {
+                availUsers: [],
                 isShown: false,
                 value: '',
                 isStarred: this.board.isStarred,
@@ -151,13 +165,21 @@
                 // boardId: '',
                 visible: false,
                 filterIsShown: false,
+                toggleUserInvite: false,
             };
         },
         created() {
             // this.boardId = this.board._id;
+            this.availUsers = this.users;
+            console.log('', this.board.members);
         },
 
         methods: {
+            addMembers(user) {
+                const board = JSON.parse(JSON.stringify(this.board));
+                board.members.push(user);
+                this.updateBoard(board);
+            },
             openMenu() {
                 this.isShown = !this.isShown;
             },
@@ -184,15 +206,17 @@
                     throw err;
                 }
             },
-            async updateBoard() {
+            starUpdate() {
                 this.isStarred = !this.isStarred;
-                console.log('', this.isStarred);
                 const changedBoard = JSON.parse(JSON.stringify(this.board));
                 changedBoard.isStarred = this.isStarred;
+                this.updateBoard(changedBoard);
+            },
+            async updateBoard(board) {
                 try {
                     const savedBoard = await this.$store.dispatch({
                         type: 'updateBoard',
-                        board: changedBoard,
+                        board,
                     });
                     console.log(`Board ${savedBoard._id} changed successfully`);
                     this.$emit('loadBoard');
@@ -237,6 +261,9 @@
                     'filter-menu-open': this.filterIsShown,
                     'filter-close': !this.filterIsShown,
                 };
+            },
+            users() {
+                return this.$store.getters.users;
             },
         },
         watch: {
