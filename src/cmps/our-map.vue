@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section class="map-container">
         <form class="map-form">
             <el-input
                 type="text"
@@ -44,7 +44,7 @@
             :center="center"
             :zoom="10"
             map-type-id="terrain"
-            style="width: 480px; height: 240px"
+            class="map"
         >
             <GmapMarker
                 :position="center"

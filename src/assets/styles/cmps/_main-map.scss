@@ -4,3 +4,10 @@
     margin: 50px auto;
     border: 4px solid black;
 }
+.task-preview-in-map {
+    .cover-preview-container {
+        img {
+            max-height: 100px;
+        }
+    }
+}

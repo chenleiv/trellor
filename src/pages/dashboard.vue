@@ -16,6 +16,11 @@
                 :chartData="charts.pieChartData"
                 :options="charts.pieChartOptions"
             />
+            <tasksDueDatesChart
+                class="chart"
+                :chartData="charts.lineChartData"
+                :options="charts.lineChartOptions"
+            />
         </div>
     </section>
 </template>
@@ -23,6 +28,7 @@
 <script>
     import tasksPerMemberChart from '@/cmps/tasks-per-member-chart';
     import tasksByLabelChart from '@/cmps/tasks-by-label-chart';
+    import tasksDueDatesChart from '@/cmps/tasks-due-dates-chart';
 
     export default {
         data() {
@@ -67,9 +73,10 @@
                             text: 'Tasks per Member',
                         },
                         layout: {
-                            padding: 20,
+                            padding: 30,
                         },
                     },
+
                     pieChartData: {
                         type: 'pie',
                         labels: [],
@@ -89,7 +96,7 @@
                         responsive: true,
                         legend: {
                             display: true,
-                            position: 'left',
+                            position: 'bottom',
                         },
                         title: {
                             display: true,
@@ -97,6 +104,57 @@
                         },
                         layout: {
                             padding: 20,
+                        },
+                    },
+
+                    lineChartData: {
+                        type: 'line',
+                        labels: [
+                            'January',
+                            'February',
+                            'March',
+                            'April',
+                            'May',
+                            'June',
+                            'July',
+                            'August',
+                            'September',
+                            'October',
+                            'November',
+                            'December',
+                        ],
+                        datasets: [
+                            {
+                                data: [5, 2, 9, 6, 5, 1, 4, 2, 8, 6, 2, 7],
+                                backgroundColor: [
+                                    '#40a0ff80',
+                                    '#67c23a88',
+                                    '#e6a23c7e',
+                                    '#f56c6c88',
+                                    '#40a0ff80',
+                                    '#67c23a88',
+                                    '#e6a23c7e',
+                                    '#f56c6c88',
+                                    '#40a0ff80',
+                                    '#67c23a88',
+                                    '#e6a23c7e',
+                                    '#f56c6c88',
+                                ],
+                            },
+                        ],
+                    },
+                    lineChartOptions: {
+                        responsive: true,
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Tasks Due Dates 2022',
+                        },
+                        layout: {
+                            padding: 30,
                         },
                     },
                 },
@@ -118,6 +176,7 @@
                     this.board = board;
                     this.setMembersData();
                     this.setLabelsData();
+                    this.getTasksPerDueDate();
                 } catch (err) {
                     console.log('Board Loading Error (dashboard):', err);
                     throw err;
@@ -164,9 +223,6 @@
             // Labels:
 
             setLabelsData() {
-                // Colors:
-                // this.charts.pieChartData.datasets[0].backgroundColor =
-                //     this.board.labels.map((label) => label.color);
                 // Titles:
                 this.charts.pieChartData.labels = this.board.labels.map(
                     (label) => label.title
@@ -200,6 +256,28 @@
                 });
             },
 
+            getTasksPerDueDate() {
+                var monthsAppearance = [];
+                this.board.groups.forEach((group) => {
+                    group.tasks.forEach((task) => {
+                        monthsAppearance.push(task.dueDate.substring(0, 3));
+                    });
+                });
+                console.log('monthsAppearance:', monthsAppearance);
+                // var count = 0;
+                // this.dataLabelIds.forEach((dLabelId) => {
+                //     count = 0;
+                //     labelsAppearance.forEach((lbId) => {
+                //         if (dLabelId === lbId) {
+                //             count++;
+                //             this.charts.pieChartData.datasets[0].data[
+                //                 this.dataLabelIds.indexOf(dLabelId)
+                //             ] = count;
+                //         }
+                //     });
+                // });
+            },
+
             // backToBoard:
             backToBoard() {
                 this.$router.push(`/board/${this.board._id}`);
@@ -209,6 +287,7 @@
         components: {
             tasksPerMemberChart,
             tasksByLabelChart,
+            tasksDueDatesChart,
         },
     };
 </script>
