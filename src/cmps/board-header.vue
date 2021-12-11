@@ -135,15 +135,7 @@
 
     export default {
         name: 'boardHeader',
-        props: {
-            board: {
-                type: Object,
-                required: true,
-                default: function () {
-                    return { msg: 'No Board' };
-                },
-            },
-        },
+        props: ['board'],
 
         data() {
             return {
@@ -151,7 +143,7 @@
                 value: '',
                 isStarred: this.board.isStarred,
                 title: this.board.title,
-                // boardId: '',
+                boardId: '',
                 visible: false,
                 filterIsShown: false,
             };

@@ -27,7 +27,6 @@
                         :boardLabels="board.labels"
                     />
                 </Draggable>
-                <!-- @loadBoard="loadBoard" -->
                 <section>
                     <!-- <transition name="slide-up"> -->
                     <div class="add-group-btn-container" v-if="!isAddClicked">
@@ -68,13 +67,12 @@
     import boardHeader from '@/cmps/board-header.vue';
     import { Container, Draggable, smoothDnD } from 'vue-smooth-dnd';
     import { applyDrag } from '@/services/util-drag.js';
-    // import { boardService } from '../services/board-service.js';
-
     export default {
         name: 'boardDetails',
 
         data() {
             return {
+                board: null,
                 isAddClicked: false,
                 groupTitle: '',
                 toggleMenu: false,
@@ -111,11 +109,13 @@
                 // const board = JSON.parse(JSON.stringify(this.board));
                 const board = Object.assign({}, this.board);
                 board.groups = applyDrag(this.board.groups, dropResult);
+                // console.log('dropResult', dropResult);
                 this.updateBoard(board);
             },
             editBgcBoard(style) {
                 this.$emit('setBg', style);
             },
+
             openAddingInput() {
                 this.isAddClicked = !this.isAddClicked;
             },
@@ -123,6 +123,7 @@
                 if (!this.groupTitle) return;
                 try {
                     await this.$store.dispatch({
+                        // const group = JSON.parse(JSON.stringify(this.newGroup));
                         type: 'addGroup',
                         boardId: this.board._id,
                         groupTitle: this.groupTitle,

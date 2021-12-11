@@ -185,6 +185,7 @@
             },
             toggleGroupMenu() {
                 this.toggleMenu = !this.toggleMenu;
+                // this.$emit('openModalBg');
             },
 
             async removeGroup() {
@@ -216,7 +217,7 @@
                         task: task,
                     });
                     console.log(
-                        `Task ${task.id}  Successfully deleted in GroupId ${this.boardId}`
+                        `Task ${task.id}  Successfully deleted in GroupId ${this.group.id}`
                     );
                     // this.$emit('loadBoard');
                 } catch (err) {
@@ -254,11 +255,10 @@
             },
         },
 
-        computed: {},
-
         components: {
             taskPreview,
             draggable,
+            // Sortable,
             Container,
             Draggable,
         },
