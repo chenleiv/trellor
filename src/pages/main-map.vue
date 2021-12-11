@@ -2,7 +2,7 @@
     <section class="modal-background" @click.self="backToBoard">
         <GmapMap
             :center="center"
-            :zoom="3"
+            :zoom="2"
             map-type-id="satellite"
             class="main-map"
         >

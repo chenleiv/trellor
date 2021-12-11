@@ -42,37 +42,53 @@
                 </div>
 
                 <div class="task-show-details" v-if="showIcons">
-                    <div class="task-description" v-if="task.description">
-                        <span class="material-icons-outlined"> notes </span>
-                    </div>
+                    <section class="icons-section">
+                        <div class="task-description" v-if="task.description">
+                            <span class="material-icons-outlined"> notes </span>
+                        </div>
 
-                    <div class="comments" v-if="task.comments.length">
-                        <span class="task-comments" v-if="task.comments.length">
-                            <span></span>
-                        </span>
-                        <span>{{ commentsLength }}</span>
-                    </div>
-
-                    <div class="task-attachment" v-if="attachmentLength">
-                        <span class="material-icons-outlined">
-                            attach_file
-                        </span>
-                        <span>{{ attachmentLength }}</span>
-                    </div>
-                    <div class="task-location" v-if="task.location">
-                        <span class=""></span>
-                    </div>
-                    <div class="task-checklists" v-if="task.checklists">
-                        <span v-if="task.checklists.length">
-                            <span class="material-icons-outlined">
-                                check_box
+                        <div class="comments" v-if="task.comments.length">
+                            <span
+                                class="task-comments"
+                                v-if="task.comments.length"
+                            >
+                                <span></span>
                             </span>
-                            <p>0/2</p>
-                        </span>
-                    </div>
+                            <span>{{ commentsLength }}</span>
+                        </div>
 
-                    <div v-for="member in task.members" :key="member.id">
-                        <div class="list-task-members">
+                        <div class="task-attachment" v-if="attachmentLength">
+                            <span> </span>
+                            <span>{{ attachmentLength }}</span>
+                        </div>
+                        <div class="task-location" v-if="task.location">
+                            <span class=""></span>
+                        </div>
+                        <div class="task-date" v-if="task.dueDate">
+                            <span class="">
+                                <span
+                                    class="material-icons-outlined"
+                                    v-if="task.isComplete"
+                                >
+                                    done
+                                </span>
+                            </span>
+                        </div>
+                        <div class="task-checklists" v-if="task.checklists">
+                            <span v-if="task.checklists.length">
+                                <span class="material-icons-outlined">
+                                    check_box
+                                </span>
+                                <p>0/2</p>
+                            </span>
+                        </div>
+                    </section>
+                    <section class="">
+                        <div
+                            v-for="member in task.members"
+                            :key="member.id"
+                            class="list-task-members"
+                        >
                             <avatar
                                 class="user-avatar"
                                 backgroundColor="lightblue"
@@ -81,7 +97,7 @@
                                 :username="member.fullname"
                             ></avatar>
                         </div>
-                    </div>
+                    </section>
                 </div>
 
                 <!-- delete button -->
@@ -237,10 +253,12 @@
             toggleTaskDelete() {
                 this.toggleDeleteMenu = !this.toggleDeleteMenu;
                 console.log('toggleDeleteMenu', toggleDeleteMenu);
-                // this.$emit('openModalBg');
             },
         },
         computed: {
+            board() {
+                return this.$store.getters.getCurrBoard;
+            },
             findCoverImg() {
                 if (this.task.attachments.some((attach) => attach.isCover)) {
                     const attach = this.task.attachments.find(
@@ -293,6 +311,8 @@
                 return attachment;
             },
         },
+        watch: {},
+
         components: {
             Avatar,
         },

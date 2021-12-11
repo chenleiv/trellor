@@ -62,7 +62,7 @@ async function save(board) {
             return httpService.post('board', board)
         }
     } catch (err) {
-        console.log('Saving Error (Front Toy Service):', err);
+        console.log('Saving Error (Front board Service):', err);
         throw err;
     }
     // const savedBoard = (board._id) ? await storageService.put(BOARD_KEY, board) : await storageService.post(BOARD_KEY, board)
@@ -789,5 +789,3 @@ function getEmptyBoard() {
 //         isStarred: false,
 //     }
 // }
-
-

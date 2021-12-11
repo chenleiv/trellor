@@ -1,15 +1,18 @@
 import { boardService } from "@/services/board-service.js"
-import { socketService, SOCKET_EVENT_BOARD_UPDATED } from '../services/socket.service'
-
+import { getJSON } from "jquery";
 
 export const boardStore = {
     state: {
         boards: [],
         currBoard: null,
         isLoading: false,
+        filterBy: null
     },
     getters: {
-        boards({ boards }) { return boards },
+        boards({ boards }) {
+            console.log('boards', boards);
+            return boards
+        },
         boardsToShow(state) {
             return state.boards;
         },
@@ -24,11 +27,13 @@ export const boardStore = {
         },
         getBoard(state, { board }) {
             state.currBoard = board
+            console.log('state.currBoard from store getBoard', state.currBoard);
         },
         setBoards(state, { boards }) {
             state.boards = boards;
+            console.log('state.boards from store setBoard', state.boards);
         },
-        setBoard(state, { board }) {
+        setCurrBoard(state, { board }) {
             state.currBoard = board
         },
         addBoard(state, { savedBoard }) {
@@ -38,6 +43,10 @@ export const boardStore = {
             state.currBoard = board
             console.log(' state.currBoard from mutations ', state.currBoard._id);
         },
+        // setNewBoard(state, { board }) {
+        //     console.log('board', board);
+        //     state.currBoard = board
+        // },
         removeBoard(state, payload) {
             const idx = state.boards.findIndex(board => board._id === payload.boardId)
             state.boards.splice(idx, 1)
@@ -75,6 +84,11 @@ export const boardStore = {
             const board = await boardService.getById(boardId);
             commit({ type: 'setBoard', board })
         },
+        async setCurrBoard({ commit }, { boardId }) {
+            const board = await boardService.getById(boardId);
+            commit({ type: 'setCurrBoard', board })
+        },
+
         async addBoard({ commit }, { board }) {
             try {
                 const savedBoard = await boardService.save(board);

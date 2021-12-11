@@ -9,6 +9,25 @@
     border-radius: 2px;
     min-height: 500px;
     flex-wrap: wrap;
+    .close-dashboard-btn {
+        position: absolute;
+        top: 0px;
+        right: 35px;
+        transform: scale(3);
+        font-family: fa-solid;
+        border: none;
+        background: none;
+        color: rgb(196, 191, 191);
+        background-color: #31313177;
+        border-radius: 40%;
+        &::before {
+            content: '\f00d';
+            opacity: 0.8;
+        }
+        &:hover {
+            opacity: 0.7;
+        }
+    }
     h1 {
         margin: auto;
         position: absolute;
@@ -19,7 +38,6 @@
 }
 .chart {
     background-color: #2d2d2d;
-    opacity: 0.7;
     border-radius: 20px;
     border: 1px solid #fff;
     width: 35%;

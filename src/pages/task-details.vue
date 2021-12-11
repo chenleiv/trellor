@@ -243,9 +243,14 @@
                                     ) in taskToEdit.attachments"
                                     :key="i"
                                 >
-                                    <span class="attach-title">{{
-                                        attach.title
-                                    }}</span>
+                                    <a :href="attach.url" target="_blank">
+                                        <span class="attach-title">{{
+                                            attach.title
+                                        }}</span
+                                        ><span
+                                            class="external-link-attach"
+                                        ></span
+                                    ></a>
                                     |
                                     <span
                                         @click="removeAttachment(i)"
@@ -636,7 +641,10 @@
                                     </div>
                                 </div>
 
-                                <div v-if="btn.name === 'Attachment'">
+                                <div
+                                    v-if="btn.name === 'Attachment'"
+                                    class="attach-popover"
+                                >
                                     <img-upload
                                         @onSaveImg="changeImgUrl"
                                     ></img-upload>
@@ -765,7 +773,6 @@
 
         created() {
             this.loadData();
-            // console.log('mapAddress', typeof this.mapAddress);
         },
 
         methods: {
@@ -847,7 +854,7 @@
                         type: 'updateBoard',
                         board,
                     });
-                    this.board = savedBoard;
+                    // this.board = savedBoard;
                     console.log(`Board updated successfully`);
                     this.labelTitle = '';
                 } catch (err) {
