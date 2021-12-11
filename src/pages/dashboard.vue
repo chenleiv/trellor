@@ -24,7 +24,7 @@
         data() {
             return {
                 // board: null,
-                boardId: null,
+                // boardId: null,
                 membersNames: [],
                 dataLabelIds: [],
                 charts: {
@@ -107,7 +107,7 @@
         methods: {
             async loadBoard() {
                 // const { boardId } = this.$route.params;
-                const boardId = this.board._id;
+                // this.boardId = this.board._id;
                 this.setMembersData();
                 this.setLabelsData();
                 // try {
