@@ -48,7 +48,7 @@ export const boardStore = {
             const filterBy = state.filterBy;
             commit({ type: 'setLoading', isLoading: true });
             try {
-                const boards = await boardService.query(filterBy);
+                const boards = await boardService.query();
                 commit({ type: 'setBoards', boards });
                 socketService.on('User connected', (msg) => {
                     console.log('msg', msg);
@@ -89,6 +89,7 @@ export const boardStore = {
             }
         },
         async updateBoard({ commit }, { board }) {
+            // board.activities.push({name:''});
             try {
                 const newBoard = await boardService.save(board);
                 commit({ type: 'updateBoard', board: newBoard })

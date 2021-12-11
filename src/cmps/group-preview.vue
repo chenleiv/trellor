@@ -1,5 +1,5 @@
 <template>
-    <section class="group-preview">
+    <section v-if="board" class="group-preview">
         <div class="group-header">
             <!-- class="input-title" -->
             <input

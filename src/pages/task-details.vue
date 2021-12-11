@@ -35,7 +35,7 @@
                     ></button>
                     <svg viewBox="0 0 24 24">
                         <path
-                            d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H3V5h18v11z"
+                            d="M16.557,4.467h-1.64v-0.82c0-0.225-0.183-0.41-0.409-0.41c-0.226,0-0.41,0.185-0.41,0.41v0.82H5.901v-0.82c0-0.225-0.185-0.41-0.41-0.41c-0.226,0-0.41,0.185-0.41,0.41v0.82H3.442c-0.904,0-1.64,0.735-1.64,1.639v9.017c0,0.904,0.736,1.64,1.64,1.64h13.114c0.904,0,1.64-0.735,1.64-1.64V6.106C18.196,5.203,17.461,4.467,16.557,4.467 M17.377,15.123c0,0.453-0.366,0.819-0.82,0.819H3.442c-0.453,0-0.82-0.366-0.82-0.819V8.976h14.754V15.123z M17.377,8.156H2.623V6.106c0-0.453,0.367-0.82,0.82-0.82h1.639v1.23c0,0.225,0.184,0.41,0.41,0.41c0.225,0,0.41-0.185,0.41-0.41v-1.23h8.196v1.23c0,0.225,0.185,0.41,0.41,0.41c0.227,0,0.409-0.185,0.409-0.41v-1.23h1.64c0.454,0,0.82,0.367,0.82,0.82V8.156z"
                         ></path>
                     </svg>
                     <textarea
@@ -309,7 +309,7 @@
                                 </div>
                             </div>
 
-                            <div v-if="isMapShown" class="map-container">
+                            <div v-if="isMapShown">
                                 <GmapMap
                                     ref="mapRef"
                                     :mapCenter="mapCenter"
@@ -345,11 +345,21 @@
                             </header>
                             <div class="comments-container">
                                 <avatar
+                                    v-if="!loggedInUser"
                                     class="user-avatar"
                                     backgroundColor="lightblue"
                                     color="black"
                                     :size="30"
-                                    username="Ben Ernst"
+                                    username="Guest"
+                                ></avatar>
+                                <avatar
+                                    v-if="loggedInUser"
+                                    class="user-avatar"
+                                    backgroundColor="lightblue"
+                                    color="black"
+                                    :size="30"
+                                    :src="loggedInUser.imgUrl"
+                                    :username="loggedInUser.fullname"
                                 ></avatar>
                                 <textarea
                                     v-model="comment"
@@ -377,16 +387,35 @@
                                     class="activity-preview-container"
                                 >
                                     <avatar
+                                        v-if="!loggedInUser"
                                         class="user-avatar"
                                         backgroundColor="lightblue"
                                         color="black"
                                         :size="30"
-                                        username="Ben Ernst"
+                                        username="Guest"
+                                    ></avatar>
+                                    <avatar
+                                        v-if="loggedInUser"
+                                        class="user-avatar"
+                                        backgroundColor="lightblue"
+                                        color="black"
+                                        :size="30"
+                                        :src="loggedInUser.imgUrl"
+                                        :username="loggedInUser.fullname"
                                     ></avatar>
                                     <div class="activity-details">
                                         <div class="activity-member-container">
-                                            <span class="member-name"
-                                                >Ben Ernst</span
+                                            <span
+                                                class="member-name"
+                                                v-if="loggedInUser"
+                                                >{{
+                                                    loggedInUser.fullname
+                                                }}</span
+                                            >
+                                            <span
+                                                class="member-name"
+                                                v-if="!loggedInUser"
+                                                >Guest</span
                                             >
                                             <span
                                                 class="activity-created-at-container"
@@ -843,7 +872,7 @@
 
             async updateBoard(board) {
                 try {
-                    const savedBoard = await this.$store.dispatch({
+                    await this.$store.dispatch({
                         type: 'updateBoard',
                         board,
                     });
@@ -927,6 +956,12 @@
                         this.userJoined = true;
                     }
                 }
+                // this.taskToEdit['activities'] = [
+                //     {
+                //         name: this.loggedInUser.fullname,
+                //         txt: ` has added ${member}`,
+                //     },
+                // ];
                 this.updateTask();
             },
 
@@ -1100,6 +1135,7 @@
                     );
                     this.taskToEdit.attachments[idx].isCover = false;
                 }
+
                 this.updateTask();
 
                 // this.isCoverStyle = true;
@@ -1125,9 +1161,13 @@
         },
 
         computed: {
+            loggedInUser() {
+                return this.$store.getters.loggedinUser;
+            },
             board() {
                 return this.$store.getters.getCurrBoard;
             },
+
             visibility() {
                 return { hidden: !this.isCommentInputOpen };
             },

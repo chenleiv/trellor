@@ -255,11 +255,7 @@ function getEmptyBoard() {
             color: '#F56C6C'
         },
         ],
-        members: [{
-            _id: '',
-            fullname: '',
-            imgUrl: ''
-        }],
+        members: [],
         groups: [{
             id: utilService.makeId(4) + 's',
             title: 'To do',

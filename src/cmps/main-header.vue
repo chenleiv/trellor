@@ -21,12 +21,29 @@
                     </el-input>
                 </div>
                 <button class="alert"></button>
-                <avatar
-                    backgroundColor="darkslateblue"
-                    color="#fff"
-                    :size="30"
-                    username="Or Baadani"
-                ></avatar>
+                <router-link v-if="!loggedInUser" to="/login"
+                    >Login</router-link
+                >
+                <el-popover
+                    v-if="loggedInUser"
+                    placement="bottom-end"
+                    width="100"
+                    v-model="toggleUserMenu"
+                    :title="'Hello, ' + loggedInUser.fullname"
+                >
+                    <el-button v-if="loggedInUser" @click="logout"
+                        >Logout</el-button
+                    >
+                    <avatar
+                        v-if="loggedInUser"
+                        :src="loggedInUser.imgUrl"
+                        backgroundColor="darkslateblue"
+                        color="#fff"
+                        :size="30"
+                        slot="reference"
+                        :username="loggedInUser.fullname"
+                    ></avatar>
+                </el-popover>
             </div>
         </section>
     </header>
@@ -39,7 +56,27 @@
         data() {
             return {
                 input: '',
+                toggleUserMenu: false,
             };
+        },
+        computed: {
+            loggedInUser() {
+                return this.$store.getters.loggedinUser;
+            },
+        },
+        methods: {
+            async logout() {
+                this.toggleUserMenu = false;
+                try {
+                    await this.$store.dispatch({ type: 'logout' });
+                    this.$router.push('/login');
+
+                    // this.$router.push('/');
+                } catch (err) {
+                    console.log('err in logout (login cmp)', err);
+                    throw err;
+                }
+            },
         },
         components: {
             Avatar,
