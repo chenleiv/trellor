@@ -2,7 +2,7 @@
     <section v-if="board" class="board-details">
         <board-header
             :board="board"
-            @loadBoard="loadBoard"
+            @updateBoard="updateBoard"
             @editBgcBoard="editBgcBoard"
         />
 
@@ -25,7 +25,6 @@
                         :board="board"
                         :group="group"
                         :boardLabels="board.labels"
-                        @loadBoard="loadBoard"
                     />
                 </Draggable>
                 <section>
@@ -58,7 +57,7 @@
         </main>
 
         <transition name="fade" :duration="50">
-            <router-view @loadBoard="loadBoard" />
+            <router-view />
         </transition>
     </section>
 </template>
@@ -81,16 +80,34 @@
         },
 
         created() {
-            this.loadBoard();
+            // this.loadBoard();
+            this.getBoard();
         },
 
         methods: {
+            // async loadBoard() {
+            //     const { boardId } = this.$route.params;
+            //     try {
+            //         const board = await this.$store.dispatch({
+            //             type: 'getBoard',
+            //             boardId,
+            //         });
+            //         this.board = board;
+            //     } catch (err) {
+            //         console.log('Board Loading Error (board-details):', err);
+            //         throw err;
+            //     }
+            // },
+            getBoard() {
+                this.board = this.$store.getters.getCurrBoard;
+            },
             dropEnd(ev) {
                 // console.log('arguments', ev);
             },
             onGroupDrop(dropResult) {
                 console.log('hi');
-                const board = JSON.parse(JSON.stringify(this.board));
+                // const board = JSON.parse(JSON.stringify(this.board));
+                const board = Object.assign({}, this.board);
                 board.groups = applyDrag(this.board.groups, dropResult);
                 // console.log('dropResult', dropResult);
                 this.updateBoard(board);
@@ -98,25 +115,7 @@
             editBgcBoard(style) {
                 this.$emit('setBg', style);
             },
-            async loadBoard() {
-                const { boardId } = this.$route.params;
-                try {
-                    const board = await this.$store.dispatch({
-                        type: 'getBoard',
-                        boardId,
-                    });
-                    this.board = board;
-                    // console.log('this.board ', this.board);
-                    // console.log(
-                    //     'this.board.style from details',
-                    //     this.board.style
-                    // );
-                    // this.toyToEdit = JSON.parse(JSON.stringify(toy));
-                } catch (err) {
-                    console.log('Board Loading Error (board-details):', err);
-                    throw err;
-                }
-            },
+
             openAddingInput() {
                 this.isAddClicked = !this.isAddClicked;
             },
@@ -129,10 +128,9 @@
                         boardId: this.board._id,
                         groupTitle: this.groupTitle,
                     });
-                    // console.log(
-                    //     `Group Added Successfully in ${this.board._id}`
-                    // );
-                    this.loadBoard();
+                    console.log(
+                        `Group Added Successfully in ${this.board._id}`
+                    );
                 } catch (err) {
                     console.log(
                         'Error in Adding a Group (board-details):',
@@ -141,18 +139,16 @@
                     throw err;
                 } finally {
                     this.groupTitle = '';
-                    // console.log('', this.$el.scrollWidth);
                     this.$el.scrollTo(this.$el.scrollWidth + 270, 0);
                 }
             },
-            async updateBoard(changedBoard) {
+            async updateBoard(newBoard) {
                 try {
-                    const savedBoard = await this.$store.dispatch({
+                    await this.$store.dispatch({
                         type: 'updateBoard',
-                        board: changedBoard,
+                        board: newBoard,
                     });
                     console.log(`Board changed successfully`);
-                    this.loadBoard();
                 } catch (err) {
                     console.log('Error in adding a board (workspace):', err);
                     throw err;
@@ -160,21 +156,13 @@
             },
         },
 
-        computed: {
-            // getBoard
-        },
+        computed: {},
 
-        //ask Avior if nessecery
-        // watch: {
-        //   "$route.params.BoardId": {
-        //     handler() {
-        //       let toyId = this.$route.params.BoardId;
-        //       console.log("Changed to", BoardId);
-        //       this.$store.dispatch({ type: "setCurrToy", BoardId });
-        //     },
-        //     immediate: true,
-        //   },
-        // },
+        watch: {
+            '$store.getters.getCurrBoard'(board) {
+                this.board = { ...board };
+            },
+        },
 
         components: {
             groupPreview,

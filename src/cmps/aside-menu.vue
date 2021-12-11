@@ -162,24 +162,15 @@
             };
         },
         created() {
-            this.boardId = this.$route.params.boardId;
-            // console.log(' this.boardId', this.boardId);
+            this.boardId = this.board._id;
+            // console.log(' this.boardId aside menu', this.boardId);
             // console.log(' this.board', this.board);
             // console.log(' this.activity', this.board.activities);
         },
         methods: {
-            async removeBoard() {
-                try {
-                    await this.$store.dispatch({
-                        type: 'removeBoard',
-                        boardId: this.boardId,
-                    });
-                    console.log(`Board removed successfully`);
-                    this.$router.push('/workspace');
-                } catch (err) {
-                    console.log('Error in removing board (aside-menu):', err);
-                    throw err;
-                }
+            removeBoard() {
+                this.$emit('removeBoard', this.boardId);
+                // console.log('removeBoard from aside menu', this.boardId);
             },
             changeImgUrl(url) {
                 this.bgcType === true;

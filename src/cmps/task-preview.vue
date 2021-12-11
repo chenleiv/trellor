@@ -1,5 +1,6 @@
 <template>
     <section class="task-preview">
+        <!-- To task details -->
         <router-link :to="`/board/${boardId}/task/${task.id}`">
             <div class="cover-preview-container">
                 <div
@@ -185,6 +186,13 @@
                     return { msg: 'No Task' };
                 },
             },
+            board: {
+                type: Object,
+                required: true,
+                default: function () {
+                    return { msg: 'No Task' };
+                },
+            },
             boardLabels: {
                 type: Array,
             },
@@ -203,8 +211,7 @@
         },
 
         created() {
-            const { boardId } = this.$route.params;
-            this.boardId = boardId;
+            this.boardId = this.board._id;
             if (this.task.labelIds) {
                 if (this.task.labelIds.length > 0) this.getLabels();
             }
@@ -232,16 +239,6 @@
                 console.log('toggleDeleteMenu', toggleDeleteMenu);
                 // this.$emit('openModalBg');
             },
-            // toggleTaskEdit() {
-            //     this.toggleDeleteMenu = false;
-            //     this.editTitle = !this.editTitle;
-            //     console.log('editTitle', this.editTitle);
-            // },
-            // toggleTaskDelete() {
-            //     this.toggleDeleteMenu = false;
-            //     this.deleteCard = !this.deleteCard;
-            //     console.log('deleteCard', this.deleteCard);
-            // },
         },
         computed: {
             findCoverImg() {

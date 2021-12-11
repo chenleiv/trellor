@@ -17,7 +17,7 @@ export const boardService = {
     getEmptyTask,
     addTask,
     updateTask,
-    updateBoard,
+    updateBoardTitle,
     updateBgcBoard,
     removeTask
 }
@@ -53,12 +53,13 @@ async function remove(boardId) {
 async function save(board) {
     try {
         if (board._id) {
-            console.log('board._id', board._id);
-            // var res = await axios.put(TOY_URL, toy)
-            return httpService.put('board', board)
+            // console.log('board._id', board._id);
+            // console.log('PUT (save)');
+            httpService.put('board', board)
+            return board
         } else {
+            console.log('POST (save)');
             return httpService.post('board', board)
-            // var res = await axios.post(TOY_URL, toy)
         }
     } catch (err) {
         console.log('Saving Error (Front Toy Service):', err);
@@ -102,7 +103,8 @@ async function addTask(boardId, groupId, title) {
         const newTask = getEmptyTask();
         newTask.title = title;
         board.groups[groupIdx].tasks.push(newTask);
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in addTask (board-service):', err);
         throw err;
@@ -115,7 +117,8 @@ async function removeTask(boardId, groupId, task) {
         const group = board.groups.find(g => g.id === groupId)
         const taskIdx = group.tasks.findIndex(t => t.id === task.id)
         group.tasks.splice(taskIdx, 1);
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in removeTask (board-service):', err);
         throw err;
@@ -126,10 +129,14 @@ async function removeTask(boardId, groupId, task) {
 async function updateTask(boardId, groupId, task) {
     try {
         const board = await getById(boardId);
+        // console.log('boardId', boardId);
         const group = board.groups.find(g => g.id === groupId)
+        // console.log('group', group);
         const taskIdx = group.tasks.findIndex(t => t.id === task.id)
+        // console.log('taskIdx', taskIdx);
         group.tasks.splice(taskIdx, 1, task);
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in updateTask (board-service):', err);
         throw err;
@@ -142,32 +149,38 @@ async function addGroup(boardId, title) {
         const newGroup = getEmptyGroup();
         newGroup.title = title;
         board.groups.push(newGroup);
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in addGroup (board-service):', err);
         throw err;
     }
 }
 
-async function updateBoard(boardId, title) {
-
+async function updateBoardTitle(boardId, title) {
+    // console.log('boardId', boardId);
     try {
         const board = await getById(boardId);
+        // console.log('board', board);
+        // console.log('board', boardId);
         board.title = title;
-        return save(board);
+        // console.log('board', board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in updateBoard (board-service):', err);
         throw err;
     }
 }
 async function updateBgcBoard(boardId, style) {
-    console.log('style', style);
-    console.log('boardId', boardId);
+    // console.log('style', style);
+    // console.log('boardId', boardId);
     try {
         const board = await getById(boardId);
         // console.log('board from service', board);
         board.style = style
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in updateBoard (board-service):', err);
         throw err;
@@ -179,7 +192,8 @@ async function updateGroup(boardId, newGroup) {
         const board = await getById(boardId);
         const idx = board.groups.findIndex(group => group.id === newGroup.id);
         board.groups.splice(idx, 1, newGroup);
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in updateGroup (board-service):', err);
         throw err;
@@ -191,7 +205,8 @@ async function removeGroup(boardId, groupId) {
         const board = await getById(boardId);
         const idx = board.groups.findIndex(group => group.id === groupId);
         board.groups.splice(idx, 1);
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in removeGroup (board-service):', err);
         throw err;

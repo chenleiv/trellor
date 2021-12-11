@@ -179,7 +179,13 @@
 }
 
 .smooth-dnd-container {
+    overflow: visible;
+    min-height: 4px;
     // cursor: grabbing;
+}
+
+.smooth-dnd-container.vertical > .smooth-dnd-draggable-wrapper {
+    overflow: visible;
 }
 
 .smooth-dnd-draggable-wrapper {

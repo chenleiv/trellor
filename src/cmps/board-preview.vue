@@ -14,8 +14,6 @@
                 :class="{ starred: isStarred }"
                 @click.prevent="updateStarBoard"
             ></span>
-
-            <!-- <button @click="removeBoard">...</button> -->
         </div>
     </router-link>
 </template>

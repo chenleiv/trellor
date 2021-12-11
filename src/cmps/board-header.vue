@@ -58,6 +58,8 @@
                 <div class="members-container">
                     <div class="vl"></div>
                     <div class="avatar-icon">
+                        <el-avatar icon="el-icon-user-solid"></el-avatar>
+
                         <avatar
                             backgroundColor="lightblue"
                             color="black"
@@ -115,6 +117,7 @@
             </div>
             <transition name="slide-fade">
                 <aside-menu
+                    @removeBoard="removeBoard"
                     :board="board"
                     :class="menuBarIsShown"
                     @openMenu="openMenu"
@@ -146,7 +149,7 @@
             };
         },
         created() {
-            this.boardId = this.$route.params.boardId;
+            this.boardId = this.board._id;
         },
 
         methods: {
@@ -169,7 +172,6 @@
                         style: style,
                     });
                     console.log(`Board Saved Successfully in ${this.boardId}`);
-                    // this.$emit('loadBoard');
                     this.$emit('editBgcBoard', style);
                 } catch (err) {
                     console.log('Error in updateBoard (board-header):', err);
@@ -178,18 +180,27 @@
             },
             async updateBoard() {
                 this.isStarred = !this.isStarred;
-                console.log('', this.isStarred);
-                const changedBoard = JSON.parse(JSON.stringify(this.board));
-                changedBoard.isStarred = this.isStarred;
+                const newBoard = JSON.parse(JSON.stringify(this.board));
+                newBoard.isStarred = this.isStarred;
                 try {
-                    const savedBoard = await this.$store.dispatch({
-                        type: 'updateBoard',
-                        board: changedBoard,
-                    });
+                    this.$emit('updateBoard', newBoard);
+
                     console.log(`Board changed successfully`);
-                    this.$emit('loadBoard');
                 } catch (err) {
                     console.log('Error in adding a board (workspace):', err);
+                    throw err;
+                }
+            },
+            async removeBoard() {
+                try {
+                    await this.$store.dispatch({
+                        type: 'removeBoard',
+                        boardId: this.boardId,
+                    });
+                    console.log(`Board removed successfully`);
+                    this.$router.push('/workspace');
+                } catch (err) {
+                    console.log('Error in removing board (aside-menu):', err);
                     throw err;
                 }
             },
@@ -203,12 +214,12 @@
                         title: this.title,
                     });
                     console.log(`Board Saved Successfully in ${this.boardId}`);
-                    this.$emit('loadBoard');
                 } catch (err) {
                     console.log('Error in updateBoard (board-header):', err);
                     throw err;
                 }
             },
+
             openMainMap() {
                 this.$router.push(`/board/${this.boardId}/main-map`);
             },

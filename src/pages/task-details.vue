@@ -25,11 +25,6 @@
                                 backgroundImage: `url(${taskToEdit.coverStyle.bgImg})`,
                             }"
                         ></div>
-                        <!-- <div
-                        class="trytrytry"
-                        v-if="isAttachCover"
-                        :style="{ backgroundImage: cover }"
-                    ></div> -->
                     </div>
                 </template>
 
@@ -49,7 +44,6 @@
                         @blur="updateTask"
                         @keydown.enter.prevent
                     ></textarea>
-                    <!-- <h1><span></span>{{ task.title }}</h1> -->
                     <p>
                         in list
                         <span>{{ group.title }}</span>
@@ -146,21 +140,6 @@
                                                 {{ getLbTitle(lbId) }}
                                             </div>
                                         </section>
-                                        <!-- v-if="lb.title" -->
-
-                                        <!-- <button class="secondary-btn">
-                                        <svg
-                                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv"
-                                            focusable="false"
-                                            viewBox="0 0 24 24"
-                                            aria-hidden="true"
-                                            data-testid="AddIcon"
-                                        >
-                                            <path
-                                                d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-                                            ></path>
-                                        </svg>
-                                    </button> -->
                                     </div>
                                 </div>
 
@@ -719,7 +698,6 @@
 
         data() {
             return {
-                board: null,
                 task: null,
                 group: null,
                 taskToEdit: {},
@@ -792,15 +770,9 @@
 
         methods: {
             async loadData() {
-                const { boardId } = this.$route.params;
+                const board = this.board;
                 const { taskId } = this.$route.params;
                 try {
-                    // Getting Board:
-                    const board = await this.$store.dispatch({
-                        type: 'getBoard',
-                        boardId,
-                    });
-                    this.board = board;
                     this.labels = this.board.labels;
                     // Loading Task:
                     const taskArr = board.groups.map((group) => {
@@ -837,7 +809,6 @@
                     console.log(
                         `Task Succefully Updated with Id ${this.task.id}`
                     );
-                    this.$emit('loadBoard');
                 } catch (err) {
                     console.log('Error in updateTask (task-details):', err);
                     throw err;
@@ -878,7 +849,6 @@
                     });
                     this.board = savedBoard;
                     console.log(`Board updated successfully`);
-                    this.$emit('loadBoard');
                     this.labelTitle = '';
                 } catch (err) {
                     console.log('Error in updateBoard (task-details):', err);
@@ -1155,6 +1125,9 @@
         },
 
         computed: {
+            board() {
+                return this.$store.getters.getCurrBoard;
+            },
             visibility() {
                 return { hidden: !this.isCommentInputOpen };
             },
