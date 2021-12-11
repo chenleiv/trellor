@@ -52,34 +52,47 @@
                 </section>
                 <span
                     :class="{ starred: isStarred }"
-                    @click="updateBoard"
+                    @click="starUpdate"
                     class="star-favorite"
                 ></span>
                 <div class="members-container">
                     <div class="vl"></div>
-                    <div class="avatar-icon">
+                    <div class="avatar-icon" v-if="board.members.length">
                         <avatar
-                            backgroundColor="lightblue"
-                            color="black"
-                            :size="30"
-                            username="Ben Ernst"
-                        ></avatar>
-                        <avatar
-                            backgroundColor="darkslateblue"
-                            color="#fff"
-                            :size="30"
-                            username="Or Baadani"
-                        ></avatar>
-
-                        <avatar
+                            v-for="mem in board.members"
+                            :key="mem._id"
                             backgroundColor="cadetblue"
                             color="#fff"
                             :size="30"
-                            username="Chen Leiv"
+                            :src="mem.imgUrl"
+                            :username="mem.fullname"
                         ></avatar>
                     </div>
 
-                    <a class="add-btn"> <span class="user"></span> Invite </a>
+                    <el-popover
+                        placement="bottom-end"
+                        width="100"
+                        v-model="toggleUserInvite"
+                        title="Add to board"
+                    >
+                        <div
+                            v-for="(user, i) in availUsers"
+                            :key="i"
+                            @click="addMembers(user)"
+                        >
+                            <avatar
+                                backgroundColor="cadetblue"
+                                color="#fff"
+                                :size="30"
+                                :username="user.fullname"
+                                :src="user.imgUrl"
+                            ></avatar
+                            >{{ user.fullname }}
+                        </div>
+                        <a class="add-btn" slot="reference">
+                            <span class="user"></span> Invite
+                        </a>
+                    </el-popover>
                 </div>
             </div>
 
@@ -115,6 +128,7 @@
             </div>
             <transition name="slide-fade">
                 <aside-menu
+                    @removeBoard="removeBoard"
                     :board="board"
                     :class="menuBarIsShown"
                     @openMenu="openMenu"
@@ -132,32 +146,34 @@
 
     export default {
         name: 'boardHeader',
-        props: {
-            board: {
-                type: Object,
-                required: true,
-                default: function () {
-                    return { msg: 'No Board' };
-                },
-            },
-        },
+        props: ['board'],
 
         data() {
             return {
+                availUsers: [],
                 isShown: false,
                 value: '',
                 isStarred: this.board.isStarred,
                 title: this.board.title,
-                // boardId: '',
+                boardId: '',
                 visible: false,
                 filterIsShown: false,
+                toggleUserInvite: false,
             };
         },
         created() {
             // this.boardId = this.board._id;
+            this.availUsers = this.users;
+            console.log('', this.board.members);
+            this.boardId = this.board._id;
         },
 
         methods: {
+            addMembers(user) {
+                const board = JSON.parse(JSON.stringify(this.board));
+                board.members.push(user);
+                this.updateBoard(board);
+            },
             openMenu() {
                 this.isShown = !this.isShown;
             },
@@ -177,27 +193,39 @@
                         style: style,
                     });
                     console.log(`Board Saved Successfully in ${this.boardId}`);
-                    // this.$emit('loadBoard');
                     this.$emit('editBgcBoard', style);
                 } catch (err) {
                     console.log('Error in updateBoard (board-header):', err);
                     throw err;
                 }
             },
-            async updateBoard() {
+            starUpdate() {
                 this.isStarred = !this.isStarred;
-                console.log('', this.isStarred);
                 const changedBoard = JSON.parse(JSON.stringify(this.board));
                 changedBoard.isStarred = this.isStarred;
+                this.updateBoard(changedBoard);
+            },
+            async updateBoard(board) {
+                const newBoard = JSON.parse(JSON.stringify(board));
                 try {
-                    const savedBoard = await this.$store.dispatch({
-                        type: 'updateBoard',
-                        board: changedBoard,
-                    });
-                    console.log(`Board ${savedBoard._id} changed successfully`);
-                    this.$emit('loadBoard');
+                    this.$emit('updateBoard', newBoard);
+
+                    console.log(`Board changed successfully`);
                 } catch (err) {
                     console.log('Error in adding a board (workspace):', err);
+                    throw err;
+                }
+            },
+            async removeBoard() {
+                try {
+                    await this.$store.dispatch({
+                        type: 'removeBoard',
+                        boardId: this.boardId,
+                    });
+                    console.log(`Board removed successfully`);
+                    this.$router.push('/workspace');
+                } catch (err) {
+                    console.log('Error in removing board (aside-menu):', err);
                     throw err;
                 }
             },
@@ -211,12 +239,12 @@
                         title: this.title,
                     });
                     console.log(`Board Saved Successfully in ${this.boardId}`);
-                    this.$emit('loadBoard');
                 } catch (err) {
                     console.log('Error in updateBoard (board-header):', err);
                     throw err;
                 }
             },
+
             openMainMap() {
                 this.$router.push(`/board/${this.boardId}/main-map`);
             },
@@ -237,6 +265,9 @@
                     'filter-menu-open': this.filterIsShown,
                     'filter-close': !this.filterIsShown,
                 };
+            },
+            users() {
+                return this.$store.getters.users;
             },
         },
         watch: {

@@ -37,7 +37,7 @@
         .groups-container {
             display: flex;
             gap: 8px;
-            &>section {
+            & > section {
                 border-radius: 3px;
                 width: 270px;
             }
@@ -128,7 +128,7 @@
     margin-right: 8px;
 }
 
-.smooth-dnd-container.horizontal>.smooth-dnd-draggable-wrapper {
+.smooth-dnd-container.horizontal > .smooth-dnd-draggable-wrapper {
     height: fit-content;
 }
 

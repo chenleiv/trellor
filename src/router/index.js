@@ -6,39 +6,47 @@ import boardDetails from '@/pages/board-details.vue'
 import taskDetails from '@/pages/task-details.vue'
 import dashboard from '@/pages/dashboard.vue'
 import mainMap from '@/pages/main-map.vue'
+import login from '@/pages/login.vue'
 
 Vue.use(VueRouter)
 
 const routes = [{
-    path: '/',
-    name: 'home',
-    component: home
-},
-{
-    path: '/workspace',
-    name: 'workspace',
-    component: workspace
-},
-{
-    path: '/board/:boardId',
-    name: 'boardDetails',
-    component: boardDetails,
-    children: [{
-        path: 'task/:taskId',
-        name: 'taskDetails',
-        component: taskDetails
+        path: '/',
+        name: 'home',
+        component: home
+    },
+
+    {
+        path: '/workspace',
+        name: 'workspace',
+        component: workspace
     },
     {
-        path: 'dashboard',
-        name: 'dashboard',
-        component: dashboard
+        path: '/board/:boardId',
+        name: 'boardDetails',
+        component: boardDetails,
+        children: [{
+                path: 'task/:taskId',
+                name: 'taskDetails',
+                component: taskDetails
+            },
+            {
+                path: 'dashboard',
+                name: 'dashboard',
+                component: dashboard
+            },
+            {
+                path: 'main-map',
+                name: 'mainMap',
+                component: mainMap
+            }
+        ]
     },
     {
-        path: 'main-map',
-        name: 'mainMap',
-        component: mainMap
-    }]
-},
+        path: '/login',
+        name: 'login',
+        component: login
+    },
 ]
 
 const router = new VueRouter({

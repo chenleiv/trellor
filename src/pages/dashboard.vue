@@ -1,11 +1,7 @@
 <template>
-    <section class="modal-background">
+    <section class="modal-background" @click.self="backToBoard">
         <div class="dashboard-container" v-if="board">
             <h1>DASHBOARD</h1>
-            <button
-                @click.self="backToBoard"
-                class="close-dashboard-btn"
-            ></button>
             <tasksPerMemberChart
                 class="chart"
                 :chartData="charts.barChartData"
@@ -33,7 +29,8 @@
     export default {
         data() {
             return {
-                board: null,
+                // board: null,
+                // boardId: null,
                 membersNames: [],
                 dataLabelIds: [],
                 charts: {
@@ -167,20 +164,20 @@
 
         methods: {
             async loadBoard() {
-                const { boardId } = this.$route.params;
-                try {
-                    const board = await this.$store.dispatch({
-                        type: 'getBoard',
-                        boardId,
-                    });
-                    this.board = board;
-                    this.setMembersData();
-                    this.setLabelsData();
-                    this.getTasksPerDueDate();
-                } catch (err) {
-                    console.log('Board Loading Error (dashboard):', err);
-                    throw err;
-                }
+                // const { boardId } = this.$route.params;
+                // const boardId = this.board._id;
+                this.setMembersData();
+                this.setLabelsData();
+                // try {
+                //     const board = await this.$store.dispatch({
+                //         type: 'getBoard',
+                //         boardId,
+                //     });
+                //     // this.board = board;
+                // } catch (err) {
+                //     console.log('Board Loading Error (dashboard):', err);
+                //     throw err;
+                // }
             },
 
             setMembersData() {
@@ -281,6 +278,11 @@
             // backToBoard:
             backToBoard() {
                 this.$router.push(`/board/${this.board._id}`);
+            },
+        },
+        computed: {
+            board() {
+                return this.$store.getters.getCurrBoard;
             },
         },
 

@@ -1,4 +1,4 @@
-import { storageService } from '../services/async-storage-service.js'
+import { storageService } from '../services/async-storage.service.js'
 import { httpService } from './http.service'
 import { socketService, SOCKET_EVENT_USER_UPDATED } from './socket.service'
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
@@ -31,6 +31,7 @@ async function getById(userId) {
     gWatchedUser = user;
     return user;
 }
+
 function remove(userId) {
     // return storageService.remove('user', userId)
     return httpService.delete(`user/${userId}`)
@@ -39,19 +40,19 @@ function remove(userId) {
 async function update(user) {
     // await storageService.put('user', user)
     user = await httpService.put(`user/${user._id}`, user)
-    // Handle case in which admin updates other user's details
+        // Handle case in which admin updates other user's details
     if (getLoggedinUser()._id === user._id) _saveLocalUser(user)
     return user;
 }
 
 async function login(userCred) {
-    const users = await storageService.query('user')
-    const user = users.find(user => user.username === userCred.username)
-    return _saveLocalUser(user)
+    // const users = await storageService.query('user')
+    // const user = users.find(user => user.username === userCred.username)
+    // return _saveLocalUser(user)
 
-    // const user = await httpService.post('auth/login', userCred)
-    // socketService.emit('set-user-socket', user._id);
-    // if (user) return _saveLocalUser(user)
+    const user = await httpService.post('auth/login', userCred)
+    socketService.emit('set-user-socket', user._id);
+    if (user) return _saveLocalUser(user)
 }
 async function signup(userCred) {
     // const user = await storageService.post('user', userCred)
@@ -79,12 +80,12 @@ function getLoggedinUser() {
 
 // This IIFE functions for Dev purposes 
 // It allows testing of real time updates (such as sockets) by listening to storage events
-(async () => {
+(async() => {
     var user = getLoggedinUser()
-    // Dev Helper: Listens to when localStorage changes in OTHER browser
+        // Dev Helper: Listens to when localStorage changes in OTHER browser
 
     // Here we are listening to changes for the watched user (comming from other browsers)
-    window.addEventListener('storage', async () => {
+    window.addEventListener('storage', async() => {
         if (!gWatchedUser) return;
         const freshUsers = await storageService.query('user')
         const watchedUser = freshUsers.find(u => u._id === gWatchedUser._id)
@@ -102,4 +103,3 @@ function getLoggedinUser() {
 //     var user = getLoggedinUser()
 //     if (user) socketService.emit('set-user-socket', user._id)
 // })();
-
