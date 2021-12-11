@@ -40,7 +40,8 @@
         justify-content: space-between;
     }
     .group-actions-modal {
-        box-shadow: 0 0 0 0 transparent, 0 0 0 0 transparent, 0 2px 15px rgb(0 0 0 / 30%);
+        box-shadow: 0 0 0 0 transparent, 0 0 0 0 transparent,
+            0 2px 15px rgb(0 0 0 / 30%);
         // padding: 12px;
         position: absolute;
         background-color: #fff;
@@ -101,7 +102,7 @@
         margin: 0 4px;
         padding: 0 4px;
         padding-bottom: 8px;
-        &>div {
+        & > div {
             width: 100%;
         }
         .add-a-task {
@@ -183,7 +184,7 @@
     // cursor: grabbing;
 }
 
-.smooth-dnd-container.vertical>.smooth-dnd-draggable-wrapper {
+.smooth-dnd-container.vertical > .smooth-dnd-draggable-wrapper {
     overflow: visible;
 }
 

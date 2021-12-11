@@ -56,6 +56,7 @@
             >
                 <!-- <router-link :to="`/board/${boardId}/task/${task.id}`"> -->
                 <task-preview
+                    :board="board"
                     :task="task"
                     :boardLabels="boardLabels"
                     @deleteTask="removeTask"
@@ -162,13 +163,14 @@
 
             async editGroup(group) {
                 try {
-                    const board = await this.$store.dispatch({
+                    await this.$store.dispatch({
                         type: 'updateGroup',
                         boardId: this.boardId,
                         group,
                     });
-                    console.log(`Group Saved Successfully in ${this.boardId}`);
-                    // this.$emit('loadBoard');
+                    console.log(
+                        `Group Saved Successfully in ${this.board._id}`
+                    );
                 } catch (err) {
                     console.log('Error in updateGroup (group-preview):', err);
                     throw err;
@@ -183,6 +185,7 @@
             },
             toggleGroupMenu() {
                 this.toggleMenu = !this.toggleMenu;
+                // this.$emit('openModalBg');
             },
 
             async removeGroup() {
@@ -196,7 +199,6 @@
                         console.log(
                             `Group Removed Successfully in BoardId ${this.boardId}`
                         );
-                        // this.$emit('loadBoard');
                     } catch (err) {
                         console.log(
                             'Error in removeGroup (group-preview):',
@@ -215,7 +217,7 @@
                         task: task,
                     });
                     console.log(
-                        `Task ${task.id}  Successfully deleted in GroupId ${this.boardId}`
+                        `Task ${task.id}  Successfully deleted in GroupId ${this.group.id}`
                     );
                     // this.$emit('loadBoard');
                 } catch (err) {
@@ -237,7 +239,6 @@
                     console.log(
                         `Task Successfully Added in GroupId ${this.group.id}`
                     );
-                    // this.$emit('loadBoard');
                 } catch (err) {
                     console.log('Error in saveTask (group-preview):', err);
                     throw err;
@@ -254,11 +255,10 @@
             },
         },
 
-        computed: {},
-
         components: {
             taskPreview,
             draggable,
+            // Sortable,
             Container,
             Draggable,
         },

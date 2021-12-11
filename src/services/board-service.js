@@ -17,7 +17,7 @@ export const boardService = {
     getEmptyTask,
     addTask,
     updateTask,
-    updateBoard,
+    updateBoardTitle,
     updateBgcBoard,
     removeTask
 }
@@ -32,7 +32,7 @@ async function query() {
         // const res = await axios.get(BOARD_URL, { params: filterBy })
         // return res.data
         return httpService.get(`board`)
-            //(`board`,filterBy)
+        //(`board`,filterBy)
     } catch (err) {
         console.log('Error in Query board (Front board Service):', err);
         throw err;
@@ -53,15 +53,16 @@ async function remove(boardId) {
 async function save(board) {
     try {
         if (board._id) {
-            console.log('board._id board service front ', board._id);
-            // var res = await axios.put(TOY_URL, toy)
-            return httpService.put('board', board)
+            // console.log('board._id', board._id);
+            // console.log('PUT (save)');
+            httpService.put('board', board)
+            return board
         } else {
+            console.log('POST (save)');
             return httpService.post('board', board)
-                // var res = await axios.post(TOY_URL, toy)
         }
     } catch (err) {
-        console.log('Saving Error (Front board Service):', err);
+        console.log('Saving Error (Front Toy Service):', err);
         throw err;
     }
     // const savedBoard = (board._id) ? await storageService.put(BOARD_KEY, board) : await storageService.post(BOARD_KEY, board)
@@ -102,7 +103,8 @@ async function addTask(boardId, groupId, title) {
         const newTask = getEmptyTask();
         newTask.title = title;
         board.groups[groupIdx].tasks.push(newTask);
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in addTask (board-service):', err);
         throw err;
@@ -115,7 +117,8 @@ async function removeTask(boardId, groupId, task) {
         const group = board.groups.find(g => g.id === groupId)
         const taskIdx = group.tasks.findIndex(t => t.id === task.id)
         group.tasks.splice(taskIdx, 1);
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in removeTask (board-service):', err);
         throw err;
@@ -126,10 +129,14 @@ async function removeTask(boardId, groupId, task) {
 async function updateTask(boardId, groupId, task) {
     try {
         const board = await getById(boardId);
+        // console.log('boardId', boardId);
         const group = board.groups.find(g => g.id === groupId)
+        // console.log('group', group);
         const taskIdx = group.tasks.findIndex(t => t.id === task.id)
+        // console.log('taskIdx', taskIdx);
         group.tasks.splice(taskIdx, 1, task);
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in updateTask (board-service):', err);
         throw err;
@@ -142,32 +149,38 @@ async function addGroup(boardId, title) {
         const newGroup = getEmptyGroup();
         newGroup.title = title;
         board.groups.push(newGroup);
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in addGroup (board-service):', err);
         throw err;
     }
 }
 
-async function updateBoard(boardId, title) {
-
+async function updateBoardTitle(boardId, title) {
+    // console.log('boardId', boardId);
     try {
         const board = await getById(boardId);
+        // console.log('board', board);
+        // console.log('board', boardId);
         board.title = title;
-        return save(board);
+        // console.log('board', board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in updateBoard (board-service):', err);
         throw err;
     }
 }
 async function updateBgcBoard(boardId, style) {
-    console.log('style', style);
-    console.log('boardId', boardId);
+    // console.log('style', style);
+    // console.log('boardId', boardId);
     try {
         const board = await getById(boardId);
         // console.log('board from service', board);
         board.style = style
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in updateBoard (board-service):', err);
         throw err;
@@ -179,7 +192,8 @@ async function updateGroup(boardId, newGroup) {
         const board = await getById(boardId);
         const idx = board.groups.findIndex(group => group.id === newGroup.id);
         board.groups.splice(idx, 1, newGroup);
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in updateGroup (board-service):', err);
         throw err;
@@ -191,7 +205,8 @@ async function removeGroup(boardId, groupId) {
         const board = await getById(boardId);
         const idx = board.groups.findIndex(group => group.id === groupId);
         board.groups.splice(idx, 1);
-        return save(board);
+        save(board);
+        return board;
     } catch (err) {
         console.log('Error in removeGroup (board-service):', err);
         throw err;
@@ -220,86 +235,86 @@ function getEmptyBoard() {
         },
         style: { bgColor: '', bgImg: '' },
         labels: [{
-                id: 'l101',
-                title: '',
-                color: '#409EFF'
-            },
-            {
-                id: 'l102',
-                title: '',
-                color: '#67C23A'
-            },
-            {
-                id: 'l103',
-                title: '',
-                color: '#E6A23C'
-            },
-            {
-                id: 'l104',
-                title: '',
-                color: '#F56C6C'
-            },
+            id: 'l101',
+            title: '',
+            color: '#409EFF'
+        },
+        {
+            id: 'l102',
+            title: '',
+            color: '#67C23A'
+        },
+        {
+            id: 'l103',
+            title: '',
+            color: '#E6A23C'
+        },
+        {
+            id: 'l104',
+            title: '',
+            color: '#F56C6C'
+        },
         ],
         members: [],
         groups: [{
-                id: utilService.makeId(4) + 's',
-                title: 'To do',
-                tasks: [{
-                    id: utilService.makeId(4) + 'j',
-                    title: 'Do that',
-                    description: '',
-                    comments: [],
-                    attachments: [],
-                    checklists: [],
-                    members: [],
-                    labelIds: ['l101'],
-                    createdAt: '',
-                    dueDate: '',
-                    byMember: {},
-                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
-                    location: null,
-                    isComplete: false
-                }, ]
-            }, {
-                id: utilService.makeId(4) + 'f',
-                title: 'Doing',
-                tasks: [{
-                    id: utilService.makeId(4) + 5,
-                    title: 'Do that',
-                    description: '',
-                    comments: [],
-                    attachments: [],
-                    checklists: [],
-                    members: [],
-                    labelIds: [],
-                    createdAt: '',
-                    dueDate: '',
-                    byMember: {},
-                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
-                    location: null,
-                    isComplete: false
-                }, ]
-            },
-            {
+            id: utilService.makeId(4) + 's',
+            title: 'To do',
+            tasks: [{
+                id: utilService.makeId(4) + 'j',
+                title: 'Do that',
+                description: '',
+                comments: [],
+                attachments: [],
+                checklists: [],
+                members: [],
+                labelIds: ['l101'],
+                createdAt: '',
+                dueDate: '',
+                byMember: {},
+                coverStyle: { bgColor: 'transparent', bgImg: 'none' },
+                location: null,
+                isComplete: false
+            },]
+        }, {
+            id: utilService.makeId(4) + 'f',
+            title: 'Doing',
+            tasks: [{
+                id: utilService.makeId(4) + 5,
+                title: 'Do that',
+                description: '',
+                comments: [],
+                attachments: [],
+                checklists: [],
+                members: [],
+                labelIds: [],
+                createdAt: '',
+                dueDate: '',
+                byMember: {},
+                coverStyle: { bgColor: 'transparent', bgImg: 'none' },
+                location: null,
+                isComplete: false
+            },]
+        },
+        {
+            id: utilService.makeId(),
+            title: 'Done',
+            tasks: [{
                 id: utilService.makeId(),
-                title: 'Done',
-                tasks: [{
-                    id: utilService.makeId(),
-                    title: 'Do that',
-                    description: '',
-                    comments: [],
-                    attachments: [],
-                    checklists: [],
-                    members: [],
-                    labelIds: [],
-                    createdAt: '',
-                    dueDate: '',
-                    byMember: {},
-                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
-                    location: null,
-                    isComplete: false
-                }, ]
-            }
+                title: 'Do that',
+                description: '',
+                comments: [],
+                attachments: [],
+                checklists: [],
+                members: [],
+                labelIds: [],
+                createdAt: '',
+                dueDate: '',
+                byMember: {},
+                coverStyle: { bgColor: 'transparent', bgImg: 'none' },
+                location: null,
+                isComplete: false
+            },]
+        }
         ],
         activities: [],
         isStarred: false
@@ -770,3 +785,5 @@ function getEmptyBoard() {
 //         isStarred: false,
 //     }
 // }
+
+
