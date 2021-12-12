@@ -19,7 +19,7 @@
             return {
                 boardStyle: {
                     bgColor: '#00a1ff',
-                    bgColor: 'none',
+                    bgImage: 'none',
                 },
             };
         },

@@ -1,20 +1,19 @@
 <template>
     <section class="map-container">
-        <form class="map-form">
+        <form class="map-form" @submit.prevent="searchLoc">
             <el-input
                 type="text"
-                placeholder="Search Google Maps"
                 v-model="searchVal"
-                autofocus
+                placeholder="Search Google Maps"
                 class="map-input"
+                autofocus
             ></el-input>
-            <el-button
-                @click="searchLoc"
-                type="info"
-                class="map-search-btn"
-                plain
-                >Locate</el-button
-            >
+
+            <button>
+                <el-button type="info" class="map-search-btn" plain
+                    >Locate</el-button
+                >
+            </button>
         </form>
 
         <section class="card-back-location-footer">
@@ -26,9 +25,7 @@
             <el-popover
                 placement="bottom"
                 :title="locAddress"
-                width=""
                 trigger="click"
-                content=""
                 class="remove-map-modal"
             >
                 <hr />
@@ -41,13 +38,13 @@
 
         <GmapMap
             ref="mapRef"
-            :center="center"
+            :center="mapCenter"
             :zoom="10"
             map-type-id="terrain"
             class="map"
         >
             <GmapMarker
-                :position="center"
+                :position="mapCenter"
                 :clickable="true"
                 :draggable="false"
             />
@@ -56,78 +53,67 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    import { taskMapService } from '@/services/task-map.service.js';
 
     export default {
         props: {
-            mapCenter: {
+            location: {
                 type: Object,
                 required: true,
                 default: function () {
-                    return { msg: 'No mapCenter' };
-                },
-            },
-            mapAddress: {
-                type: String,
-                required: true,
-                default: function () {
-                    return { msg: 'No mapAddress' };
+                    return { msg: 'No Location' };
                 },
             },
         },
 
         data() {
             return {
-                API_KEY: 'AIzaSyAwGiZvHMgXknOgVGzfiqUHedPY-M9aRpM',
                 searchVal: '',
-                center: this.mapCenter,
-                locAddress: this.mapAddress,
+                mapCenter: this.location.coords,
+                locAddress: this.location.address,
             };
         },
 
         methods: {
-            async moveTo(position) {
+            async moveTo(location) {
                 try {
-                    this.center = position;
-                    const { lat, lng } = position;
+                    this.mapCenter = location;
+                    const { lat, lng } = location;
                     const map = await this.$refs.mapRef.$mapPromise;
                     await map.panTo({ lat, lng });
                     const address = await this.getLocAddress(
-                        this.center.lat,
-                        this.center.lng
+                        this.mapCenter.lat,
+                        this.mapCenter.lng
                     );
                     this.$emit('saveLoc', {
                         address,
                         coords: { lat, lng },
                     });
                 } catch (err) {
-                    console.log('Error in moveTo (our-map):', err);
+                    console.log('Error in moveTo (task-map):', err);
                     throw err;
                 }
             },
 
             async searchLoc() {
                 try {
-                    const res = await axios.get(
-                        `https://maps.googleapis.com/maps/api/geocode/json?address=${this.searchVal}&key=${this.API_KEY}`
-                    );
+                    const res = await taskMapService.searchLoc(this.searchVal);
                     const location = res.data.results[0].geometry.location;
                     this.moveTo(location);
+                    this.searchVal = '';
                 } catch (err) {
-                    console.log('Error in searchLoc (our-map):', err);
+                    console.log('Error in searchLoc (task-map):', err);
                     throw err;
                 }
             },
 
             async getLocAddress(lat, lng) {
                 try {
-                    const res = await axios.get(
-                        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${this.API_KEY}`
-                    );
+                    const res = await taskMapService.getLocAddress(lat, lng);
                     this.locAddress = res.data.results[0].formatted_address;
                     return this.locAddress;
                 } catch (err) {
-                    console.log('Error in getLocAddress (our-map):', err);
+                    console.log('Error in getLocAddress (task-map):', err);
                     throw err;
                 }
             },
