@@ -1,64 +1,81 @@
 <template>
-    <section v-if="board" class="board-details">
-        <board-header
-            :board="board"
-            @updateBoard="updateBoard"
-            @editBgcBoard="editBgcBoard"
-        />
+    <section>
+        <div v-if="!board" class="is-loading-container">
+            <img
+                src="../assets/img/loading.gif"
+                width="50"
+                height="50"
+                frameBorder="0"
+            />
+        </div>
+        <section v-else class="board-details">
+            <board-header
+                :board="board"
+                @updateBoard="updateBoard"
+                @editBgcBoard="editBgcBoard"
+            />
 
-        <main class="main-layout">
-            <Container
-                group-name="bo"
-                class="groups-container"
-                behaviour="contain"
-                orientation="horizontal"
-                @drop="onGroupDrop"
-                :remove-on-drop-out="true"
-                drop-class="card-ghost-drop"
-                drag-class="dragging"
-            >
-                <!-- drag-handle-selector=".column-drag-handle" -->
-                <!-- Group-preview -->
-                <Draggable v-for="group in board.groups" :key="group.id">
-                    <group-preview
-                        @updateBoard="updateBoard"
-                        :board="board"
-                        :group="group"
-                        :boardLabels="board.labels"
-                    />
-                </Draggable>
-                <section>
-                    <!-- <transition name="slide-up"> -->
-                    <div class="add-group-btn-container" v-if="!isAddClicked">
-                        <button class="add-group-btn" @click="openAddingInput">
-                            <span class="el-icon-plus"></span> Add another list
-                        </button>
-                    </div>
-                    <!-- </transition> -->
-                    <!-- <transition name="slide-up"> -->
-                    <div class="group-add-container" v-if="isAddClicked">
-                        <input
-                            @keyup.enter="addGroup"
-                            v-model="groupTitle"
-                            type="text"
-                            placeholder="Enter list title..."
+            <main class="main-layout">
+                <Container
+                    group-name="bo"
+                    class="groups-container"
+                    behaviour="contain"
+                    orientation="horizontal"
+                    @drop="onGroupDrop"
+                    :remove-on-drop-out="true"
+                    drop-class="card-ghost-drop"
+                    drag-class="dragging"
+                >
+                    <!-- drag-handle-selector=".column-drag-handle" -->
+                    <!-- Group-preview -->
+                    <Draggable v-for="group in board.groups" :key="group.id">
+                        <group-preview
+                            @updateBoard="updateBoard"
+                            :board="board"
+                            :group="group"
+                            :boardLabels="board.labels"
                         />
-                        <div class="group-btns-container">
-                            <button @click="addGroup">Add list</button>
+                    </Draggable>
+                    <section>
+                        <!-- <transition name="slide-up"> -->
+                        <div
+                            class="add-group-btn-container"
+                            v-if="!isAddClicked"
+                        >
                             <button
-                                class="el-icon-close"
+                                class="add-group-btn"
                                 @click="openAddingInput"
-                            ></button>
+                            >
+                                <span class="el-icon-plus"></span> Add another
+                                list
+                            </button>
                         </div>
-                    </div>
-                    <!-- </transition> -->
-                </section>
-            </Container>
-        </main>
+                        <!-- </transition> -->
+                        <!-- <transition name="slide-up"> -->
+                        <div class="group-add-container" v-if="isAddClicked">
+                            <input
+                                @keyup.enter="addGroup"
+                                v-model="groupTitle"
+                                type="text"
+                                placeholder="Enter list title..."
+                            />
+                            <div class="group-btns-container">
+                                <button @click="addGroup">Add list</button>
+                                <button
+                                    class="el-icon-close"
+                                    @click="openAddingInput"
+                                ></button>
+                            </div>
+                        </div>
+                        <!-- </transition> -->
+                    </section>
+                </Container>
+            </main>
 
-        <transition name="fade" :duration="50">
-            <router-view />
-        </transition>
+            <transition name="fade" :duration="50">
+                <router-view />
+            </transition>
+        </section>
     </section>
 </template>
 

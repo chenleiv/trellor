@@ -164,7 +164,7 @@
         created() {
             // this.boardId = this.board._id;
             this.availUsers = this.users;
-            console.log('', this.board.members);
+            // console.log('', this.board.members);
             this.boardId = this.board._id;
         },
 

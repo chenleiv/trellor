@@ -143,3 +143,14 @@
     transform: rotate(5deg);
     // box-shadow: none;
 }
+
+.is-loading-container {
+    height: 100%;
+    text-align: center;
+    img {
+        transform: scale(2);
+        position: absolute;
+        top: 200px;
+        left: 47.5%;
+    }
+}
