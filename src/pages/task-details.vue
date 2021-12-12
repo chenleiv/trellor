@@ -186,11 +186,18 @@
                                 </div>
                             </div>
                         </div>
-
-                        <checklist-preview
-                            v-if="isChecklistShown"
-                            :checklistTitle="checklistTitle"
-                        ></checklist-preview>
+                        <!-- <ul>
+                            <li v-for="todo in todos" :key="todo._id">
+                                <checklist-preview
+                                    v-if="isChecklistShown"
+                                    :checklistTitle="checklistTitle"
+                                    :task="task"
+                                    :checklists="checklists"
+                                >
+                                </checklist-preview>
+                                <a @click.stop.prevent="remove(todos._id)">x</a>
+                            </li>
+                        </ul> -->
 
                         <section class="description-container">
                             <h4>

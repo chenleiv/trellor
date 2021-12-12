@@ -2,7 +2,16 @@
     <section class="task-preview">
         <!-- To task details -->
         <router-link :to="`/board/${boardId}/task/${task.id}`">
-            <div class="cover-preview-container">
+            <div
+                v-if="toggleEditCard"
+                class="overlay"
+                @click.prevent="toggleEditCard = false"
+            ></div>
+
+            <div
+                class="cover-preview-container"
+                :class="{ 'show-task-cover-modal': toggleEditCard }"
+            >
                 <div
                     v-if="findCoverColor"
                     class="cover-color-preview"
@@ -13,162 +22,132 @@
                     class="cover-img-preview"
                     :src="coverUrl"
                 />
-            </div>
-            <div class="task-preview-content">
-                <div v-if="labelsToShow">
-                    <div v-if="labelsToShow" class="labels">
-                        <div
-                            class="task-label"
-                            v-for="label in labelsToShow"
-                            :key="label.Id"
-                            @click.prevent="toggleSize"
-                            :style="{
-                                backgroundColor: label.color,
-                            }"
-                            :class="{
-                                shrinkLabel: changeLabelSize,
-                                increaseLabel: !changeLabelSize,
-                            }"
-                        >
-                            <span v-if="!changeLabelSize">{{
-                                label.title
-                            }}</span>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="task-title">
-                    {{ task.title }}
-                </div>
-
-                <div class="task-show-details" v-if="showIcons">
-                    <div class="task-description" v-if="task.description">
-                        <span class="material-icons-outlined"> notes </span>
-                    </div>
-
-                    <div class="comments" v-if="task.comments.length">
-                        <span class="task-comments" v-if="task.comments.length">
-                            <span></span>
-                        </span>
-                        <span>{{ commentsLength }}</span>
-                    </div>
-
-                    <div class="task-attachment" v-if="attachmentLength">
-                        <span class="material-icons-outlined">
-                            attach_file
-                        </span>
-                        <span>{{ attachmentLength }}</span>
-                    </div>
-                    <div class="task-location" v-if="task.location">
-                        <span class=""></span>
-                    </div>
-                    <div class="task-checklists" v-if="task.checklists">
-                        <span v-if="task.checklists.length">
-                            <span class="material-icons-outlined">
-                                check_box
-                            </span>
-                            <p>0/2</p>
-                        </span>
-                    </div>
-
-                    <div v-for="member in task.members" :key="member.id">
-                        <div class="list-task-members">
-                            <avatar
-                                class="user-avatar"
-                                backgroundColor="lightblue"
-                                color="black"
-                                :size="30"
-                                :username="member.fullname"
-                            ></avatar>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- delete button -->
-
-                <el-popover
-                    style="z-index: 10"
-                    placement="bottom-end"
-                    width="100"
-                    v-model="toggleEditCard"
-                    title="Card actions"
+                <div
+                    :class="{ 'show-task-modal': toggleEditCard }"
+                    class="task-preview-content"
                 >
-                    <hr />
-                    <div>
-                        <!-- <el-button
-                            size="mini"
-                            type="text"
-                            style="
-                                display: flex;
-                                margin: 0;
-                                color: black;
-                                font-size: 14px;
-                            "
-                            @click.prevent="toggleTaskEdit"
-                            >Edit title</el-button
-                        > -->
-                        <el-button
-                            type="text"
-                            size="mini"
-                            style="
-                                display: flex;
-
-                                margin: 0;
-                                color: black;
-                                font-size: 14px;
-                            "
-                            @click.prevent="removeTask"
-                            >Archive this task</el-button
-                        >
-                        <!-- @click="toggleTaskDelete" -->
+                    <div v-if="labelsToShow">
+                        <div v-if="labelsToShow" class="labels">
+                            <div
+                                class="task-label"
+                                v-for="label in labelsToShow"
+                                :key="label.Id"
+                                @click.prevent="toggleSize"
+                                :style="{
+                                    backgroundColor: label.color,
+                                }"
+                                :class="{
+                                    shrinkLabel: changeLabelSize,
+                                    increaseLabel: !changeLabelSize,
+                                }"
+                            >
+                                <span v-if="!changeLabelSize">{{
+                                    label.title
+                                }}</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <el-button
-                        class="edit-task-btn btn-group"
-                        slot="reference"
+                    <div class="task-title" v-if="!toggleEditCard">
+                        {{ task.title }}
+                    </div>
+
+                    <textarea
+                        v-else
+                        @keydown.enter.prevent
                         @click.prevent
-                    ></el-button>
-                </el-popover>
-                <!-- 
-                <div v-if="deleteCard">
-                    <el-popover
-                        style="z-index: 10"
-                        placement="bottom-end"
-                        width="100"
+                        class="input-edit-task"
+                        v-model="editTitle"
+                    ></textarea>
+                    <button
+                        @click.prevent="taskEdit"
+                        v-if="toggleEditCard"
+                        class="save-edit-task"
                     >
-                        <p>Delete this task?</p>
-                        <div style="text-align: right">
-                            <el-button
-                                size="mini"
-                                type="text"
-                                style="color: black"
-                                >cancel</el-button
-                            >
-                            <el-button
-                                type="info"
-                                size="mini"
-                                @click.prevent="removeTask"
-                                >confirm</el-button
-                            >
+                        Save
+                    </button>
+
+                    <div class="model-btn">
+                        <button
+                            @click.prevent="openTask"
+                            v-if="toggleEditCard"
+                            class="open-edit-btn"
+                        >
+                            <span class="material-icons-outlined">
+                                calendar_today
+                            </span>
+
+                            Open card
+                        </button>
+                        <button
+                            @click.prevent="removeTask"
+                            v-if="toggleEditCard"
+                            class="remove-edit-btn"
+                        >
+                            <span class="material-icons-outlined">
+                                archive
+                            </span>
+                            Archive
+                        </button>
+                    </div>
+
+                    <div class="task-show-details" v-if="showIcons">
+                        <div class="task-description" v-if="task.description">
+                            <span class="material-icons-outlined"> notes </span>
                         </div>
-                        <el-button
-                            class="edit-task-btn btn-group"
-                            slot="reference"
-                            @click.prevent
-                        ></el-button>
-                    </el-popover>
-                </div> -->
-                <!-- 
-                <div v-if="editTitle" class="edit-title">
-                    <h3 class="new-title">edit card title</h3>
-                    <el-input
-                        placeholder="Enter a title..."
-                        v-model="taskTitle"
-                    ></el-input>
-                    <el-button class="edit-task-title">Add</el-button>
-                </div> -->
-            </div></router-link
-        >
+
+                        <div class="comments" v-if="task.comments.length">
+                            <span
+                                class="task-comments"
+                                v-if="task.comments.length"
+                            >
+                                <span></span>
+                            </span>
+                            <span>{{ commentsLength }}</span>
+                        </div>
+
+                        <div class="task-attachment" v-if="attachmentLength">
+                            <span class="material-icons-outlined">
+                                attach_file
+                            </span>
+                            <span>{{ attachmentLength }}</span>
+                        </div>
+                        <div class="task-location" v-if="task.location">
+                            <span class=""></span>
+                        </div>
+                        <div class="task-checklists" v-if="task.checklists">
+                            <span v-if="task.checklists.length">
+                                <span class="material-icons-outlined">
+                                    check_box
+                                </span>
+                                <p>0/2</p>
+                            </span>
+                        </div>
+
+                        <div v-for="member in task.members" :key="member.id">
+                            <div class="list-task-members">
+                                <avatar
+                                    class="user-avatar"
+                                    backgroundColor="lightblue"
+                                    color="black"
+                                    :size="30"
+                                    :username="member.fullname"
+                                ></avatar>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- delete button -->
+
+                    <button
+                        class="edit-task-btn btn-group"
+                        @click.prevent="toggleEditCard = true"
+                        v-if="!toggleEditCard"
+                    ></button>
+                </div>
+            </div>
+        </router-link>
     </section>
 </template>
 
@@ -205,8 +184,8 @@
                 taskLabels: [],
                 coverUrl: '',
                 toggleEditCard: false,
-                editTitle: false,
-                deleteCard: false,
+                editTitle: '',
+                // deleteCard: false,
             };
         },
 
@@ -215,6 +194,7 @@
             if (this.task.labelIds) {
                 if (this.task.labelIds.length > 0) this.getLabels();
             }
+            this.editTitle = this.task.title;
         },
         methods: {
             toggleSize() {
@@ -234,10 +214,12 @@
                 this.$emit('deleteTask', this.task);
                 this.toggleDeleteMenu = !this.toggleDeleteMenu;
             },
-            toggleTaskDelete() {
-                this.toggleDeleteMenu = !this.toggleDeleteMenu;
-                console.log('toggleDeleteMenu', toggleDeleteMenu);
-                // this.$emit('openModalBg');
+            taskEdit() {
+                this.toggleEditCard = !this.toggleEditCard;
+                const newTask = JSON.parse(JSON.stringify(this.task));
+                newTask.title = this.editTitle;
+                console.log('newTask.title', newTask.title);
+                this.$emit('saveEditTask', newTask);
             },
         },
         computed: {

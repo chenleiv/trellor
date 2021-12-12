@@ -11,42 +11,42 @@ import login from '@/pages/login.vue'
 Vue.use(VueRouter)
 
 const routes = [{
-        path: '/',
-        name: 'home',
-        component: home
-    },
+    path: '/',
+    name: 'home',
+    component: home
+},
 
-    {
-        path: '/workspace',
-        name: 'workspace',
-        component: workspace
+{
+    path: '/workspace',
+    name: 'workspace',
+    component: workspace
+},
+{
+    path: '/board/:boardId',
+    name: 'boardDetails',
+    component: boardDetails,
+    children: [{
+        path: 'task/:taskId',
+        name: 'taskDetails',
+        component: taskDetails
     },
     {
-        path: '/board/:boardId',
-        name: 'boardDetails',
-        component: boardDetails,
-        children: [{
-                path: 'task/:taskId',
-                name: 'taskDetails',
-                component: taskDetails
-            },
-            {
-                path: 'dashboard',
-                name: 'dashboard',
-                component: dashboard
-            },
-            {
-                path: 'main-map',
-                name: 'mainMap',
-                component: mainMap
-            }
-        ]
+        path: 'dashboard',
+        name: 'dashboard',
+        component: dashboard
     },
     {
-        path: '/login',
-        name: 'login',
-        component: login
-    },
+        path: 'main-map',
+        name: 'mainMap',
+        component: mainMap
+    }
+    ]
+},
+{
+    path: '/login',
+    name: 'login',
+    component: login
+},
 ]
 
 const router = new VueRouter({

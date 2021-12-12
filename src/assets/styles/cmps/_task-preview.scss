@@ -136,7 +136,7 @@
             .task-date {
                 padding: 2px;
                 margin: 0 4px 4px 0;
-                &>span {
+                & > span {
                     font-family: fa-regular;
                     padding-right: 3px;
                     align-items: center;
@@ -179,7 +179,6 @@
     font-size: 14px;
 }
 
-
 /* always present */
 
 .expand-transition {
@@ -190,9 +189,7 @@
     overflow: hidden;
 }
 
-
 /* .expand-enter defines the starting state for entering */
-
 
 /* .expand-leave defines the ending state for leaving */
 
@@ -201,4 +198,87 @@
     height: 0;
     padding: 0 10px;
     opacity: 0;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.501);
+    opacity: 1;
+    transition: opacity 0.2s ease-out;
+    width: 100%;
+    height: 100vh;
+    z-index: 10;
+    overflow-y: auto;
+}
+
+.show-task-modal {
+    position: relative;
+    z-index: 30;
+    height: 100px;
+    width: 100%;
+    background-color: rgb(235, 238, 238);
+    pointer-events: auto;
+    overflow-y: hidden;
+}
+
+.save-edit-task {
+    position: fixed;
+    z-index: 30;
+    transform: translate(-246px, 100px);
+    font-size: 1.2rem;
+    border-radius: 3px;
+    margin-top: 8px;
+    color: #fff;
+    padding: 6px 12px;
+    border: none;
+    background-color: #0079bf;
+    &:hover {
+        background-color: rgb(2, 106, 167);
+    }
+}
+.model-btn {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    transform: translate(260px, -120px);
+    z-index: 30;
+    button {
+        font-size: 1.2rem;
+        color: #fff;
+        border-radius: 3px;
+        margin-top: 8px;
+        padding: 6px 12px;
+        border: none;
+        background-color: #1e1e1fa6;
+    }
+}
+
+.open-edit-btn {
+    &:hover {
+        background: rgba(0, 0, 0, 0.8);
+        margin-right: -15px;
+    }
+}
+.remove-edit-btn {
+    &:hover {
+        background: rgba(0, 0, 0, 0.8);
+        margin-right: -15px;
+    }
+}
+
+.show-task-cover-modal {
+    position: relative;
+    z-index: 30;
+    pointer-events: none;
+}
+.input-edit-task {
+    width: 100%;
+    height: 100%;
+    resize: none;
+    border: none;
+    outline: none;
+    background-color: #ebeeee;
+    font-size: 1.1rem;
 }

@@ -56,6 +56,7 @@
             >
                 <!-- <router-link :to="`/board/${boardId}/task/${task.id}`"> -->
                 <task-preview
+                    @saveEditTask="saveEditTask"
                     :board="board"
                     :task="task"
                     :boardLabels="boardLabels"
@@ -245,6 +246,14 @@
                 } finally {
                     this.taskTitle = '';
                 }
+            },
+            async saveEditTask(task) {
+                await this.$store.dispatch({
+                    type: 'updateTask',
+                    boardId: this.boardId,
+                    groupId: this.group.id,
+                    task,
+                });
             },
 
             toggleAddTaskInput() {

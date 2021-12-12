@@ -15,6 +15,7 @@
     import mainHeader from './cmps/main-header.vue';
 
     export default {
+        name: 'app',
         data() {
             return {
                 boardStyle: {
@@ -40,7 +41,7 @@
                 try {
                     let user = {
                         fullname: 'Guest',
-                        username: 'guest@gmail.com',
+                        username: 'guest1@gmail.com',
                         password: 'guest123',
                         imgUrl: 'https://res.cloudinary.com/cloudinaryorb/image/upload/v1639142324/guest_b8lh6r.png',
                     };

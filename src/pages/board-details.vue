@@ -73,6 +73,7 @@
         data() {
             return {
                 board: null,
+                // boardId: null,
                 isAddClicked: false,
                 groupTitle: '',
                 toggleMenu: false,
@@ -93,6 +94,7 @@
             //             boardId,
             //         });
             //         this.board = board;
+            //         this.boardId = boardId;
             //     } catch (err) {
             //         console.log('Board Loading Error (board-details):', err);
             //         throw err;
@@ -156,7 +158,14 @@
             },
         },
 
-        computed: {},
+        computed: {
+            //     board() {
+            //         return this.$store.getters.watchedBoard;
+            //     },
+            //     BoardId() {
+            //         return this.$route.params.id;
+            //     },
+        },
 
         watch: {
             '$store.getters.getCurrBoard'(board) {

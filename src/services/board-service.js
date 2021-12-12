@@ -54,7 +54,7 @@ async function save(board) {
     try {
         if (board._id) {
             // console.log('board._id', board._id);
-            // console.log('PUT (save)');
+            console.log('PUT (save)');
             httpService.put('board', board)
             return board
         } else {
@@ -133,8 +133,9 @@ async function updateTask(boardId, groupId, task) {
         const group = board.groups.find(g => g.id === groupId)
         // console.log('group', group);
         const taskIdx = group.tasks.findIndex(t => t.id === task.id)
-        // console.log('taskIdx', taskIdx);
         group.tasks.splice(taskIdx, 1, task);
+        console.log('taskIdx', taskIdx);
+        console.log('task', task);
         save(board);
         return board;
     } catch (err) {
@@ -192,6 +193,8 @@ async function updateGroup(boardId, newGroup) {
         const board = await getById(boardId);
         const idx = board.groups.findIndex(group => group.id === newGroup.id);
         board.groups.splice(idx, 1, newGroup);
+        console.log('idx', idx);
+        console.log('newGroup', newGroup);
         save(board);
         return board;
     } catch (err) {
@@ -787,3 +790,39 @@ function getEmptyBoard() {
 // }
 
 
+
+
+// function updateTask(cmpType, data) {
+//     // Switch
+//     // task.members = data;
+//     // task.status = data;
+// }
+
+
+// // Store - saveTask
+// function storeSaveTask(task, activity) {
+//     const activity = {
+//         "id": makeId(),
+//         "txt": "Changed Color",
+//         "createdAt": Date.now(),
+//         "byMember": userService.getLoggedinUser(),
+//         "task": task
+//     }
+//     board = boardService.saveTask(boardId, groupId, task, activity)
+//     commit(board)
+// }
+
+// // boardService
+// function saveTask(boardId, groupId, task, activity) {
+//     const board = getById(boardId)
+//     // TODO: find the task, and update
+//     board.activities.unshift(activity)
+//     saveBoard(board)
+//     return board
+// }
+
+// // boardStore-action
+// async function loadAndWatchBoard(boardId) {
+//     // load from service and commit to store
+//     // subscribe to socket and commit to store
+// }
