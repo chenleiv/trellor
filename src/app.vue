@@ -17,13 +17,16 @@
     export default {
         data() {
             return {
+                boardId: null,
+                headerColor: '#026aa7',
                 boardStyle: {
                     bgColor: '#00a1ff',
-                    bgColor: 'none',
+                    bgImg: 'none',
                 },
             };
         },
         created() {
+            this.boardId = this.$route.params.boardId;
             if (!this.loggedInUser) this.login();
         },
         computed: {
@@ -40,7 +43,7 @@
                 try {
                     let user = {
                         fullname: 'Guest',
-                        username: 'guest@gmail.com',
+                        username: 'guest1@gmail.com',
                         password: 'guest123',
                         imgUrl: 'https://res.cloudinary.com/cloudinaryorb/image/upload/v1639142324/guest_b8lh6r.png',
                     };
@@ -69,8 +72,8 @@
                         }
                     } else
                         this.boardStyle = {
-                            bgColor: '#00a1ff',
-                            bgImage: 'none',
+                            bgColor: '#fff',
+                            bgImg: 'none',
                         };
                 },
                 immediate: true,

@@ -1,5 +1,8 @@
 <template>
-    <header class="main-header main-layout">
+    <header
+        class="main-header main-layout"
+        :style="{ backgroundColor: headerColor }"
+    >
         <section class="header-container">
             <div class="logo">
                 <router-link to="/workspace">
@@ -21,8 +24,8 @@
                     </el-input>
                 </div>
                 <button class="alert"></button>
-                <router-link v-if="!loggedInUser" to="/login"
-                    >Login</router-link
+                <router-link v-if="!loggedInUser" to="/login">
+                    Login</router-link
                 >
                 <el-popover
                     v-if="loggedInUser"
@@ -51,13 +54,19 @@
 
 <script>
     import Avatar from 'vue-avatar';
+    // import { login } from '@/services/auth.service.js';
+    import { login } from '../services/auth.service';
     export default {
         name: 'mainHeader',
         data() {
             return {
+                headerColor: '',
                 input: '',
                 toggleUserMenu: false,
             };
+        },
+        created() {
+            this.boardId = this.$route.params.boardId;
         },
         computed: {
             loggedInUser() {
@@ -76,6 +85,18 @@
                     console.log('err in logout (login cmp)', err);
                     throw err;
                 }
+            },
+        },
+        watch: {
+            '$route.params.boardId': {
+                async handler() {
+                    let { boardId } = this.$route.params;
+                    if (boardId) {
+                        this.headerColor = '#00000073';
+                    } else {
+                        this.headerColor = '#026aa7';
+                    }
+                },
             },
         },
         components: {

@@ -1,9 +1,9 @@
 import Axios from 'axios'
 import { router } from '@/router'
 
-const BASE_URL = process.env.NODE_ENV === 'production'
-    ? '/api/'
-    : '//localhost:3030/api/'
+const BASE_URL = process.env.NODE_ENV === 'production' ?
+    '/api/' :
+    '//localhost:3030/api/'
 
 
 var axios = Axios.create({
@@ -16,6 +16,7 @@ export const httpService = {
         return ajax(endpoint, 'GET', data)
     },
     post(endpoint, data) {
+        // console.log('data', data);
         return ajax(endpoint, 'POST', data)
     },
     put(endpoint, data) {
@@ -43,7 +44,7 @@ async function ajax(endpoint, method = 'GET', data = null) {
         console.dir(err)
         if (err.response && err.response.status === 401) {
             // Depends on routing startegy - hash or history
-            window.location.assign('/#/login')
+            // window.location.assign('/#/login')
             // window.location.assign('/login')
             // router.push('/login')
         }
