@@ -19,7 +19,8 @@
                 <gmap-info-window :opened="showById === id">
                     <task-preview
                         :task="task"
-                        :boardLabels="boardLabels"
+                        :board="board"
+                        :boardLabels="board.labels"
                         class="task-preview-in-map"
                     />
                 </gmap-info-window>
@@ -37,12 +38,11 @@
                 center: { lat: 31.769218, lng: 35.208144 },
                 tasks: [],
                 showById: null,
-                boardLabels: [],
             };
         },
 
         created() {
-            this.loadBoard();
+            this.getPositions();
         },
 
         methods: {
@@ -56,24 +56,14 @@
                 });
             },
 
-            async loadBoard() {
-                const { boardId } = this.$route.params;
-                try {
-                    const board = await this.$store.dispatch({
-                        type: 'getBoard',
-                        boardId,
-                    });
-                    this.board = board;
-                    this.boardLabels = this.board.labels;
-                    this.getPositions();
-                } catch (err) {
-                    console.log('Board Loading Error (main-map):', err);
-                    throw err;
-                }
-            },
-
             backToBoard() {
                 this.$router.push(`/board/${this.board._id}`);
+            },
+        },
+
+        computed: {
+            board() {
+                return this.$store.getters.getCurrBoard;
             },
         },
 

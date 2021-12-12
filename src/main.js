@@ -12,6 +12,15 @@ import VModal from 'vue-js-modal'
 import VueInputAutowidth from 'vue-input-autowidth'
 import vueDebounce from 'vue-debounce'
 import * as VueGoogleMaps from 'vue2-google-maps'
+import GAuth from 'vue-google-oauth2'
+
+const gauthOption = {
+    clientId: '73547935874-acobqisphl71iagl9qa6lt0pirq3m9qa.apps.googleusercontent.com',
+    scope: 'profile email',
+    prompt: 'select_account',
+    fetch_basic_profile: true
+}
+Vue.use(GAuth, gauthOption)
 
 Vue.use(vueDebounce)
 Vue.use(VueInputAutowidth)

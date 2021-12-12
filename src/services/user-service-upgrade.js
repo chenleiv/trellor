@@ -55,8 +55,10 @@ async function login(userCred) {
     if (user) return _saveLocalUser(user)
 }
 async function signup(userCred) {
+
     // const user = await storageService.post('user', userCred)
     const user = await httpService.post('auth/signup', userCred)
+        // console.log('userCred', user);
     socketService.emit('set-user-socket', user._id);
     return _saveLocalUser(user)
 }

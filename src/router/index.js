@@ -7,6 +7,7 @@ import taskDetails from '@/pages/task-details.vue'
 import dashboard from '@/pages/dashboard.vue'
 import mainMap from '@/pages/main-map.vue'
 import login from '@/pages/login.vue'
+import callback from '@/pages/callback.vue'
 
 Vue.use(VueRouter)
 

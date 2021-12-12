@@ -1,7 +1,7 @@
 header.main-header {
     height: 44px;
-    background-color: rgb(0 0 0 / 45%);
     width: 100%;
+    background-color: #026aa7;
     .header-container {
         // position: fixed;
         max-height: 44px;
@@ -66,8 +66,14 @@ header.main-header {
                 }
             }
             .search-input {
+                @media (max-width: 520px) {
+                    width: 100px;
+                }
                 display: flex;
                 input {
+                    @media (max-width: 520px) {
+                        width: 100%;
+                    }
                     color: #fff;
                     height: 32px;
                     border: 1px solid rgba(223, 222, 222, 0.433);
@@ -75,12 +81,21 @@ header.main-header {
                     background-color: rgba(255, 255, 255, 0.3);
                 }
                 .el-input {
+                    @media (max-width: 520px) {
+                        // width: 70%;
+                    }
                     padding-top: 4px;
                 }
             }
         }
     }
 }
+
+.header-style {
+    background-color: #026aa7;
+}
+
+.header-style-board {}
 
 .el-icon-s-grid {
     margin-top: 4.2px;
