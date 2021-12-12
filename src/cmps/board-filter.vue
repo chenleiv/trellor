@@ -45,10 +45,7 @@
                         style="color: #5e6c84; text-color: #fff"
                         >No labels
                     </el-checkbox>
-                    <!-- <div
-                        class="label-color"
-                        style="background-color: rgb(230, 162, 60)"
-                    ></div> -->
+
                     <el-checkbox v-model="label1" style="text-color: #fff">
                         <div class="label label1"></div>
                     </el-checkbox>

@@ -54,7 +54,7 @@ async function save(board) {
     try {
         if (board._id) {
             // console.log('board._id', board._id);
-            // console.log('PUT (save)');
+            console.log('PUT (save)');
             httpService.put('board', board)
             return board
         } else {
@@ -787,3 +787,39 @@ function getEmptyBoard() {
 // }
 
 
+
+
+// function updateTask(cmpType, data) {
+//     // Switch
+//     // task.members = data;
+//     // task.status = data;
+// }
+
+
+// // Store - saveTask
+// function storeSaveTask(task, activity) {
+//     const activity = {
+//         "id": makeId(),
+//         "txt": "Changed Color",
+//         "createdAt": Date.now(),
+//         "byMember": userService.getLoggedinUser(),
+//         "task": task
+//     }
+//     board = boardService.saveTask(boardId, groupId, task, activity)
+//     commit(board)
+// }
+
+// // boardService
+// function saveTask(boardId, groupId, task, activity) {
+//     const board = getById(boardId)
+//     // TODO: find the task, and update
+//     board.activities.unshift(activity)
+//     saveBoard(board)
+//     return board
+// }
+
+// // boardStore-action
+// async function loadAndWatchBoard(boardId) {
+//     // load from service and commit to store
+//     // subscribe to socket and commit to store
+// }

@@ -2,6 +2,7 @@
     <div class="workspace main-layout full">
         <section>
             <h4 class="favorites" v-if="atleastOneStarred">Favorites</h4>
+
             <div class="board-previews-container">
                 <template v-for="board in boards"
                     ><board-preview
@@ -10,6 +11,7 @@
                         :board="board"
                 /></template>
             </div>
+
             <div class="board-previews-container">
                 <div class="add-board-btn" @click="openBoardModal">
                     <span>Create new board</span>

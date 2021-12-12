@@ -9,7 +9,15 @@
                 <span class="checklist-progress-percentage">0%</span>
                 <div class="checklist-progress-bar">
                     <div class="checklist-progress-bar-current"></div>
-                    <!-- style="width: 0%; background-color: rgb(91, 164, 207)" -->
+                    <h1>Progress:</h1>
+                    <div class="bar-container">
+                        <div
+                            class="prog-bar"
+                            v-bind:style="{ width: width + '%' }"
+                        >
+                            {{ width }}%
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="todo-list">

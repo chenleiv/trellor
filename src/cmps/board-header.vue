@@ -1,39 +1,27 @@
 <template>
     <section>
         <div class="board-header move">
-            <!-- drop-dawn menu (board,map,calender) -->
             <div class="left-side-header">
-                <div class="select">
-                    <el-dropdown trigger="click" type="primary">
+                <div class="left-side-btn">
+                    <button @click="toggleLeftMenu">
                         <span class="el-dropdown-link">
-                            <span class="material-icons-outlined">
+                            <span class="material-icons-outlined rote">
                                 leaderboard
                             </span>
                             <span>Board</span
                             ><i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
+                    </button>
+                </div>
 
-                        <el-dropdown-menu slot="dropdown" type="primary">
-                            <el-dropdown-item>
-                                <span class="material-icons-outlined">
-                                    leaderboard
-                                </span>
-                                <span>Board</span>
-                            </el-dropdown-item>
-                            <el-dropdown-item>
-                                <span class="material-icons-outlined">
-                                    calendar_month
-                                </span>
-                                Calender</el-dropdown-item
-                            >
-                            <!-- <el-dropdown-item
-                                ><span class="material-icons-outlined">
-                                    location_on
-                                </span>
-                                Map</el-dropdown-item
-                            > -->
-                        </el-dropdown-menu>
-                    </el-dropdown>
+                <div class="left-menu" v-if="leftMenu">
+                    <button class="left-btn" @click="openDashboard">
+                        <span class="material-icons-outlined"> dashboard </span>
+                        Dashboard
+                    </button>
+                    <button class="left-btn" @click="openMainMap">
+                        <span class="material-icons-outlined"> map </span>Map
+                    </button>
                 </div>
 
                 <section class="board-title-header">
@@ -100,14 +88,6 @@
                 <div class="vl"></div>
 
                 <!-- filter button open dropdown -->
-                <button class="filter-btn" @click="openMainMap">
-                    <span class="material-icons-outlined"> map </span>
-                    Map
-                </button>
-                <button class="filter-btn" @click="openDashboard">
-                    <span class="material-icons-outlined"> map </span>
-                    Dashboard
-                </button>
                 <button class="filter-btn" @click="openFilter">
                     <span class="material-icons-outlined"> filter_list </span>
                     Filter
@@ -159,12 +139,13 @@
                 visible: false,
                 filterIsShown: false,
                 toggleUserInvite: false,
+                leftMenu: false,
             };
         },
         created() {
             // this.boardId = this.board._id;
             this.availUsers = this.users;
-            console.log('', this.board.members);
+            // console.log('', this.board.members);
             this.boardId = this.board._id;
         },
 
@@ -244,12 +225,19 @@
                     throw err;
                 }
             },
-
             openMainMap() {
+                console.log('click map');
+                this.leftMenu = false;
                 this.$router.push(`/board/${this.boardId}/main-map`);
             },
             openDashboard() {
+                this.leftMenu = false;
+                console.log('click dash');
                 this.$router.push(`/board/${this.boardId}/dashboard`);
+            },
+            toggleLeftMenu() {
+                this.leftMenu = !this.leftMenu;
+                console.log('this.leftMenu', this.leftMenu);
             },
         },
 

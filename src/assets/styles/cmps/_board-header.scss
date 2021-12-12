@@ -9,7 +9,7 @@
     margin-top: 8px;
     margin: 8px 8px 12px 8px;
     .move {
-        margin-right: 200px;
+        margin-right: 190px;
     }
     .left-side-header {
         display: flex;
@@ -38,20 +38,11 @@
                     box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.538);
                 }
             }
-             :hover {
+            :hover {
                 background-color: rgba(255, 255, 255, 0.195);
             }
         }
-        button {
-            margin-right: 4px;
-            border-radius: 3px;
-            color: #fff;
-            border: rgba(255, 255, 255);
-            span {
-                margin-left: 2px;
-                transform: rotate(180deg);
-            }
-        }
+
         .star-favorite {
             font-size: 16.4px;
             width: 32px;
@@ -105,7 +96,7 @@
                         justify-content: center;
                     }
                 }
-                 :hover {
+                :hover {
                     background-color: #c1c3c4c1;
                 }
             }
@@ -135,9 +126,6 @@
             }
         }
         .menu-btn {
-            // display: flex;
-            // align-items: center;
-            // font-size: 16px;
             border-radius: 3px;
             color: rgb(255, 255, 255);
             background-color: rgba(255, 255, 255, 0.366);
@@ -145,14 +133,8 @@
             margin-left: 10px;
             padding: 0 12px 0 0;
             span {
-                //     font-family: fa-solid;
                 padding: 6px;
                 font-size: 16px;
-                //     &::before {
-                //         margin-right: 5px;
-                //         font-size: 10px;
-                //         content: '\f141';
-                //     }
             }
         }
     }
@@ -170,35 +152,49 @@
     }
 }
 
-.select {
-    .el-dropdown-link {
-        margin-right: 4px;
-        font-size: 14px;
-        height: 33px;
-        width: fit-content;
-        border-radius: 3px;
+.left-side-btn {
+    button {
+        display: flex;
         color: #fff;
         background-color: rgba(255, 255, 255, 0.366);
-        border: rgba(255, 255, 255);
-        overflow-x: none;
-        outline: none;
-        border: none;
-        padding: 6.5px 5px;
+        font-size: 16px;
+        padding: 6px 12px;
+        margin-left: 8px;
+        margin-right: 4px;
+        border-radius: 3px;
+        .rote {
+            transform: rotate(180deg);
+        }
+        // }
     }
-    .el-icon-arrow-down {
-        font-size: 12px;
-        color: #fff;
-    }
-    .el-icon-s-data {
-        padding-left: 3px;
-        transform: rotate(180deg);
-        color: #fff;
+}
+.left-menu {
+    position: fixed;
+    top: 100px;
+    left: 10px;
+    width: 250px;
+    height: 120px;
+    z-index: 30;
+    background-color: #fff;
+    padding: 10px;
+    .left-btn {
+        background-color: rgba(38, 38, 37, 0);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        // font-size: 16px;
+        height: 32px;
+        color: #5e6c84;
+        width: 100%;
+        border-radius: 3px;
+        padding: 6px 5px;
+        margin-bottom: 5px;
     }
     span {
-        padding-left: 2px;
-        font-size: 16px;
-        color: #fff;
-        padding-bottom: 3px;
-        transform: rotate(180deg);
+        font-size: 20px;
+        margin-right: 10px;
+    }
+    :hover {
+        background-color: rgba(230, 214, 214, 0.542);
     }
 }
