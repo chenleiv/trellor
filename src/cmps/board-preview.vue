@@ -48,6 +48,7 @@
                         type: 'updateBoard',
                         board: changedBoard,
                     });
+
                     console.log(`Board changed successfully`);
                 } catch (err) {
                     console.log('Error in adding a board (workspace):', err);

@@ -19,7 +19,8 @@ export const boardService = {
     updateTask,
     updateBoardTitle,
     updateBgcBoard,
-    removeTask
+    removeTask,
+    addActivity
 }
 
 // const BOARD_KEY = 'boardsDB'
@@ -32,7 +33,7 @@ async function query() {
         // const res = await axios.get(BOARD_URL, { params: filterBy })
         // return res.data
         return httpService.get(`board`)
-        //(`board`,filterBy)
+            //(`board`,filterBy)
     } catch (err) {
         console.log('Error in Query board (Front board Service):', err);
         throw err;
@@ -124,15 +125,26 @@ async function removeTask(boardId, groupId, task) {
         throw err;
     }
 }
+async function addActivity(boardId, activity) {
+    try {
+        const board = await getById(boardId);
+        board.activities.unshift(activity)
+        return board;
+    } catch (err) {
+        console.log('Error in addActivity (board-service):', err);
+        throw err;
+    }
 
+
+}
 async function updateTask(boardId, groupId, task) {
     try {
         const board = await getById(boardId);
         // console.log('boardId', boardId);
         const group = board.groups.find(g => g.id === groupId)
-        // console.log('group', group);
+            // console.log('group', group);
         const taskIdx = group.tasks.findIndex(t => t.id === task.id)
-        // console.log('taskIdx', taskIdx);
+            // console.log('taskIdx', taskIdx);
         group.tasks.splice(taskIdx, 1, task);
         save(board);
         return board;
@@ -234,86 +246,86 @@ function getEmptyBoard() {
         },
         style: { bgColor: '', bgImg: '' },
         labels: [{
-            id: 'l101',
-            title: '',
-            color: '#409EFF'
-        },
-        {
-            id: 'l102',
-            title: '',
-            color: '#67C23A'
-        },
-        {
-            id: 'l103',
-            title: '',
-            color: '#E6A23C'
-        },
-        {
-            id: 'l104',
-            title: '',
-            color: '#F56C6C'
-        },
+                id: 'l101',
+                title: '',
+                color: '#409EFF'
+            },
+            {
+                id: 'l102',
+                title: '',
+                color: '#67C23A'
+            },
+            {
+                id: 'l103',
+                title: '',
+                color: '#E6A23C'
+            },
+            {
+                id: 'l104',
+                title: '',
+                color: '#F56C6C'
+            },
         ],
         members: [],
         groups: [{
-            id: utilService.makeId(4) + 's',
-            title: 'To do',
-            tasks: [{
-                id: utilService.makeId(4) + 'j',
-                title: 'Do that',
-                description: '',
-                comments: [],
-                attachments: [],
-                checklists: [],
-                members: [],
-                labelIds: ['l101'],
-                createdAt: '',
-                dueDate: '',
-                byMember: {},
-                coverStyle: { bgColor: 'transparent', bgImg: 'none' },
-                location: null,
-                isComplete: false
-            },]
-        }, {
-            id: utilService.makeId(4) + 'f',
-            title: 'Doing',
-            tasks: [{
-                id: utilService.makeId(4) + 5,
-                title: 'Do that',
-                description: '',
-                comments: [],
-                attachments: [],
-                checklists: [],
-                members: [],
-                labelIds: [],
-                createdAt: '',
-                dueDate: '',
-                byMember: {},
-                coverStyle: { bgColor: 'transparent', bgImg: 'none' },
-                location: null,
-                isComplete: false
-            },]
-        },
-        {
-            id: utilService.makeId(),
-            title: 'Done',
-            tasks: [{
+                id: utilService.makeId(4) + 's',
+                title: 'To do',
+                tasks: [{
+                    id: utilService.makeId(4) + 'j',
+                    title: 'Do that',
+                    description: '',
+                    comments: [],
+                    attachments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: ['l101'],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {},
+                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
+                    location: null,
+                    isComplete: false
+                }, ]
+            }, {
+                id: utilService.makeId(4) + 'f',
+                title: 'Doing',
+                tasks: [{
+                    id: utilService.makeId(4) + 5,
+                    title: 'Do that',
+                    description: '',
+                    comments: [],
+                    attachments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {},
+                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
+                    location: null,
+                    isComplete: false
+                }, ]
+            },
+            {
                 id: utilService.makeId(),
-                title: 'Do that',
-                description: '',
-                comments: [],
-                attachments: [],
-                checklists: [],
-                members: [],
-                labelIds: [],
-                createdAt: '',
-                dueDate: '',
-                byMember: {},
-                coverStyle: { bgColor: 'transparent', bgImg: 'none' },
-                location: null,
-                isComplete: false
-            },]
-        }
+                title: 'Done',
+                tasks: [{
+                    id: utilService.makeId(),
+                    title: 'Do that',
+                    description: '',
+                    comments: [],
+                    attachments: [],
+                    checklists: [],
+                    members: [],
+                    labelIds: [],
+                    createdAt: '',
+                    dueDate: '',
+                    byMember: {},
+                    coverStyle: { bgColor: 'transparent', bgImg: 'none' },
+                    location: null,
+                    isComplete: false
+                }, ]
+            }
         ],
         activities: [],
         isStarred: false

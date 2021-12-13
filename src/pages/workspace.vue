@@ -3,7 +3,7 @@
         <section>
             <h4 class="favorites" v-if="atleastOneStarred">Favorites</h4>
 
-            <div class="board-previews-container">
+            <div class="board-previews-container" v-if="atleastOneStarred">
                 <template v-for="board in boards"
                     ><board-preview
                         :key="board._id"
@@ -94,7 +94,9 @@
                 },
             };
         },
-
+        created() {
+            // this.newBoard = boardService.getEmptyBoard();
+        },
         computed: {
             loggedInUser() {
                 return this.$store.getters.loggedinUser;
@@ -121,8 +123,15 @@
             },
             async addBoard() {
                 if (!this.newBoard.title) return;
-                if (this.loggedInUser)
+                if (this.loggedInUser) {
                     this.newBoard.members.push(this.loggedInUser);
+                    this.newBoard.activities.unshift({
+                        byMember: this.loggedInUser,
+                        txt: 'has added a board',
+                        createdAt: Date.now(),
+                    });
+                }
+
                 console.log('', this.newBoard);
                 this.newBoard.style = this.boardStyle;
                 const board = JSON.parse(JSON.stringify(this.newBoard));
