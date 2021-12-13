@@ -78,15 +78,15 @@
             <el-popover placement="top" width="150" v-model="toggleDeleteMenu">
                 <p>Remove this board?</p>
                 <div style="text-align: right; margin: 0">
+                    <el-button type="info" size="mini" @click="removeBoard"
+                        >Confirm</el-button
+                    >
                     <el-button
                         size="mini"
                         type="text"
                         style="color: black"
                         @click="toggleDeleteMenu = false"
-                        >cancel</el-button
-                    >
-                    <el-button type="info" size="mini" @click="removeBoard"
-                        >confirm</el-button
+                        >Cancel</el-button
                     >
                     <!-- <el-button size="mini" type="text" @click="toggleDeleteMenu = false">cancel</el-button>
     <el-button type="primary" size="mini" @click="removeBoard">confirm</el-button> -->

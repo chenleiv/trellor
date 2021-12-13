@@ -49,7 +49,7 @@
                         <template v-for="mem in board.members">
                             <el-popover
                                 :key="mem._id"
-                                placement="top-start"
+                                placement="top"
                                 :title="mem.fullname"
                                 width="200"
                                 trigger="hover"
@@ -72,8 +72,8 @@
 
                     <el-popover
                         class="users-popover"
-                        placement="bottom-end"
-                        width="100"
+                        placement="bottom"
+                        width="200"
                         v-model="toggleUserInvite"
                         title="Add to board"
                     >

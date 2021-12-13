@@ -88,7 +88,7 @@
                 try {
                     let user = this.userLogin;
                     await this.$store.dispatch({ type: 'login', user });
-                    this.$router.push('/');
+                    this.$router.push('/workspace');
                     console.log('login', user);
                 } catch (err) {
                     console.log('Error in Login :', err);
@@ -99,7 +99,7 @@
                 try {
                     let user = this.userSignup;
                     await this.$store.dispatch({ type: 'signup', user });
-                    this.$router.push('/');
+                    this.$router.push('/workspace');
                     console.log('signup', user);
                 } catch (err) {
                     console.log('Error in SignUp :', err);
@@ -123,7 +123,7 @@
                             type: 'signup',
                             user: this.googleUser,
                         });
-                        this.$router.push('/');
+                        this.$router.push('/workspace');
                     } catch (err) {
                         console.log('Error in google SignUp :', err);
                     }
