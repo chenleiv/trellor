@@ -1,39 +1,48 @@
 <template>
-    <section class="modal-background" @click.self="backToBoard">
-        <section class="dashboard-container" @click.self="backToBoard">
-            <h1>DASHBOARD</h1>
+    <section class="dash">
+        <section class="modal-background" @click.self="backToBoard">
+            <section class="dashboard-container" @click.self="backToBoard">
+                <h1>DASHBOARD</h1>
 
-            <section class="details-container" @click.self="backToBoard">
-                <div class="detail">
-                    <span class="material-icons-outlined"> people_alt </span>
-                    <strong>{{ membersCount }}</strong>
-                </div>
-                <div class="detail">
-                    <span class="material-icons-outlined"> badge </span>
-                    <strong>{{ taskCount }} Tasks</strong>
-                </div>
-            </section>
+                <button
+                    @click.self="backToBoard"
+                    class="close-dashboard-btn"
+                ></button>
 
-            <section
-                class="charts-container"
-                v-if="board"
-                @click.self="backToBoard"
-            >
-                <tasksPerMemberChart
-                    class="chart"
-                    :chartData="charts.barChartData"
-                    :options="charts.barChartOptions"
-                />
-                <tasksByLabelChart
-                    class="chart"
-                    :chartData="charts.pieChartData"
-                    :options="charts.pieChartOptions"
-                />
-                <tasksDueDatesChart
-                    class="chart"
-                    :chartData="charts.lineChartData"
-                    :options="charts.lineChartOptions"
-                />
+                <section class="details-container" @click.self="backToBoard">
+                    <div class="detail">
+                        <span class="material-icons-outlined">
+                            people_alt
+                        </span>
+                        <strong>{{ membersCount }}</strong>
+                    </div>
+                    <div class="detail">
+                        <span class="material-icons-outlined"> badge </span>
+                        <strong>{{ taskCount }} Tasks</strong>
+                    </div>
+                </section>
+
+                <section
+                    class="charts-container"
+                    v-if="board"
+                    @click.self="backToBoard"
+                >
+                    <tasksPerMemberChart
+                        class="chart"
+                        :chartData="charts.barChartData"
+                        :options="charts.barChartOptions"
+                    />
+                    <tasksByLabelChart
+                        class="chart"
+                        :chartData="charts.pieChartData"
+                        :options="charts.pieChartOptions"
+                    />
+                    <tasksDueDatesChart
+                        class="chart"
+                        :chartData="charts.lineChartData"
+                        :options="charts.lineChartOptions"
+                    />
+                </section>
             </section>
         </section>
     </section>
@@ -65,11 +74,13 @@
                                     'rgba(153, 182, 255, 0.5)',
                                     'rgba(54, 192, 235, 0.5)',
                                 ],
+                                barThickness: 60,
                             },
                         ],
                     },
                     barChartOptions: {
                         responsive: true,
+
                         scales: {
                             yAxes: [
                                 {
@@ -87,7 +98,9 @@
                         title: {
                             display: true,
                             text: 'Tasks per Member',
+                            padding: 10,
                         },
+
                         layout: {
                             padding: 40,
                         },
@@ -111,12 +124,13 @@
                     pieChartOptions: {
                         responsive: true,
                         legend: {
-                            display: false,
-                            position: 'bottom',
+                            display: true,
+                            position: 'right',
                         },
                         title: {
                             display: true,
                             text: 'Tasks By Label',
+                            padding: 0,
                         },
                         layout: {
                             padding: 50,
@@ -283,7 +297,6 @@
                         monthsAppearance.push(task.dueDate.substring(0, 3));
                     });
                 });
-                console.log('monthsAppearance:', monthsAppearance);
 
                 monthsAppearance.forEach((month) => {
                     this.charts.lineChartData.labels.forEach((m) => {

@@ -1,8 +1,5 @@
 <template>
-    <header
-        class="main-header main-layout"
-        :style="{ backgroundColor: headerColor }"
-    >
+    <header class="main-header main-layout">
         <section class="header-container">
             <div class="logo">
                 <router-link to="/workspace">
@@ -45,6 +42,7 @@
                         :size="30"
                         slot="reference"
                         :username="loggedInUser.fullname"
+                        class="right-side-avatar"
                     ></avatar>
                 </el-popover>
             </div>
@@ -87,18 +85,18 @@
                 }
             },
         },
-        watch: {
-            '$route.params.boardId': {
-                async handler() {
-                    let { boardId } = this.$route.params;
-                    if (boardId) {
-                        this.headerColor = '#00000073';
-                    } else {
-                        this.headerColor = '#026aa7';
-                    }
-                },
-            },
-        },
+        // watch: {
+        //     '$route.params.boardId': {
+        //         async handler() {
+        //             let { boardId } = this.$route.params;
+        //             if (boardId) {
+        //                 this.headerColor = '#00000073';
+        //             } else {
+        //                 this.headerColor = '#026aa7';
+        //             }
+        //         },
+        //     },
+        // },
         components: {
             Avatar,
         },

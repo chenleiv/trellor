@@ -1,7 +1,7 @@
 header.main-header {
     height: 44px;
     width: 100%;
-    background-color: #026aa7;
+    background-color: #00000073;
     .header-container {
         // position: fixed;
         max-height: 44px;
@@ -44,6 +44,7 @@ header.main-header {
             }
 
             .grid-icon {
+                // margin-top: 0;
                 &:hover {
                     border-radius: 3px;
                     background-color: rgb(255 255 255 / 20%);
@@ -95,8 +96,10 @@ header.main-header {
     background-color: #026aa7;
 }
 
-.header-style-board {}
+.header-style-board {
+}
 
-.el-icon-s-grid {
-    margin-top: 4.2px;
+.right-side-avatar {
+    margin: 3px 3px;
+    // margin-top: 3px;
 }

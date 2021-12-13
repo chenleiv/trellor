@@ -73,7 +73,7 @@
                         }
                     } else
                         this.boardStyle = {
-                            bgColor: '#fff',
+                            bgColor: '#00a1ff',
                             bgImg: 'none',
                         };
                 },

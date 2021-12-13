@@ -86,6 +86,7 @@
                                                         :username="
                                                             member.fullname
                                                         "
+                                                        :src="member.imgUrl"
                                                     ></avatar>
                                                     <span
                                                         class="remove-member-btn"
@@ -106,6 +107,7 @@
                                                         :username="
                                                             member.fullname
                                                         "
+                                                        :src="member.imgUrl"
                                                     ></avatar>
                                                 </el-popover>
                                             </div>
@@ -487,7 +489,10 @@
                     </main>
 
                     <aside>
-                        <div class="suggested" v-if="!userJoined">
+                        <div
+                            class="suggested"
+                            v-if="!isMemberIncluded(loggedInUser._id)"
+                        >
                             <h4 class="aside-headers">Suggested</h4>
                             <button
                                 class="secondary-btn action-btn"
@@ -541,13 +546,12 @@
                                                 color="black"
                                                 :size="30"
                                                 :username="member.fullname"
+                                                :src="member.imgUrl"
                                             ></avatar>
                                             {{ member.fullname }}
                                             <svg
                                                 v-if="
-                                                    taskToEdit.members.includes(
-                                                        member
-                                                    )
+                                                    isMemberIncluded(member._id)
                                                 "
                                                 viewBox="0 0 24 24"
                                                 class="delete-member-svg"
@@ -789,7 +793,7 @@
                         d: 'M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 13H3V5h18v11z',
                     },
                 ],
-                userJoined: false,
+                // userJoined: false,
                 labels: [],
                 hasLabelChosen: false,
                 labelIdToShow: '',
@@ -813,6 +817,7 @@
 
         created() {
             this.loadData();
+            console.log('this.taskToEdit.members:', this.taskToEdit.members);
         },
 
         methods: {
@@ -962,39 +967,23 @@
             },
 
             joinMember() {
-                this.userJoined = true;
-                // if (this.taskToEdit.members.length) {
-                this.chooseMember(
-                    this.board.members[0],
-                    this.board.members[0]._id
-                );
-                // }
-                // Next it will be the loggedIn User
+                this.chooseMember(this.loggedInUser, this.loggedInUser._id);
             },
 
             chooseMember(member, memberId) {
-                // this.membersToShow.push(member);
-                const memberIdx = this.taskToEdit.members.findIndex(
-                    (m) => m._id === memberId
-                );
-                if (this.taskToEdit.members.includes(member)) {
+                if (this.isMemberIncluded(memberId)) {
+                    const memberIdx = this.taskToEdit.members.findIndex(
+                        (m) => m._id === memberId
+                    );
                     this.taskToEdit.members.splice(memberIdx, 1);
-                    if (member === this.board.members[0]) {
-                        this.userJoined = false;
-                    }
                 } else {
                     this.taskToEdit.members.push(member);
-                    if (member === this.board.members[0]) {
-                        this.userJoined = true;
-                    }
                 }
-                // this.taskToEdit['activities'] = [
-                //     {
-                //         name: this.loggedInUser.fullname,
-                //         txt: ` has added ${member}`,
-                //     },
-                // ];
                 this.updateTask();
+            },
+
+            isMemberIncluded(memberId) {
+                return this.taskToEdit.members.some((m) => m._id === memberId);
             },
 
             getLbColor(lbId) {
@@ -1190,11 +1179,12 @@
         },
 
         computed: {
-            loggedInUser() {
-                return this.$store.getters.loggedinUser;
-            },
             board() {
                 return this.$store.getters.getCurrBoard;
+            },
+
+            loggedInUser() {
+                return this.$store.getters.loggedinUser;
             },
 
             visibility() {

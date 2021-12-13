@@ -1,31 +1,35 @@
 <template>
-    <section class="modal-background" @click.self="backToBoard">
-        <GmapMap
-            :center="center"
-            :zoom="2"
-            map-type-id="terrain"
-            class="main-map"
-        >
-            ><GmapMarker
-                v-for="(task, id) in tasks"
-                :key="id"
-                :position="task.location.coords"
-                :title="task.location.address"
-                :clickable="true"
-                :draggable="false"
-                @click="showById = id"
-                @closeclick="showById = null"
+    <section class="main-map-container">
+        <section class="modal-background" @click.self="backToBoard">
+            <button @click.self="backToBoard" class="close-map-btn"></button>
+
+            <GmapMap
+                :center="center"
+                :zoom="2"
+                map-type-id="terrain"
+                class="main-map"
             >
-                <gmap-info-window :opened="showById === id">
-                    <task-preview
-                        :task="task"
-                        :board="board"
-                        :boardLabels="board.labels"
-                        class="task-preview-in-map"
-                    />
-                </gmap-info-window>
-            </GmapMarker>
-        </GmapMap>
+                ><GmapMarker
+                    v-for="(task, id) in tasks"
+                    :key="id"
+                    :position="task.location.coords"
+                    :title="task.location.address"
+                    :clickable="true"
+                    :draggable="false"
+                    @click="showById = id"
+                    @closeclick="showById = null"
+                >
+                    <gmap-info-window :opened="showById === id">
+                        <task-preview
+                            :task="task"
+                            :board="board"
+                            :boardLabels="board.labels"
+                            class="task-preview-in-map"
+                        />
+                    </gmap-info-window>
+                </GmapMarker>
+            </GmapMap>
+        </section>
     </section>
 </template>
 

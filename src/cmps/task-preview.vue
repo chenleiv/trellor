@@ -154,6 +154,7 @@
                                     color="black"
                                     :size="30"
                                     :username="member.fullname"
+                                    :src="member.imgUrl"
                                 ></avatar>
                             </div>
                         </section>

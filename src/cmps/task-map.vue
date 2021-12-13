@@ -98,7 +98,7 @@
             async searchLoc() {
                 try {
                     const res = await taskMapService.searchLoc(this.searchVal);
-                    const location = res.data.results[0].geometry.location;
+                    const { location } = res.data.results[0].geometry;
                     this.moveTo(location);
                     this.searchVal = '';
                 } catch (err) {

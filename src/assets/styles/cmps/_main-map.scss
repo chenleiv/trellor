@@ -1,8 +1,37 @@
+.main-map-container {
+    .modal-background {
+        height: 100vh;
+        overflow: auto;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(92, 92, 92, 0.863);
+    }
+    .close-map-btn {
+        position: absolute;
+        top: 25px;
+        right: 30px;
+        transform: scale(3);
+        font-family: fa-solid;
+        border: none;
+        background: none;
+        color: rgb(196, 191, 191);
+        &::before {
+            content: '\f00d';
+            opacity: 0.8;
+        }
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}
 .main-map {
     width: 75%;
     height: 80%;
-    margin: 50px auto;
-    border: 4px solid black;
+    margin: 60px auto;
+    border: 2px solid black;
 }
 .task-preview-in-map {
     .cover-preview-container {

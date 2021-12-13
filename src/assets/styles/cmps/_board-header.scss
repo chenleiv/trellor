@@ -86,7 +86,9 @@
                 color: rgb(16, 15, 15);
                 font-weight: 400;
                 border-radius: 3px;
-                padding: 2px 6px;
+                padding: 6px;
+                font-size: 14px;
+                font-weight: 600;
                 .user {
                     font-family: fa-solid;
                     &::before {
@@ -155,6 +157,7 @@
 .left-side-btn {
     button {
         display: flex;
+        align-items: center;
         color: #fff;
         background-color: rgba(255, 255, 255, 0.366);
         font-size: 16px;
@@ -164,6 +167,7 @@
         border-radius: 3px;
         .rote {
             transform: rotate(180deg);
+            margin-right: 5px;
         }
         // }
     }
