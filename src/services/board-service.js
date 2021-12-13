@@ -19,7 +19,8 @@ export const boardService = {
     updateTask,
     updateBoardTitle,
     updateBgcBoard,
-    removeTask
+    removeTask,
+    addActivity
 }
 
 // const BOARD_KEY = 'boardsDB'
@@ -124,7 +125,18 @@ async function removeTask(boardId, groupId, task) {
         throw err;
     }
 }
+async function addActivity(boardId, activity) {
+    try {
+        const board = await getById(boardId);
+        board.activities.unshift(activity)
+        return board;
+    } catch (err) {
+        console.log('Error in addActivity (board-service):', err);
+        throw err;
+    }
 
+
+}
 async function updateTask(boardId, groupId, task) {
     try {
         const board = await getById(boardId);

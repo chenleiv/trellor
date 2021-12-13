@@ -46,6 +46,10 @@ export const boardStore = {
             const idx = state.boards.findIndex(board => board._id === payload.boardId)
             state.boards.splice(idx, 1)
         },
+        // addActivity(state, { activity }) {
+        //     boardService.addActivity(state.currBoard._id, activity)
+        //     state.currBoard.activities.unshift(activity);
+        // }
         // setWatchedBoard(state, { board }) {
         //     state.watchedBoard = board;
         // },
@@ -100,7 +104,6 @@ export const boardStore = {
         },
 
         async updateBoard({ commit }, { board }) {
-            // board.activities.push({name:''});
             try {
                 const newBoard = await boardService.save(board);
                 console.log('updateBoard');
@@ -133,17 +136,17 @@ export const boardStore = {
             }
         },
 
-        async addGroup({ commit, dispatch }, { boardId, groupTitle }) {
+        async addGroup({ commit }, { boardId, groupTitle }) {
             try {
                 const newBoard = await boardService.addGroup(boardId, groupTitle);
                 commit({ type: 'updateBoard', board: newBoard })
                 // socketService.emit(SOCKET_EVENT_BOARD_UPDATED, newBoard)
                 // socketService.off('update-board')
-                socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
-                    // dispatch({ type: 'getBoard', boardId: boardId })
-                    console.log('%c Im getting here', 'background: green');
-                    // console.log('Got savedBoard ##$%%^&&** from socket', newBoard);
-                })
+                // socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
+                // dispatch({ type: 'getBoard', boardId: boardId })
+                // console.log('%c Im getting here', 'background: green');
+                // console.log('Got savedBoard ##$%%^&&** from socket', newBoard);
+                // })
             } catch (err) {
                 console.log("addGroup (Store):", err);
                 throw err;

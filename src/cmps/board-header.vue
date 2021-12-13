@@ -46,24 +46,39 @@
                 <div class="members-container">
                     <div class="vl"></div>
                     <div class="avatar-icon" v-if="board.members.length">
-                        <avatar
-                            v-for="mem in board.members"
-                            :key="mem._id"
-                            backgroundColor="cadetblue"
-                            color="#fff"
-                            :size="30"
-                            :src="mem.imgUrl"
-                            :username="mem.fullname"
-                        ></avatar>
+                        <template v-for="mem in board.members">
+                            <el-popover
+                                :key="mem._id"
+                                placement="top-start"
+                                :title="mem.fullname"
+                                width="200"
+                                trigger="hover"
+                                ><div class="mems-popover">
+                                    <span>{{ mem.username }}</span>
+                                    <span @click="removeMember(mem._id)"
+                                        >remove</span
+                                    >
+                                </div>
+                                <avatar
+                                    slot="reference"
+                                    backgroundColor="cadetblue"
+                                    color="#fff"
+                                    :size="30"
+                                    :src="mem.imgUrl"
+                                    :username="mem.fullname"
+                                ></avatar></el-popover
+                        ></template>
                     </div>
 
                     <el-popover
+                        class="users-popover"
                         placement="bottom-end"
                         width="100"
                         v-model="toggleUserInvite"
                         title="Add to board"
                     >
                         <div
+                            class="available-users-container"
                             v-for="(user, i) in availUsers"
                             :key="i"
                             @click="addMembers(user)"
@@ -75,7 +90,7 @@
                                 :username="user.fullname"
                                 :src="user.imgUrl"
                             ></avatar
-                            >{{ user.fullname }}
+                            ><span>{{ user.fullname }}</span>
                         </div>
                         <a class="add-btn" slot="reference">
                             <span class="user"></span> Invite
@@ -150,9 +165,31 @@
         },
 
         methods: {
+            removeMember(id) {
+                const board = JSON.parse(JSON.stringify(this.board));
+                const idx = board.members.findIndex((mem) => mem._id === id);
+                board.members.splice(idx, 1);
+                if (this.loggedInUser) {
+                    board.activities.unshift({
+                        byMember: this.loggedInUser,
+                        txt: 'has remove a member',
+                        createdAt: Date.now(),
+                    });
+                }
+
+                this.updateBoard(board);
+            },
             addMembers(user) {
                 const board = JSON.parse(JSON.stringify(this.board));
+                if (board.members.find((m) => m._id == user._id)) return;
                 board.members.push(user);
+                if (this.loggedInUser) {
+                    board.activities.unshift({
+                        byMember: this.loggedInUser,
+                        txt: 'has added a member',
+                        createdAt: Date.now(),
+                    });
+                }
                 this.updateBoard(board);
             },
             openMenu() {
@@ -184,6 +221,13 @@
                 this.isStarred = !this.isStarred;
                 const changedBoard = JSON.parse(JSON.stringify(this.board));
                 changedBoard.isStarred = this.isStarred;
+                if (this.loggedInUser) {
+                    changedBoard.activities.unshift({
+                        byMember: this.loggedInUser,
+                        txt: 'has made this board his favorite',
+                        createdAt: Date.now(),
+                    });
+                }
                 this.updateBoard(changedBoard);
             },
             async updateBoard(board) {
@@ -242,6 +286,9 @@
         },
 
         computed: {
+            loggedInUser() {
+                return this.$store.getters.loggedinUser;
+            },
             menuBarIsShown() {
                 return {
                     'aside-menu-open': this.isShown,

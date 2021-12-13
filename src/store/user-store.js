@@ -17,7 +17,7 @@ export const userStore = {
     },
     mutations: {
         setLoggedinUser(state, { user }) {
-            console.log('user', user);
+
             // const guest = {
             //         fullname: "Guest",
             //         username: "guest@gmail.com",
@@ -53,7 +53,7 @@ export const userStore = {
         },
         async signup({ commit }, { user }) {
 
-            console.log('user', user);
+            // console.log('user', user);
             try {
                 const currUser = await userService.signup(user)
                 commit({ type: 'setLoggedinUser', user: currUser })

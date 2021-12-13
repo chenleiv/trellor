@@ -134,7 +134,9 @@
                     }}</span
                     >{{ activity.txt }}
                     <div class="activity-member-container">
-                        <span class="activity-created-at">3 days ago</span>
+                        <span class="activity-created-at">{{
+                            activityTimeToShow(activity.createdAt)
+                        }}</span>
                     </div>
                 </div>
             </div>
@@ -147,6 +149,8 @@
     import Avatar from 'vue-avatar';
     import imgUpload from '@/cmps/img-upload.vue';
     import backgroundUnsplash from '@/cmps/background-unsplash.vue';
+    import moment from 'moment';
+
     export default {
         name: 'asideMenu',
         props: ['board'],
@@ -192,8 +196,14 @@
                 this.$emit('updateBgcBoard', this.boardStyle);
                 console.log('this.boardStyle', this.boardStyle);
             },
+            activityTimeToShow(timestamp) {
+                return moment(timestamp).calendar();
+            },
         },
         computed: {
+            loggedInUser() {
+                return this.$store.getters.loggedinUser;
+            },
             openBgcOption() {
                 console.log('open bgc menu');
                 console.log('this.bgcIsClick', this.bgcIsClick);

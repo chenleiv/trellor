@@ -36,11 +36,16 @@
                     v-model="userSignup.fullname"
                     type="text"
                 />
+                <!-- <ValidationProvider name="password" rules="required|password">
+                    <div slot-scope="{ errors }"> -->
                 <input
                     placeholder="password"
                     v-model="userSignup.password"
                     type="password"
                 />
+                <!-- <p>{{ errors[0] }}</p>
+                    </div>
+                </ValidationProvider> -->
                 <!-- <img src="@/assets/img/undraw_completed_tasks_vs6q.svg" alt="" /> -->
                 <button>Signup</button>
                 <button @click="googleSignup">
@@ -54,6 +59,7 @@
 </template>
 
 <script>
+    import { ValidationProvider } from 'vee-validate';
     export default {
         data() {
             return {
@@ -102,7 +108,7 @@
             },
             async googleSignup() {
                 const googleUser = await this.$gAuth.signIn();
-                console.log('', googleUser.getBasicProfile());
+                // console.log('', googleUser.getBasicProfile());
                 try {
                     const user = googleUser.getBasicProfile();
                     this.googleUser = {
@@ -111,13 +117,16 @@
                         fullname: user.jf,
                         imgUrl: user.oN,
                     };
-                    console.log('this.googleUser', this.googleUser);
-
-                    await this.$store.dispatch({
-                        type: 'signup',
-                        user: this.googleUser,
-                    });
-                    this.$router.push('/');
+                    // console.log('this.googleUser', this.googleUser);
+                    try {
+                        await this.$store.dispatch({
+                            type: 'signup',
+                            user: this.googleUser,
+                        });
+                        this.$router.push('/');
+                    } catch (err) {
+                        console.log('Error in google SignUp :', err);
+                    }
                 } catch (err) {
                     console.log('Error in google SignUp :', err);
                     throw err;

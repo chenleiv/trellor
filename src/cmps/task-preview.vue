@@ -18,7 +18,7 @@
                     :style="{ backgroundColor: task.coverStyle.bgColor }"
                 ></div>
                 <img
-                    v-if="findCoverImg"
+                    v-if="findCoverImg && !findCoverColor"
                     class="cover-img-preview"
                     :src="coverUrl"
                 />
@@ -154,6 +154,7 @@
                                     color="black"
                                     :size="30"
                                     :username="member.fullname"
+                                    :src="member.imgUrl"
                                 ></avatar>
                             </div>
                         </section>
