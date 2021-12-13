@@ -1,23 +1,41 @@
 <template>
     <section class="modal-background" @click.self="backToBoard">
-        <div class="dashboard-container" v-if="board">
+        <section class="dashboard-container" @click.self="backToBoard">
             <h1>DASHBOARD</h1>
-            <tasksPerMemberChart
-                class="chart"
-                :chartData="charts.barChartData"
-                :options="charts.barChartOptions"
-            />
-            <tasksByLabelChart
-                class="chart"
-                :chartData="charts.pieChartData"
-                :options="charts.pieChartOptions"
-            />
-            <tasksDueDatesChart
-                class="chart"
-                :chartData="charts.lineChartData"
-                :options="charts.lineChartOptions"
-            />
-        </div>
+
+            <section class="details-container" @click.self="backToBoard">
+                <div class="detail">
+                    <span class="material-icons-outlined"> people_alt </span>
+                    <strong>{{ membersCount }}</strong>
+                </div>
+                <div class="detail">
+                    <span class="material-icons-outlined"> badge </span>
+                    <strong>{{ taskCount }} Tasks</strong>
+                </div>
+            </section>
+
+            <section
+                class="charts-container"
+                v-if="board"
+                @click.self="backToBoard"
+            >
+                <tasksPerMemberChart
+                    class="chart"
+                    :chartData="charts.barChartData"
+                    :options="charts.barChartOptions"
+                />
+                <tasksByLabelChart
+                    class="chart"
+                    :chartData="charts.pieChartData"
+                    :options="charts.pieChartOptions"
+                />
+                <tasksDueDatesChart
+                    class="chart"
+                    :chartData="charts.lineChartData"
+                    :options="charts.lineChartOptions"
+                />
+            </section>
+        </section>
     </section>
 </template>
 
@@ -25,12 +43,13 @@
     import tasksPerMemberChart from '@/cmps/tasks-per-member-chart';
     import tasksByLabelChart from '@/cmps/tasks-by-label-chart';
     import tasksDueDatesChart from '@/cmps/tasks-due-dates-chart';
+    import { months } from 'moment';
 
     export default {
         data() {
             return {
-                // board: null,
-                // boardId: null,
+                taskCount: 0,
+                tasksCompleted: 0,
                 membersNames: [],
                 dataLabelIds: [],
                 charts: {
@@ -70,7 +89,7 @@
                             text: 'Tasks per Member',
                         },
                         layout: {
-                            padding: 30,
+                            padding: 40,
                         },
                     },
 
@@ -92,7 +111,7 @@
                     pieChartOptions: {
                         responsive: true,
                         legend: {
-                            display: true,
+                            display: false,
                             position: 'bottom',
                         },
                         title: {
@@ -100,7 +119,7 @@
                             text: 'Tasks By Label',
                         },
                         layout: {
-                            padding: 20,
+                            padding: 50,
                         },
                     },
 
@@ -122,28 +141,41 @@
                         ],
                         datasets: [
                             {
-                                data: [5, 2, 9, 6, 5, 1, 4, 2, 8, 6, 2, 7],
+                                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                fill: false,
+                                borderColor: '#6e8caa80',
                                 backgroundColor: [
-                                    '#40a0ff80',
-                                    '#67c23a88',
-                                    '#e6a23c7e',
-                                    '#f56c6c88',
-                                    '#40a0ff80',
-                                    '#67c23a88',
-                                    '#e6a23c7e',
-                                    '#f56c6c88',
-                                    '#40a0ff80',
-                                    '#67c23a88',
-                                    '#e6a23c7e',
-                                    '#f56c6c88',
+                                    // '#40a0ff80',
+                                    // '#67c23a88',
+                                    // '#e6a23c7e',
+                                    // '#f56c6c88',
+                                    // '#40a0ff80',
+                                    // '#67c23a88',
+                                    // '#e6a23c7e',
+                                    // '#f56c6c88',
+                                    // '#40a0ff80',
+                                    // '#67c23a88',
+                                    // '#e6a23c7e',
+                                    // '#f56c6c88',
                                 ],
                             },
                         ],
                     },
                     lineChartOptions: {
                         responsive: true,
+                        scales: {
+                            yAxes: [
+                                {
+                                    display: true,
+                                    ticks: {
+                                        beginAtZero: true,
+                                        stepSize: 1,
+                                    },
+                                },
+                            ],
+                        },
                         legend: {
-                            display: true,
+                            display: false,
                             position: 'bottom',
                         },
                         title: {
@@ -151,7 +183,7 @@
                             text: 'Tasks Due Dates 2022',
                         },
                         layout: {
-                            padding: 30,
+                            padding: 40,
                         },
                     },
                 },
@@ -159,25 +191,14 @@
         },
 
         created() {
-            this.loadBoard();
+            this.loadDashboard();
         },
 
         methods: {
-            async loadBoard() {
-                // const { boardId } = this.$route.params;
-                // const boardId = this.board._id;
+            async loadDashboard() {
                 this.setMembersData();
                 this.setLabelsData();
-                // try {
-                //     const board = await this.$store.dispatch({
-                //         type: 'getBoard',
-                //         boardId,
-                //     });
-                //     // this.board = board;
-                // } catch (err) {
-                //     console.log('Board Loading Error (dashboard):', err);
-                //     throw err;
-                // }
+                this.getTasksPerDueDate();
             },
 
             setMembersData() {
@@ -189,18 +210,20 @@
                 this.charts.barChartData.labels = this.board.members.map(
                     (member) => member.fullname
                 );
-                this.setTasksCount();
             },
 
             setTasksCount() {
                 var membersAppearance = [];
                 this.board.groups.forEach((group) => {
                     group.tasks.forEach((task) => {
+                        this.taskCount++;
+                        if (task.isComplete) this.tasksCompleted++;
                         task.members.forEach((member) => {
                             membersAppearance.push(member.fullname);
                         });
                     });
                 });
+
                 var count = 0;
                 this.charts.barChartData.labels.forEach((memberName) => {
                     count = 0;
@@ -261,18 +284,29 @@
                     });
                 });
                 console.log('monthsAppearance:', monthsAppearance);
-                // var count = 0;
-                // this.dataLabelIds.forEach((dLabelId) => {
-                //     count = 0;
-                //     labelsAppearance.forEach((lbId) => {
-                //         if (dLabelId === lbId) {
-                //             count++;
-                //             this.charts.pieChartData.datasets[0].data[
-                //                 this.dataLabelIds.indexOf(dLabelId)
-                //             ] = count;
-                //         }
-                //     });
-                // });
+
+                monthsAppearance.forEach((month) => {
+                    this.charts.lineChartData.labels.forEach((m) => {
+                        if (month === m.substring(0, 3)) {
+                            this.charts.lineChartData.datasets[0].data[
+                                this.charts.lineChartData.labels.indexOf(m)
+                            ]++;
+                        }
+                    });
+                });
+
+                var count = 0;
+                this.dataLabelIds.forEach((dLabelId) => {
+                    count = 0;
+                    monthsAppearance.forEach((month) => {
+                        if (dLabelId === month) {
+                            count++;
+                            this.charts.pieChartData.datasets[0].data[
+                                this.dataLabelIds.indexOf(dLabelId)
+                            ] = count;
+                        }
+                    });
+                });
             },
 
             // backToBoard:
@@ -283,6 +317,12 @@
         computed: {
             board() {
                 return this.$store.getters.getCurrBoard;
+            },
+
+            membersCount() {
+                var displayedWord = 'Member';
+                if (this.board.members.length > 1) displayedWord += 's';
+                return `${this.board.members.length} ${displayedWord}`;
             },
         },
 

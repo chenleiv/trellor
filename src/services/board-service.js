@@ -125,7 +125,6 @@ async function removeTask(boardId, groupId, task) {
     }
 }
 
-
 async function updateTask(boardId, groupId, task) {
     try {
         const board = await getById(boardId);
@@ -323,6 +322,19 @@ function getEmptyBoard() {
         isStarred: false
     }
 }
+
+// async function updateTask(boardId, groupId, task) {
+//     try {
+//         const board = await getById(boardId);
+//         const group = board.groups.find(g => g.id === groupId)
+//         const taskIdx = group.tasks.findIndex(t => t.id === task.id)
+//         group.tasks.splice(taskIdx, 1, task);
+//         return save(board);
+//     } catch (err) {
+//         console.log('Error in updateTask (board-service):', err);
+//         throw err;
+//     }
+// }
 
 // function _createBoard() {
 //     return {

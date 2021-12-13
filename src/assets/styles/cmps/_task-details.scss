@@ -16,7 +16,7 @@ svg {
 .task-details-container {
     @include for-mobile-layout {
         // max 460px
-        width: 95%;
+        width: 100%;
     }
     @include for-narrow-layout {
         // min 460px
@@ -103,8 +103,8 @@ svg {
         }
         svg {
             color: #42526e;
-            width: 32px;
-            height: 26px;
+            width: 34px;
+            height: 25px;
             transform: scale(1.1);
         }
         textarea {
@@ -614,7 +614,9 @@ svg {
     width: 8px;
     height: 8px;
     transform: scale(2);
-    // margin-left: 210px;
+    position: absolute;
+    right: 10px;
+    top: 12px;
 }
 
 .label-pencil {
@@ -898,9 +900,14 @@ svg {
         width: 40%;
         transform: scale(0.9);
     }
+    button {
+        background: none;
+        border: none;
+    }
     .map-search-btn {
         transform: scale(0.8);
         margin-left: -10px;
+        border: 1px solid #2d2d2d;
     }
 }
 
@@ -1014,6 +1021,9 @@ svg {
         .save-date-btn {
             background-color: #026aa7;
             color: #fff;
+            &:active {
+                background-color: #0d74af;
+            }
         }
         .delete-date-btn {
             background-color: rgba(9, 30, 66, 0.1);

@@ -1,6 +1,5 @@
 <template>
     <section v-if="task">
-        <!-- <router-link :to="`/board/${board._id}`"> -->
         <div class="modal-background" @click.self="backToBoard">
             <section class="task-details-container" @click="cancelEditLabel">
                 <template v-if="isCoverStyle">
@@ -250,9 +249,14 @@
                                     ) in taskToEdit.attachments"
                                     :key="i"
                                 >
-                                    <span class="attach-title">{{
-                                        attach.title
-                                    }}</span>
+                                    <a :href="attach.url" target="_blank">
+                                        <span class="attach-title">{{
+                                            attach.title
+                                        }}</span
+                                        ><span
+                                            class="external-link-attach"
+                                        ></span
+                                    ></a>
                                     |
                                     <span
                                         @click="removeAttachment(i)"
@@ -318,9 +322,7 @@
 
                             <div v-if="isMapShown">
                                 <GmapMap
-                                    ref="mapRef"
-                                    :mapCenter="mapCenter"
-                                    :mapAddress="mapAddress"
+                                    :location="location"
                                     :options="{
                                         zoomControl: true,
                                         mapTypeControl: true,
@@ -369,7 +371,7 @@
                                     :username="loggedInUser.fullname"
                                 ></avatar>
                                 <textarea
-                                    v-model="comment"
+                                    v-model="commentTxt"
                                     type="text"
                                     placeholder="Write a comment..."
                                     @click="openCommentInput"
@@ -382,14 +384,14 @@
                                 class="save-comment-btn"
                                 :class="[visibility, saveCommentBtnStyle]"
                                 @click="addComment"
-                                :disabled="!comment"
+                                :disabled="!commentTxt"
                             >
                                 <span>Save</span>
                             </button>
 
                             <div class="comments-list">
                                 <div
-                                    v-for="(comm, idx) in task.comments"
+                                    v-for="(comment, idx) in task.comments"
                                     :key="idx"
                                     class="activity-preview-container"
                                 >
@@ -429,12 +431,16 @@
                                             >
                                                 <span
                                                     class="activity-created-at"
-                                                    >Some time ago</span
+                                                    >{{
+                                                        commentTimeToShow(
+                                                            comment.createdAt
+                                                        )
+                                                    }}</span
                                                 >
                                             </span>
                                         </div>
                                         <div class="comment-content">
-                                            {{ comm }}
+                                            {{ comment.txt }}
                                         </div>
                                     </div>
                                     <h5 @click="deleteComment(idx)">Delete</h5>
@@ -571,19 +577,19 @@
                                             class="label-color"
                                             @click="chooseLabel(label.id)"
                                         >
-                                            <!-- <svg
-                                            v-if="
-                                                taskToEdit.labelIds.includes(
-                                                    label.id
-                                                )
-                                            "
-                                            viewBox="0 0 24 24"
-                                            class="delete-label-svg"
-                                        >
-                                            <path
-                                                d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-                                            ></path>
-                                        </svg> -->
+                                            <svg
+                                                v-if="
+                                                    taskToEdit.labelIds.includes(
+                                                        label.id
+                                                    )
+                                                "
+                                                viewBox="0 0 24 24"
+                                                class="delete-label-svg"
+                                            >
+                                                <path
+                                                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                                                ></path>
+                                            </svg>
                                             {{ label.title }}
                                         </div>
                                         <button
@@ -672,7 +678,10 @@
                                     </div>
                                 </div>
 
-                                <div v-if="btn.name === 'Attachment'">
+                                <div
+                                    v-if="btn.name === 'Attachment'"
+                                    class="attach-popover"
+                                >
                                     <img-upload
                                         @onSaveImg="changeImgUrl"
                                     ></img-upload>
@@ -717,23 +726,28 @@
                 </section>
             </section>
         </div>
-        <!-- </router-link> -->
     </section>
 </template>
 
 <script>
     import avatar from 'vue-avatar';
     import imgUpload from '@/cmps/img-upload';
-    import GmapMap from '@/cmps/our-map';
+    import GmapMap from '@/cmps/task-map';
     import backgroundPicker from '@/cmps/background-picker';
     import backgroundUnsplash from '@/cmps/background-unsplash';
     import checklistPreview from '../cmps/checklist-preview';
+    import moment from 'moment';
 
     export default {
         name: 'taskDetails',
 
         data() {
             return {
+                location: {
+                    coords: { lat: 31.769218, lng: 35.208144 },
+                    address: 'Jerusalem',
+                },
+
                 task: null,
                 group: null,
                 taskToEdit: {},
@@ -742,7 +756,7 @@
                 description: '',
                 isCommentInputOpen: false,
                 isCommentInput: '',
-                comment: '',
+                commentTxt: '',
                 showDetailsBtnTxt: 'Show details',
                 activityListIsShown: false,
                 asideBtns: [
@@ -794,14 +808,11 @@
                 dateVal: '',
                 cover: '',
                 isMapShown: false,
-                mapCenter: { lat: 31.769218, lng: 35.208144 },
-                mapAddress: 'Jerusalem',
             };
         },
 
         created() {
             this.loadData();
-            // console.log('mapAddress', typeof this.mapAddress);
         },
 
         methods: {
@@ -824,7 +835,7 @@
                     );
                     this.group = group;
                     this.taskToEdit = this.task;
-                    this.isLocation(this.taskToEdit);
+                    this.keepMap(this.taskToEdit);
                     this.isDate(this.taskToEdit);
                 } catch (err) {
                     console.log('Error in loadData (task-details):', err);
@@ -834,7 +845,6 @@
 
             async updateTask() {
                 this.isTextAreaVisible = false;
-                console.log('this.taskToEdit:', this.taskToEdit);
                 try {
                     await this.$store.dispatch({
                         type: 'updateTask',
@@ -850,17 +860,20 @@
                     throw err;
                 } finally {
                     this.$refs.commInput.value = '';
-                    this.comment = '';
+                    this.commentTxt = '';
                 }
-            },
-
-            showMap(btnName) {
-                if (btnName === 'Location') this.isMapShown = true;
             },
 
             saveLoc(location) {
                 this.taskToEdit.location = location;
                 this.updateTask();
+            },
+
+            keepMap(taskToEdit) {
+                if (taskToEdit.location) {
+                    this.location = taskToEdit.location;
+                    this.isMapShown = true;
+                }
             },
 
             removeMap() {
@@ -869,12 +882,8 @@
                 this.updateTask();
             },
 
-            isLocation(taskToEdit) {
-                if (taskToEdit.location) {
-                    this.mapCenter = taskToEdit.location.coords;
-                    this.mapAddress = taskToEdit.location.address;
-                    this.isMapShown = true;
-                }
+            showMap(btnName) {
+                if (btnName === 'Location') this.isMapShown = true;
             },
 
             async updateBoard(board) {
@@ -909,7 +918,7 @@
                 this.isCommentInputOpen = false;
                 this.$nextTick(() => {
                     this.$refs.commInput.value = '';
-                    if (!this.isCommentInput) this.comment = '';
+                    if (!this.isCommentInput) this.commentTxt = '';
                 });
             },
 
@@ -918,8 +927,20 @@
             },
 
             addComment() {
-                if (!this.comment.trim()) return;
-                this.taskToEdit.comments.push(this.comment);
+                if (!this.commentTxt.trim()) {
+                    this.isCommentInput = '';
+                    this.commentTxt = '';
+                    return;
+                }
+                const comment = {
+                    txt: this.commentTxt,
+                    createdAt: Date.now(),
+                };
+
+                // this.commentTime = moment(comment.time).calendar();
+
+                this.taskToEdit.comments.unshift(comment);
+                this.commentTxt = '';
                 this.updateTask();
             },
 
@@ -927,6 +948,10 @@
                 // this.commentIdx = idx;
                 this.taskToEdit.comments.splice(idx, 1);
                 this.updateTask();
+            },
+
+            commentTimeToShow(timestamp) {
+                return moment(timestamp).calendar();
             },
 
             showDetails() {
@@ -1014,6 +1039,7 @@
                 const board = JSON.parse(JSON.stringify(this.board));
                 board.labels = this.labels;
                 this.updateBoard(board);
+                this.labelTitle = '';
             },
 
             removeLabel() {
@@ -1158,10 +1184,6 @@
                 }
                 this.updateTask();
             },
-            addComment() {
-                this.taskToEdit.comments.push(this.comment);
-                this.updateTask();
-            },
             addCheckList() {
                 this.isChecklistShown = true;
             },
@@ -1213,6 +1235,7 @@
             backgroundPicker,
             backgroundUnsplash,
             checklistPreview,
+            moment,
         },
     };
 </script>

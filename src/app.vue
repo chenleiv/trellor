@@ -18,13 +18,16 @@
         name: 'app',
         data() {
             return {
+                boardId: null,
+                headerColor: '#026aa7',
                 boardStyle: {
                     bgColor: '#00a1ff',
-                    bgColor: 'none',
+                    bgImg: 'none',
                 },
             };
         },
         created() {
+            this.boardId = this.$route.params.boardId;
             if (!this.loggedInUser) this.login();
         },
         computed: {
@@ -70,8 +73,8 @@
                         }
                     } else
                         this.boardStyle = {
-                            bgColor: '#00a1ff',
-                            bgImage: 'none',
+                            bgColor: '#fff',
+                            bgImg: 'none',
                         };
                 },
                 immediate: true,
