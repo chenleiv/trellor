@@ -19,9 +19,9 @@
         data() {
             return {
                 boardId: null,
-                headerColor: '#026aa7',
+                // headerColor: '#026aa7',
                 boardStyle: {
-                    bgColor: '#00a1ff',
+                    bgColor: '#fff',
                     bgImg: 'none',
                 },
             };
@@ -49,7 +49,6 @@
                         imgUrl: 'https://res.cloudinary.com/cloudinaryorb/image/upload/v1639142324/guest_b8lh6r.png',
                     };
                     await this.$store.dispatch({ type: 'login', user });
-                    console.log('login', user);
                 } catch (err) {
                     console.log('Error in Login :', err);
                     throw err;

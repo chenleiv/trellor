@@ -1,5 +1,6 @@
 <template>
     <header class="main-header main-layout">
+        <!-- :style="{ backgroundColor: headerColor }" -->
         <section class="header-container">
             <div class="logo">
                 <router-link to="/workspace">
@@ -12,14 +13,14 @@
             <!-- <div class="main-header-links"></div> -->
             <!-- <button class="user-account-btn"> -->
             <div class="right-side">
-                <div class="search-input">
+                <!-- <div class="search-input">
                     <el-input
                         placeholder="Search"
                         prefix-icon="el-icon-search"
                         v-model="input"
                     >
                     </el-input>
-                </div>
+                </div> -->
                 <button class="alert"></button>
                 <router-link v-if="!loggedInUser" to="/login">
                     Login</router-link
@@ -31,9 +32,13 @@
                     v-model="toggleUserMenu"
                     :title="'Hello, ' + loggedInUser.fullname"
                 >
-                    <el-button v-if="loggedInUser" @click="logout"
-                        >Logout</el-button
+                    <button
+                        class="logout-btn"
+                        v-if="loggedInUser"
+                        @click="logout"
                     >
+                        Logout
+                    </button>
                     <avatar
                         v-if="loggedInUser"
                         :src="loggedInUser.imgUrl"
@@ -65,6 +70,7 @@
         },
         created() {
             this.boardId = this.$route.params.boardId;
+            if (this.boardId) this.headerColor = '#00000073';
         },
         computed: {
             loggedInUser() {
@@ -72,11 +78,15 @@
             },
         },
         methods: {
+            setSearchFilter() {
+                // this.$emit('search', this.input);
+            },
             async logout() {
                 this.toggleUserMenu = false;
                 try {
                     await this.$store.dispatch({ type: 'logout' });
-                    this.$router.push('/login');
+                    if (this.$route.path !== '/login')
+                        this.$router.push('/login');
 
                     // this.$router.push('/');
                 } catch (err) {

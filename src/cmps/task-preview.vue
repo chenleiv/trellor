@@ -18,7 +18,7 @@
                     :style="{ backgroundColor: task.coverStyle.bgColor }"
                 ></div>
                 <img
-                    v-if="findCoverImg"
+                    v-if="findCoverImg && !findCoverColor"
                     class="cover-img-preview"
                     :src="coverUrl"
                 />

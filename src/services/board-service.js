@@ -19,7 +19,8 @@ export const boardService = {
     updateTask,
     updateBoardTitle,
     updateBgcBoard,
-    removeTask
+    removeTask,
+    addActivity
 }
 
 // const BOARD_KEY = 'boardsDB'
@@ -124,7 +125,18 @@ async function removeTask(boardId, groupId, task) {
         throw err;
     }
 }
+async function addActivity(boardId, activity) {
+    try {
+        const board = await getById(boardId);
+        board.activities.unshift(activity)
+        return board;
+    } catch (err) {
+        console.log('Error in addActivity (board-service):', err);
+        throw err;
+    }
 
+
+}
 async function updateTask(boardId, groupId, task) {
     try {
         const board = await getById(boardId);
@@ -132,8 +144,9 @@ async function updateTask(boardId, groupId, task) {
         const group = board.groups.find(g => g.id === groupId)
         // console.log('group', group);
         const taskIdx = group.tasks.findIndex(t => t.id === task.id)
-        // console.log('taskIdx', taskIdx);
         group.tasks.splice(taskIdx, 1, task);
+        console.log('taskIdx', taskIdx);
+        console.log('task', task);
         save(board);
         return board;
     } catch (err) {
@@ -191,6 +204,8 @@ async function updateGroup(boardId, newGroup) {
         const board = await getById(boardId);
         const idx = board.groups.findIndex(group => group.id === newGroup.id);
         board.groups.splice(idx, 1, newGroup);
+        console.log('idx', idx);
+        console.log('newGroup', newGroup);
         save(board);
         return board;
     } catch (err) {

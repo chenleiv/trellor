@@ -897,7 +897,7 @@
                         type: 'updateBoard',
                         board,
                     });
-                    this.board = savedBoard;
+                    // this.board = savedBoard;
                     console.log(`Board updated successfully`);
                     this.labelTitle = '';
                 } catch (err) {
@@ -947,6 +947,11 @@
                 this.taskToEdit.comments.unshift(comment);
                 this.commentTxt = '';
                 this.updateTask();
+                // .then(() => {
+                //     this.addActivity(
+                //         `has added a comment in task ${this.taskToEdit.title}`
+                //     );
+                // });
             },
 
             deleteComment(idx) {
@@ -1014,6 +1019,11 @@
                 }
 
                 this.updateTask();
+                // .then(() => {
+                //     this.addActivity(
+                //         `has added a label in task ${this.taskToEdit.title}`
+                //     );
+                // });
             },
 
             editLabelTitle(labelId, idx) {
@@ -1056,6 +1066,11 @@
                 const dateToSave = dateStr.substring(4, 15);
                 this.taskToEdit.dueDate = dateToSave;
                 this.updateTask();
+                // .then(() => {
+                //     this.addActivity(
+                //         `has added a due date in task ${this.taskToEdit.title}`
+                //     );
+                // });
             },
 
             removeDate() {
@@ -1089,6 +1104,11 @@
                 )
                     this.taskToEdit.attachments[0].isCover = true;
                 this.updateTask();
+                // .then(() => {
+                //     this.addActivity(
+                //         `has added an attachment in task ${this.taskToEdit.title}`
+                //     );
+                // });
                 this.cover = url;
             },
 
@@ -1159,6 +1179,11 @@
                 }
 
                 this.updateTask();
+                // .then(() => {
+                //     this.addActivity(
+                //         `has changed cover in task ${this.taskToEdit.title}`
+                //     );
+                // });
 
                 // this.isCoverStyle = true;
             },
@@ -1175,6 +1200,20 @@
             },
             addCheckList() {
                 this.isChecklistShown = true;
+            },
+            addActivity(txt) {
+                const board = JSON.parse(JSON.stringify(this.board));
+
+                if (this.loggedInUser) {
+                    const activity = {
+                        byMember: this.loggedInUser,
+                        txt,
+                        createdAt: Date.now(),
+                    };
+
+                    board.activities.unshift(activity);
+                    this.updateBoard(board);
+                }
             },
         },
 

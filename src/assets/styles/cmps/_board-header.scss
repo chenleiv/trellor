@@ -1,4 +1,6 @@
 .board-header {
+    // @media (max-width: 665px) {
+    // }
     cursor: pointer;
     font-weight: 700;
     background-color: rgba(173, 170, 170, 0);
@@ -38,11 +40,10 @@
                     box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.538);
                 }
             }
-            :hover {
+             :hover {
                 background-color: rgba(255, 255, 255, 0.195);
             }
         }
-
         .star-favorite {
             font-size: 16.4px;
             width: 32px;
@@ -98,7 +99,7 @@
                         justify-content: center;
                     }
                 }
-                :hover {
+                 :hover {
                     background-color: #c1c3c4c1;
                 }
             }
@@ -172,6 +173,7 @@
         // }
     }
 }
+
 .left-menu {
     position: fixed;
     top: 100px;
@@ -198,7 +200,29 @@
         font-size: 20px;
         margin-right: 10px;
     }
-    :hover {
+     :hover {
         background-color: rgba(230, 214, 214, 0.542);
     }
+}
+
+.available-users-container {
+    margin-bottom: 4px;
+    padding: 4px;
+    display: flex;
+    gap: 8px;
+    &:hover {
+        background-color: rgba(202, 202, 202, 0.404);
+    }
+    // flex-direction: column;
+}
+
+.mems-popover {
+    span {
+        &:nth-of-type(2) {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+    display: flex;
+    flex-direction: column;
 }

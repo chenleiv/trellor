@@ -98,25 +98,25 @@
         },
 
         created() {
-            this.loadBoard();
+            // this.loadBoard();
             this.getBoard();
         },
 
         methods: {
-            async loadBoard() {
-                const { boardId } = this.$route.params;
-                try {
-                    const board = await this.$store.dispatch({
-                        type: 'getBoard',
-                        boardId,
-                    });
-                    this.board = board;
-                    this.boardId = boardId;
-                } catch (err) {
-                    console.log('Board Loading Error (board-details):', err);
-                    throw err;
-                }
-            },
+            // async loadBoard() {
+            //     const { boardId } = this.$route.params;
+            //     try {
+            //         const board = await this.$store.dispatch({
+            //             type: 'getBoard',
+            //             boardId,
+            //         });
+            //         this.board = board;
+            //         this.boardId = boardId;
+            //     } catch (err) {
+            //         console.log('Board Loading Error (board-details):', err);
+            //         throw err;
+            //     }
+            // },
             getBoard() {
                 this.board = this.$store.getters.getCurrBoard;
             },
@@ -127,6 +127,7 @@
                 console.log('hi');
                 // const board = JSON.parse(JSON.stringify(this.board));
                 const board = Object.assign({}, this.board);
+                console.log('board', board);
                 board.groups = applyDrag(this.board.groups, dropResult);
                 // console.log('dropResult', dropResult);
                 this.updateBoard(board);
@@ -175,7 +176,14 @@
             },
         },
 
-        computed: {},
+        computed: {
+            //     board() {
+            //         return this.$store.getters.watchedBoard;
+            //     },
+            //     BoardId() {
+            //         return this.$route.params.id;
+            //     },
+        },
 
         watch: {
             '$store.getters.getCurrBoard'(board) {
