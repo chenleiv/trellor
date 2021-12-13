@@ -7,7 +7,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        background-color: rgba(92, 92, 92, 0.863);
+        background-color: rgba(92, 92, 92, 0.925);
     }
 }
 
@@ -17,7 +17,7 @@
         margin-top: 2%;
         font-family: monospace;
         font-size: 3rem;
-        color: hsla(0, 0%, 100%, 0.699);
+        color: #fff;
     }
     .close-dashboard-btn {
         position: absolute;
@@ -27,7 +27,7 @@
         font-family: fa-solid;
         border: none;
         background: none;
-        color: rgb(196, 191, 191);
+        color: #fff;
         &::before {
             content: '\f00d';
             opacity: 0.8;
@@ -55,18 +55,18 @@
     margin: 25px 10px 0;
     padding: 10px;
     strong {
-        color: rgb(156, 154, 154);
+        color: #fff;
         font-size: 18px;
     }
     span {
         display: flex;
         justify-content: center;
         align-items: center;
-        color: hsla(0, 0%, 94.5%, 0.6352941176470588);
+        color: #fff;
         font-size: 50px;
     }
     p {
-        color: hsla(0, 0%, 94.5%, 0.6352941176470588);
+        color: #fff;
     }
 }
 

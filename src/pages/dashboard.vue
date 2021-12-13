@@ -88,6 +88,15 @@
                                     ticks: {
                                         beginAtZero: true,
                                         stepSize: 1,
+                                        fontColor: '#d9d4db',
+                                    },
+                                },
+                            ],
+                            xAxes: [
+                                {
+                                    display: true,
+                                    ticks: {
+                                        fontColor: '#d9d4db',
                                     },
                                 },
                             ],
@@ -99,8 +108,9 @@
                             display: true,
                             text: 'Tasks per Member',
                             padding: 10,
+                            fontSize: 20,
+                            fontColor: '#d9d4db',
                         },
-
                         layout: {
                             padding: 40,
                         },
@@ -117,6 +127,7 @@
                                     '#67c23a88',
                                     '#e6a23c7e',
                                     '#f56c6c88',
+                                    '#9633af',
                                 ],
                             },
                         ],
@@ -126,11 +137,16 @@
                         legend: {
                             display: true,
                             position: 'right',
+                            labels: {
+                                fontColor: '#d9d4db',
+                            },
                         },
                         title: {
                             display: true,
                             text: 'Tasks By Label',
                             padding: 0,
+                            fontSize: 20,
+                            fontColor: '#d9d4db',
                         },
                         layout: {
                             padding: 50,
@@ -184,6 +200,15 @@
                                     ticks: {
                                         beginAtZero: true,
                                         stepSize: 1,
+                                        fontColor: '#d9d4db',
+                                    },
+                                },
+                            ],
+                            xAxes: [
+                                {
+                                    display: true,
+                                    ticks: {
+                                        fontColor: '#d9d4db',
                                     },
                                 },
                             ],
@@ -195,6 +220,8 @@
                         title: {
                             display: true,
                             text: 'Tasks Due Dates 2022',
+                            fontSize: 20,
+                            fontColor: '#d9d4db',
                         },
                         layout: {
                             padding: 40,

@@ -7,7 +7,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        background-color: rgba(92, 92, 92, 0.863);
+        background-color: rgba(92, 92, 92, 0.925);
     }
     .close-map-btn {
         position: absolute;
@@ -17,7 +17,7 @@
         font-family: fa-solid;
         border: none;
         background: none;
-        color: rgb(196, 191, 191);
+        color: #fff;
         &::before {
             content: '\f00d';
             opacity: 0.8;
