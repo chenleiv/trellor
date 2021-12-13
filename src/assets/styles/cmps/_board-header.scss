@@ -1,11 +1,13 @@
 .board-header {
-    // @media (max-width: 665px) {
-    // }
     cursor: pointer;
     font-weight: 700;
     background-color: rgba(173, 170, 170, 0);
     display: flex;
     justify-content: space-between;
+    @media (max-width: 665px) {
+        gap: 6px;
+        flex-direction: column;
+    }
     align-items: center;
     height: auto;
     margin-top: 8px;
@@ -14,8 +16,18 @@
         margin-right: 190px;
     }
     .left-side-header {
+        @media (max-width: 665px) {
+            align-self: flex-start;
+        }
+        @media (max-width: 470px) {
+            gap: 6px;
+            flex-direction: column;
+        }
         display: flex;
         align-items: center;
+        .left-and-members {
+            display: flex;
+        }
         .board-title-header {
             input {
                 display: flex;
@@ -40,7 +52,7 @@
                     box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.538);
                 }
             }
-             :hover {
+            :hover {
                 background-color: rgba(255, 255, 255, 0.195);
             }
         }
@@ -67,6 +79,9 @@
             font-size: 16px;
         }
         .members-container {
+            @media (max-width: 470px) {
+                align-self: flex-start;
+            }
             display: flex;
             gap: 8px;
             button {
@@ -99,7 +114,7 @@
                         justify-content: center;
                     }
                 }
-                 :hover {
+                :hover {
                     background-color: #c1c3c4c1;
                 }
             }
@@ -112,6 +127,10 @@
         margin-top: 5px;
     }
     .right-side-header {
+        @media (max-width: 665px) {
+            // justify-content: center;
+            align-self: flex-end;
+        }
         display: flex;
         .filter-btn {
             display: flex;
@@ -178,17 +197,19 @@
     position: fixed;
     top: 100px;
     left: 10px;
-    width: 250px;
-    height: 120px;
+    width: 150px;
+    height: 100px;
     z-index: 30;
     background-color: #fff;
     padding: 10px;
+    box-shadow: 0 0 9px 3px #5e6c84;
+    border-radius: 3px;
+
     .left-btn {
         background-color: rgba(38, 38, 37, 0);
         font-weight: 600;
         display: flex;
         align-items: center;
-        // font-size: 16px;
         height: 32px;
         color: #5e6c84;
         width: 100%;
@@ -200,7 +221,7 @@
         font-size: 20px;
         margin-right: 10px;
     }
-     :hover {
+    :hover {
         background-color: rgba(230, 214, 214, 0.542);
     }
 }
@@ -210,6 +231,7 @@
     padding: 4px;
     display: flex;
     gap: 8px;
+    cursor: pointer;
     &:hover {
         background-color: rgba(202, 202, 202, 0.404);
     }

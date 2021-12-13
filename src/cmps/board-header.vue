@@ -2,54 +2,61 @@
     <section>
         <div class="board-header move">
             <div class="left-side-header">
-                <div class="left-side-btn">
-                    <button @click="toggleLeftMenu">
-                        <span class="el-dropdown-link">
-                            <span class="material-icons-outlined rote">
-                                leaderboard
+                <div class="left-and-members">
+                    <div class="left-side-btn">
+                        <button @click="toggleLeftMenu">
+                            <span class="el-dropdown-link">
+                                <span class="material-icons-outlined rote">
+                                    leaderboard
+                                </span>
+                                <span>Board</span
+                                ><i
+                                    class="el-icon-arrow-down el-icon--right"
+                                ></i>
                             </span>
-                            <span>Board</span
-                            ><i class="el-icon-arrow-down el-icon--right"></i>
-                        </span>
-                    </button>
-                </div>
+                        </button>
+                    </div>
 
-                <div class="left-menu" v-if="leftMenu">
-                    <button class="left-btn" @click="openDashboard">
-                        <span class="material-icons-outlined"> dashboard </span>
-                        Dashboard
-                    </button>
-                    <button class="left-btn" @click="openMainMap">
-                        <span class="material-icons-outlined"> map </span>Map
-                    </button>
-                </div>
+                    <div class="left-menu" v-if="leftMenu">
+                        <button class="left-btn" @click="openDashboard">
+                            <span class="material-icons-outlined">
+                                dashboard
+                            </span>
+                            Dashboard
+                        </button>
+                        <button class="left-btn" @click="openMainMap">
+                            <span class="material-icons-outlined"> map </span
+                            >Map
+                        </button>
+                    </div>
 
-                <section class="board-title-header">
-                    <input
-                        @focus="$event.target.select()"
-                        v-model="title"
-                        @blur="editTitle"
-                        @keyup.enter="$event.target.blur()"
-                        placeholder="Add title..."
-                        v-autowidth="{
-                            maxWidth: '200px',
-                            minWidth: '10px',
-                            comfortZone: 0,
-                        }"
-                    />
-                </section>
-                <span
-                    :class="{ starred: isStarred }"
-                    @click="starUpdate"
-                    class="star-favorite"
-                ></span>
+                    <section class="board-title-header">
+                        <input
+                            @focus="$event.target.select()"
+                            v-model="title"
+                            @blur="editTitle"
+                            @keyup.enter="$event.target.blur()"
+                            placeholder="Add title..."
+                            v-autowidth="{
+                                maxWidth: '200px',
+                                minWidth: '10px',
+                                comfortZone: 0,
+                            }"
+                        />
+                    </section>
+                    <span
+                        :class="{ starred: isStarred }"
+                        @click="starUpdate"
+                        class="star-favorite"
+                    ></span>
+                </div>
                 <div class="members-container">
                     <div class="vl"></div>
                     <div class="avatar-icon" v-if="board.members.length">
                         <template v-for="mem in board.members">
                             <el-popover
                                 :key="mem._id"
-                                placement="top-start"
+                                placement="top"
                                 :title="mem.fullname"
                                 width="200"
                                 trigger="hover"
@@ -72,8 +79,8 @@
 
                     <el-popover
                         class="users-popover"
-                        placement="bottom-end"
-                        width="100"
+                        placement="bottom"
+                        width="200"
                         v-model="toggleUserInvite"
                         title="Add to board"
                     >

@@ -10,12 +10,10 @@
                         dashboards to help every team do their best work
                     </p>
                 </article>
-                <router-link to="/workspace"
-                    ><h2>Try Demo <span></span></h2>
-                </router-link>
+                <router-link to="/workspace"><h2>Try Demo</h2> </router-link>
             </div>
 
-            <img src="@/assets/img/undraw_completed_tasks_vs6q.svg" alt="" />
+            <img src="@/assets/img/homepage.jpg" alt="" />
         </div>
 
         <!-- <img src="@/assets/img/undraw_taking_notes_re_bnaf.svg" alt="" /> -->

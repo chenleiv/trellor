@@ -7,7 +7,7 @@
                     <span class="el-icon-s-grid grid-icon"></span>
                 </router-link>
                 <router-link to="/" class="logo-trellor">
-                    <h1><span class="logo-icon"></span> Trellor</h1>
+                    <h1><span class="logo-icon"></span>Trellor</h1>
                 </router-link>
             </div>
             <!-- <div class="main-header-links"></div> -->

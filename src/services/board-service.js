@@ -268,6 +268,12 @@ function getEmptyBoard() {
             title: '',
             color: '#F56C6C'
         },
+        {
+            id: 'l105',
+            title: '',
+            color: '#cc79da'
+        },
+
         ],
         members: [],
         groups: [{
