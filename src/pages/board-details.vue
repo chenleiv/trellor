@@ -98,7 +98,7 @@
         },
 
         created() {
-            this.loadBoard();
+            // this.loadBoard();
             this.getBoard();
         },
 
@@ -127,6 +127,7 @@
                 console.log('hi');
                 // const board = JSON.parse(JSON.stringify(this.board));
                 const board = Object.assign({}, this.board);
+                console.log('board', board);
                 board.groups = applyDrag(this.board.groups, dropResult);
                 // console.log('dropResult', dropResult);
                 this.updateBoard(board);

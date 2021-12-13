@@ -21,7 +21,7 @@
                 boardId: null,
                 headerColor: '#026aa7',
                 boardStyle: {
-                    bgColor: '#00a1ff',
+                    bgColor: '#fff',
                     bgImg: 'none',
                 },
             };

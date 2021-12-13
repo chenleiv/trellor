@@ -6,13 +6,15 @@ export const applyDrag = (arr, dragResult) => {
     let itemToAdd = payload
 
     if (removedIndex !== null) {
-
+        // console.log('removedIndex !== null');
         itemToAdd = result.splice(removedIndex, 1)[0];
-        // console.log('itemToAdd', itemToAdd);
+
     }
 
     if (addedIndex !== null) {
+        // console.log('addedIndex !== null');
         result.splice(addedIndex, 0, itemToAdd)
+
     }
 
     return result
