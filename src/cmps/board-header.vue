@@ -6,27 +6,19 @@
                     <div class="left-side-btn">
                         <button @click="toggleLeftMenu">
                             <span class="el-dropdown-link">
-                                <span class="material-icons-outlined rote">
-                                    leaderboard
-                                </span>
-                                <span>Board</span
-                                ><i
-                                    class="el-icon-arrow-down el-icon--right"
-                                ></i>
+                                <span class="material-icons-outlined rote"> leaderboard </span>
+                                <span>Board</span><i class="el-icon-arrow-down el-icon--right"></i>
                             </span>
                         </button>
                     </div>
 
                     <div class="left-menu" v-if="leftMenu">
                         <button class="left-btn" @click="openDashboard">
-                            <span class="material-icons-outlined">
-                                dashboard
-                            </span>
+                            <span class="material-icons-outlined"> dashboard </span>
                             Dashboard
                         </button>
                         <button class="left-btn" @click="openMainMap">
-                            <span class="material-icons-outlined"> map </span
-                            >Map
+                            <span class="material-icons-outlined"> map </span>Map
                         </button>
                     </div>
 
@@ -62,9 +54,7 @@
                                 trigger="hover"
                                 ><div class="mems-popover">
                                     <span>{{ mem.username }}</span>
-                                    <span @click="removeMember(mem._id)"
-                                        >remove</span
-                                    >
+                                    <span @click="removeMember(mem._id)">remove</span>
                                 </div>
                                 <avatar
                                     slot="reference"
@@ -99,9 +89,7 @@
                             ></avatar
                             ><span>{{ user.fullname }}</span>
                         </div>
-                        <a class="add-btn" slot="reference">
-                            <span class="user"></span> Invite
-                        </a>
+                        <a class="add-btn" slot="reference"> <span class="user"></span> Invite </a>
                     </el-popover>
                 </div>
             </div>
@@ -110,16 +98,12 @@
                 <div class="vl"></div>
 
                 <!-- filter button open dropdown -->
-                <button class="filter-btn" @click="openFilter">
+                <!-- <button class="filter-btn" @click="openFilter">
                     <span class="material-icons-outlined"> filter_list </span>
                     Filter
-                </button>
+                </button> -->
                 <div>
-                    <board-filter
-                        :board="board"
-                        :class="filterToShown"
-                        @openFilter="openFilter"
-                    >
+                    <board-filter :board="board" :class="filterToShown" @openFilter="openFilter">
                     </board-filter>
                 </div>
 
@@ -188,7 +172,7 @@
                 if (this.loggedInUser) {
                     board.activities.unshift({
                         byMember: this.loggedInUser,
-                        txt: 'has remove a member',
+                        txt: 'has removed a member',
                         createdAt: Date.now(),
                     });
                 }
@@ -292,12 +276,10 @@
             },
             openDashboard() {
                 this.leftMenu = false;
-                console.log('click dash');
                 this.$router.push(`/board/${this.boardId}/dashboard`);
             },
             toggleLeftMenu() {
                 this.leftMenu = !this.leftMenu;
-                console.log('this.leftMenu', this.leftMenu);
             },
         },
 

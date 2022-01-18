@@ -4,16 +4,11 @@
             <section class="dashboard-container" @click.self="backToBoard">
                 <h1>DASHBOARD</h1>
 
-                <button
-                    @click.self="backToBoard"
-                    class="close-dashboard-btn"
-                ></button>
+                <button @click.self="backToBoard" class="close-dashboard-btn"></button>
 
                 <section class="details-container" @click.self="backToBoard">
                     <div class="detail">
-                        <span class="material-icons-outlined">
-                            people_alt
-                        </span>
+                        <span class="material-icons-outlined"> people_alt </span>
                         <strong>{{ membersCount }}</strong>
                     </div>
                     <div class="detail">
@@ -22,11 +17,7 @@
                     </div>
                 </section>
 
-                <section
-                    class="charts-container"
-                    v-if="board"
-                    @click.self="backToBoard"
-                >
+                <section class="charts-container" v-if="board" @click.self="backToBoard">
                     <tasksPerMemberChart
                         class="chart"
                         :chartData="charts.barChartData"
@@ -52,7 +43,6 @@
     import tasksPerMemberChart from '@/cmps/tasks-per-member-chart';
     import tasksByLabelChart from '@/cmps/tasks-by-label-chart';
     import tasksDueDatesChart from '@/cmps/tasks-due-dates-chart';
-    import { months } from 'moment';
 
     export default {
         data() {
@@ -80,7 +70,6 @@
                     },
                     barChartOptions: {
                         responsive: true,
-
                         scales: {
                             yAxes: [
                                 {
@@ -112,7 +101,7 @@
                             fontColor: '#d9d4db',
                         },
                         layout: {
-                            padding: 40,
+                            padding: 47,
                         },
                     },
 
@@ -174,20 +163,7 @@
                                 data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                                 fill: false,
                                 borderColor: '#6e8caa80',
-                                backgroundColor: [
-                                    // '#40a0ff80',
-                                    // '#67c23a88',
-                                    // '#e6a23c7e',
-                                    // '#f56c6c88',
-                                    // '#40a0ff80',
-                                    // '#67c23a88',
-                                    // '#e6a23c7e',
-                                    // '#f56c6c88',
-                                    // '#40a0ff80',
-                                    // '#67c23a88',
-                                    // '#e6a23c7e',
-                                    // '#f56c6c88',
-                                ],
+                                backgroundColor: [],
                             },
                         ],
                     },
@@ -272,9 +248,7 @@
                         if (memberName === fullname) {
                             count++;
                             this.charts.barChartData.datasets[0].data[
-                                this.charts.barChartData.labels.indexOf(
-                                    memberName
-                                )
+                                this.charts.barChartData.labels.indexOf(memberName)
                             ] = count;
                         }
                     });
@@ -285,9 +259,7 @@
 
             setLabelsData() {
                 // Titles:
-                this.charts.pieChartData.labels = this.board.labels.map(
-                    (label) => label.title
-                );
+                this.charts.pieChartData.labels = this.board.labels.map((label) => label.title);
                 // Ids:
                 this.dataLabelIds = this.board.labels.map((label) => label.id);
                 // Count:

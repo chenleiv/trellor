@@ -272,6 +272,7 @@ export const boardStore = {
 
         async updateTask({ commit }, { boardId, groupId, task }) {
             try {
+<<<<<<< HEAD
                 const newBoard = await boardService.updateTask(
                     boardId,
                     groupId,
@@ -284,6 +285,15 @@ export const boardStore = {
                     commit({ type: 'getBoard', board: newBoard });
                     console.log('%c updateBoard', 'background: yellow');
                 });
+=======
+                const newBoard = await boardService.updateTask(boardId, groupId, task);
+                commit({ type: 'updateBoard', board: newBoard })
+                socketService.emit('update-board', newBoard)
+                socketService.off('update-board')
+                socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
+                    commit({ type: 'getBoard', board: newBoard })
+                })
+>>>>>>> 23a9a931bc59f5df3d8e6c4740b5a3687f06c9d2
             } catch (err) {
                 console.log('updateTask Error (Store):', err);
                 throw err;

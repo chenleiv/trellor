@@ -22,6 +22,11 @@
         .labels {
             height: fit-content;
             display: flex;
+            > * {
+                &:hover {
+                    opacity: 0.6;
+                }
+            }
             // gap: 2px;
             .task-label {
                 transition: all 0.5s;
@@ -237,7 +242,7 @@
         background-color: rgb(2, 106, 167);
     }
 }
-.model-btn {
+.modal-btn {
     position: fixed;
     display: flex;
     flex-direction: column;

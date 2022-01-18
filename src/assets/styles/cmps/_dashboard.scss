@@ -15,7 +15,7 @@
     h1 {
         text-align: center;
         margin-top: 2%;
-        font-family: monospace;
+        font-family: monospace, Segoe UI;
         font-size: 3rem;
         color: #fff;
     }
@@ -51,9 +51,16 @@
     background-color: #2d2d2d;
     border-radius: 20px;
     border: 1px solid #fff;
-    width: 15%;
+    width: 20%;
     margin: 25px 10px 0;
     padding: 10px;
+    @media (max-width: 580px) {
+        width: 25%;
+    }
+    @include for-mobile-layout {
+        // max 460px
+        width: 35%;
+    }
     strong {
         color: #fff;
         font-size: 18px;
@@ -79,7 +86,10 @@
     left: 0;
     right: 0;
     border-radius: 2px;
-    // height: 100px;
+    @media (max-width: 1000px) {
+        gap: 10px;
+        margin-top: 30px;
+    }
 }
 
 .chart {
@@ -92,5 +102,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    // background-color: #6e8caa80;
+    @media (max-width: 1000px) {
+        height: 300px;
+        width: 45%;
+        margin: auto;
+    }
+    @media (max-width: 650px) {
+        width: 60%;
+    }
+    @include for-mobile-layout {
+        // max 460px
+        width: 70%;
+    }
+    > * {
+        @media (max-width: 1100px) {
+            width: 800px;
+            height: 800px;
+        }
+        @include for-mobile-layout {
+            // max 460px
+            width: 700px;
+            height: 700px;
+        }
+    }
+}
+.chartjs-render-monitor {
+    animation: none;
 }

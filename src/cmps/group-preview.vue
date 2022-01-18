@@ -21,21 +21,13 @@
                     <el-button
                         type="text"
                         size="mini"
-                        style="
-                            display: flex;
-                            margin: 0;
-                            color: black;
-                            font-size: 14px;
-                        "
+                        style="display: flex; margin: 0; color: black; font-size: 14px"
                         @click.prevent="removeGroup"
                         >Archive this list</el-button
                     >
                     <!-- @click="toggleTaskDelete" -->
                 </div>
-                <el-button
-                    slot="reference"
-                    class="el-icon-more btn-group"
-                ></el-button>
+                <el-button slot="reference" class="el-icon-more btn-group"></el-button>
             </el-popover>
         </div>
 
@@ -49,11 +41,7 @@
             drag-class="dragging"
             :auto-scroll-enabled="true"
         >
-            <Draggable
-                v-for="task in group.tasks"
-                :key="task.id"
-                :auto-scroll-enabled="true"
-            >
+            <Draggable v-for="task in group.tasks" :key="task.id" :auto-scroll-enabled="true">
                 <!-- <router-link :to="`/board/${boardId}/task/${task.id}`"> -->
                 <task-preview
                     @saveEditTask="saveEditTask"
@@ -66,11 +54,7 @@
             </Draggable>
         </Container>
         <section class="add-task-section">
-            <div
-                v-if="!isAddTaskClicked"
-                class="add-a-task"
-                @click="toggleAddTaskInput"
-            >
+            <div v-if="!isAddTaskClicked" class="add-a-task" @click="toggleAddTaskInput">
                 <span class="el-icon-plus"> </span> Add a card
             </div>
 
@@ -86,10 +70,7 @@
                 />
                 <div>
                     <button @click="saveTask">Add card</button>
-                    <button
-                        class="el-icon-close"
-                        @click="toggleAddTaskInput"
-                    ></button>
+                    <button class="el-icon-close" @click="toggleAddTaskInput"></button>
                 </div>
             </div>
         </section>
@@ -138,20 +119,14 @@
         methods: {
             getTaskPayload(groupId) {
                 return (index) => {
-                    return this.board.groups.filter((g) => g.id === groupId)[0]
-                        .tasks[index];
+                    return this.board.groups.filter((g) => g.id === groupId)[0].tasks[index];
                 };
             },
 
             onTaskDrop(groupId, dropResult) {
-                if (
-                    dropResult.removedIndex !== null ||
-                    dropResult.addedIndex !== null
-                ) {
+                if (dropResult.removedIndex !== null || dropResult.addedIndex !== null) {
                     const board = Object.assign({}, this.board);
-                    const group = this.board.groups.find(
-                        (g) => g.id === groupId
-                    );
+                    const group = this.board.groups.find((g) => g.id === groupId);
                     const groupIndex = board.groups.indexOf(group);
                     const newGroup = Object.assign({}, group);
                     newGroup.tasks = applyDrag(newGroup.tasks, dropResult);
@@ -168,9 +143,7 @@
                         boardId: this.boardId,
                         group,
                     });
-                    console.log(
-                        `Group Saved Successfully in ${this.board._id}`
-                    );
+                    console.log(`Group Saved Successfully in ${this.board._id}`);
                 } catch (err) {
                     console.log('Error in updateGroup (group-preview):', err);
                     throw err;
@@ -189,6 +162,7 @@
             },
 
             async removeGroup() {
+                if (this.boardId === '61b6082396e59cb9c30143d6') return;
                 if (this.toggleMenu) {
                     try {
                         await this.$store.dispatch({
@@ -196,19 +170,15 @@
                             boardId: this.boardId,
                             groupId: this.group.id,
                         });
-                        console.log(
-                            `Group Removed Successfully in BoardId ${this.boardId}`
-                        );
+                        console.log(`Group Removed Successfully in BoardId ${this.boardId}`);
                     } catch (err) {
-                        console.log(
-                            'Error in removeGroup (group-preview):',
-                            err
-                        );
+                        console.log('Error in removeGroup (group-preview):', err);
                         throw err;
                     }
                 }
             },
             async removeTask(task) {
+                if (this.boardId === '61b6082396e59cb9c30143d6') return;
                 try {
                     await this.$store.dispatch({
                         type: 'removeTask',
@@ -236,9 +206,7 @@
                         groupId: this.group.id,
                         taskTitle: this.taskTitle,
                     });
-                    console.log(
-                        `Task Successfully Added in GroupId ${this.group.id}`
-                    );
+                    console.log(`Task Successfully Added in GroupId ${this.group.id}`);
                 } catch (err) {
                     console.log('Error in saveTask (group-preview):', err);
                     throw err;

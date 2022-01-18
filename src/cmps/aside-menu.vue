@@ -2,11 +2,7 @@
     <main class="aside-menu">
         <div class="board-header">
             <h3 class="header">Menu</h3>
-            <button
-                class="el-icon-close"
-                style="font-size: 20px"
-                @click="closeMenu"
-            ></button>
+            <button class="el-icon-close" style="font-size: 20px" @click="closeMenu"></button>
         </div>
         <!-- <div class="pop-over-content"> -->
         <hr />
@@ -44,22 +40,10 @@
                         ></button>
                     </div>
                     <hr />
-                    <div
-                        v-if="!openColorMenu && !openImgMenu && !bgcType"
-                        class="bgc-btns"
-                    >
-                        <div
-                            class="color-options"
-                            @click="openColorMenu = !openColorMenu"
-                        ></div>
-                        <div
-                            class="img-options"
-                            @click="openImgMenu = !openImgMenu"
-                        ></div>
-                        <img-upload
-                            class="upload-btn"
-                            @onSaveImg="changeImgUrl"
-                        ></img-upload>
+                    <div v-if="!openColorMenu && !openImgMenu && !bgcType" class="bgc-btns">
+                        <div class="color-options" @click="openColorMenu = !openColorMenu"></div>
+                        <div class="img-options" @click="openImgMenu = !openImgMenu"></div>
+                        <img-upload class="upload-btn" @onSaveImg="changeImgUrl"></img-upload>
                     </div>
                     <bgc-aside-menu
                         v-if="openColorMenu"
@@ -78,9 +62,7 @@
             <el-popover placement="top" width="150" v-model="toggleDeleteMenu">
                 <p>Remove this board?</p>
                 <div style="text-align: right; margin: 0">
-                    <el-button type="info" size="mini" @click="removeBoard"
-                        >Confirm</el-button
-                    >
+                    <el-button type="info" size="mini" @click="removeBoard">Confirm</el-button>
                     <el-button
                         size="mini"
                         type="text"
@@ -91,9 +73,7 @@
                     <!-- <el-button size="mini" type="text" @click="toggleDeleteMenu = false">cancel</el-button>
     <el-button type="primary" size="mini" @click="removeBoard">confirm</el-button> -->
                 </div>
-                <el-button class="close-board-btn" slot="reference"
-                    >Close board...</el-button
-                >
+                <el-button class="close-board-btn" slot="reference">Close board...</el-button>
             </el-popover>
             <!-- <h2 slot="reference"
                 class="close-board-btn"
@@ -129,9 +109,7 @@
                     username="Ben Ernst"
                 ></avatar>
                 <div class="activity-details">
-                    <span class="member-name">{{
-                        activity.byMember.fullname
-                    }}</span
+                    <span class="member-name">{{ activity.byMember.fullname }}</span
                     >{{ activity.txt }}
                     <div class="activity-member-container">
                         <span class="activity-created-at">{{
@@ -167,12 +145,10 @@
         },
         created() {
             this.boardId = this.board._id;
-            // console.log(' this.boardId aside menu', this.boardId);
-            // console.log(' this.board', this.board);
-            // console.log(' this.activity', this.board.activities);
         },
         methods: {
             removeBoard() {
+                if (this.boardId === '61b6082396e59cb9c30143d6') return;
                 this.$emit('removeBoard', this.boardId);
                 // console.log('removeBoard from aside menu', this.boardId);
             },

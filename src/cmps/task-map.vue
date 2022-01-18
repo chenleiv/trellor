@@ -10,9 +10,7 @@
             ></el-input>
 
             <button>
-                <el-button type="info" class="map-search-btn" plain
-                    >Locate</el-button
-                >
+                <el-button type="info" class="map-search-btn" plain>Locate</el-button>
             </button>
         </form>
 
@@ -29,25 +27,13 @@
                 class="remove-map-modal"
             >
                 <hr />
-                <h4 class="remove-map-inner-btn" @click="$emit('removeMap')">
-                    Remove
-                </h4>
+                <h4 class="remove-map-inner-btn" @click="$emit('removeMap')">Remove Map</h4>
                 <span class="remove-map-btn" slot="reference"></span>
             </el-popover>
         </section>
 
-        <GmapMap
-            ref="mapRef"
-            :center="mapCenter"
-            :zoom="10"
-            map-type-id="terrain"
-            class="map"
-        >
-            <GmapMarker
-                :position="mapCenter"
-                :clickable="true"
-                :draggable="false"
-            />
+        <GmapMap ref="mapRef" :center="mapCenter" :zoom="10" map-type-id="terrain" class="map">
+            <GmapMarker :position="mapCenter" :clickable="true" :draggable="false" />
         </GmapMap>
     </section>
 </template>
