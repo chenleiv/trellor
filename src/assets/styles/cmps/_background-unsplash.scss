@@ -7,7 +7,7 @@
         border-radius: 3px;
         border: none;
     }
-    &>div {
+    & > div {
         margin-top: 8px;
         &::-webkit-scrollbar {
             width: 8px;
@@ -41,6 +41,7 @@
             // width: 100px;
             border-radius: 3px;
             background-size: cover;
+            cursor: pointer;
             &:hover {
                 filter: brightness(85%);
             }

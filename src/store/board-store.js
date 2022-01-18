@@ -39,8 +39,6 @@ export const boardStore = {
         },
         updateBoard(state, { board }) {
             state.currBoard = board
-            console.log('hi from mutations updateBoard');
-            // console.log(' state.currBoard from mutations ', state.currBoard._id);
         },
         removeBoard(state, payload) {
             const idx = state.boards.findIndex(board => board._id === payload.boardId)
@@ -249,7 +247,6 @@ export const boardStore = {
                 socketService.off('update-board')
                 socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
                     commit({ type: 'getBoard', board: newBoard })
-                    console.log('%c updateBoard', 'background: yellow');
                 })
             } catch (err) {
                 console.log("updateTask Error (Store):", err);

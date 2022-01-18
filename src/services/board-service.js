@@ -55,7 +55,6 @@ async function save(board) {
     try {
         if (board._id) {
             // console.log('board._id', board._id);
-            console.log('PUT (save)');
             httpService.put('board', board)
             return board
         } else {
@@ -145,8 +144,6 @@ async function updateTask(boardId, groupId, task) {
         // console.log('group', group);
         const taskIdx = group.tasks.findIndex(t => t.id === task.id)
         group.tasks.splice(taskIdx, 1, task);
-        console.log('taskIdx', taskIdx);
-        console.log('task', task);
         save(board);
         return board;
     } catch (err) {

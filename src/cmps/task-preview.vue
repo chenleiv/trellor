@@ -23,10 +23,7 @@
                     :src="coverUrl"
                 />
 
-                <div
-                    :class="{ 'show-task-modal': toggleEditCard }"
-                    class="task-preview-content"
-                >
+                <div :class="{ 'show-task-modal': toggleEditCard }" class="task-preview-content">
                     <div v-if="labelsToShow">
                         <div v-if="labelsToShow" class="labels">
                             <div
@@ -42,9 +39,7 @@
                                     increaseLabel: !changeLabelSize,
                                 }"
                             >
-                                <span v-if="!changeLabelSize">{{
-                                    label.title
-                                }}</span>
+                                <span v-if="!changeLabelSize">{{ label.title }}</span>
                             </div>
                         </div>
                     </div>
@@ -60,23 +55,17 @@
                         class="input-edit-task"
                         v-model="editTitle"
                     ></textarea>
-                    <button
-                        @click.prevent="taskEdit"
-                        v-if="toggleEditCard"
-                        class="save-edit-task"
-                    >
+                    <button @click.prevent="taskEdit" v-if="toggleEditCard" class="save-edit-task">
                         Save
                     </button>
 
-                    <div class="model-btn">
+                    <div class="modal-btn">
                         <button
                             @click.prevent="openTask"
                             v-if="toggleEditCard"
                             class="open-edit-btn"
                         >
-                            <span class="material-icons-outlined">
-                                calendar_today
-                            </span>
+                            <span class="material-icons-outlined"> calendar_today </span>
 
                             Open card
                         </button>
@@ -85,38 +74,25 @@
                             v-if="toggleEditCard"
                             class="remove-edit-btn"
                         >
-                            <span class="material-icons-outlined">
-                                archive
-                            </span>
+                            <span class="material-icons-outlined"> archive </span>
                             Archive
                         </button>
                     </div>
 
                     <div class="task-show-details" v-if="showIcons">
                         <section class="icons-section">
-                            <div
-                                class="task-description"
-                                v-if="task.description"
-                            >
-                                <span class="material-icons-outlined">
-                                    notes
-                                </span>
+                            <div class="task-description" v-if="task.description">
+                                <span class="material-icons-outlined"> notes </span>
                             </div>
 
                             <div class="comments" v-if="task.comments.length">
-                                <span
-                                    class="task-comments"
-                                    v-if="task.comments.length"
-                                >
+                                <span class="task-comments" v-if="task.comments.length">
                                     <span></span>
                                 </span>
                                 <span>{{ commentsLength }}</span>
                             </div>
 
-                            <div
-                                class="task-attachment"
-                                v-if="attachmentLength"
-                            >
+                            <div class="task-attachment" v-if="attachmentLength">
                                 <span> </span>
                                 <span>{{ attachmentLength }}</span>
                             </div>
@@ -125,19 +101,14 @@
                             </div>
                             <div class="task-date" v-if="task.dueDate">
                                 <span class="">
-                                    <span
-                                        class="material-icons-outlined"
-                                        v-if="task.isComplete"
-                                    >
+                                    <span class="material-icons-outlined" v-if="task.isComplete">
                                         done
                                     </span>
                                 </span>
                             </div>
                             <div class="task-checklists" v-if="task.checklists">
                                 <span v-if="task.checklists.length">
-                                    <span class="material-icons-outlined">
-                                        check_box
-                                    </span>
+                                    <span class="material-icons-outlined"> check_box </span>
                                     <p>0/2</p>
                                 </span>
                             </div>
@@ -243,13 +214,15 @@
                 console.log('newTask.title', newTask.title);
                 this.$emit('saveEditTask', newTask);
             },
+            openTask() {
+                this.$router.push(`/board/${this.boardId}/task/${this.task.id}`);
+                this.toggleEditCard = !this.toggleEditCard;
+            },
         },
         computed: {
             findCoverImg() {
                 if (this.task.attachments.some((attach) => attach.isCover)) {
-                    const attach = this.task.attachments.find(
-                        (attach) => attach.isCover
-                    );
+                    const attach = this.task.attachments.find((attach) => attach.isCover);
                     this.coverUrl = attach.url;
                 } else if (this.task.coverStyle.bgImg !== 'none') {
                     this.coverUrl = this.task.coverStyle.bgImg;
@@ -265,9 +238,7 @@
                     return this.task.coverStyle.bgColor;
             },
             commentsLength() {
-                let comment = this.task.comments.length
-                    ? this.task.comments.length
-                    : null;
+                let comment = this.task.comments.length ? this.task.comments.length : null;
                 return comment;
             },
             labelsToShow() {
@@ -291,9 +262,7 @@
                 } else return false;
             },
             attachmentLength() {
-                let attachment = this.task.attachments.length
-                    ? this.task.attachments.length
-                    : null;
+                let attachment = this.task.attachments.length ? this.task.attachments.length : null;
                 return attachment;
             },
         },
