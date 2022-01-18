@@ -1,50 +1,61 @@
-import { boardService } from "@/services/board-service.js"
-import { socketService, SOCKET_EVENT_BOARD_UPDATED } from '../services/socket.service'
-
+import { boardService } from '@/services/board-service.js';
+import {
+    socketService,
+    SOCKET_EVENT_BOARD_UPDATED,
+} from '../services/socket.service';
 
 export const boardStore = {
     state: {
         boards: [],
         currBoard: null,
         isLoading: false,
-        watchedBoard: null
+        watchedBoard: null,
     },
     getters: {
-        boards({ boards }) { return boards },
+        boards({ boards }) {
+            return boards;
+        },
         boardsToShow(state) {
             return state.boards;
         },
         getCurrBoard(state) {
-            return state.currBoard
+            return state.currBoard;
         },
-        isLoading({ isLoading }) { return isLoading },
+        isLoading({ isLoading }) {
+            return isLoading;
+        },
         // watchedBoard({ watchedBoard }) { return watchedBoard }
-
     },
     mutations: {
         setLoading(state, { isLoading }) {
-            state.isLoading = isLoading
+            state.isLoading = isLoading;
         },
         getBoard(state, { board }) {
-            state.currBoard = board
+            state.currBoard = board;
         },
         setBoards(state, { boards }) {
             state.boards = boards;
         },
         setBoard(state, { board }) {
-            state.currBoard = board
+            state.currBoard = board;
         },
         addBoard(state, { savedBoard }) {
-            state.boards.push(savedBoard)
+            state.boards.push(savedBoard);
         },
         updateBoard(state, { board }) {
-            state.currBoard = board
+            state.currBoard = board;
             console.log('hi from mutations updateBoard');
+            const idx = state.boards.findIndex(
+                (currB) => currB._id === board._id
+            );
+            state.boards.splice(idx, 1, board);
             // console.log(' state.currBoard from mutations ', state.currBoard._id);
         },
         removeBoard(state, payload) {
-            const idx = state.boards.findIndex(board => board._id === payload.boardId)
-            state.boards.splice(idx, 1)
+            const idx = state.boards.findIndex(
+                (board) => board._id === payload.boardId
+            );
+            state.boards.splice(idx, 1);
         },
         // addActivity(state, { activity }) {
         //     boardService.addActivity(state.currBoard._id, activity)
@@ -63,7 +74,7 @@ export const boardStore = {
                 commit({ type: 'setBoards', boards });
                 socketService.on('User connected', (msg) => {
                     console.log('msg', msg);
-                })
+                });
             } catch (err) {
                 console.log('Error in Query Boards (Store):', err);
                 throw err;
@@ -85,20 +96,20 @@ export const boardStore = {
 
         async setBoard({ commit }, { boardId }) {
             const board = await boardService.getById(boardId);
-            commit({ type: 'setBoard', board })
+            commit({ type: 'setBoard', board });
         },
 
         async addBoard({ commit }, { board }) {
             try {
                 const savedBoard = await boardService.save(board);
-                commit({ type: 'addBoard', savedBoard })
+                commit({ type: 'addBoard', savedBoard });
                 // socketService.off('update-board')
                 // socketService.emit('update-board', newBoard)
                 // socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
                 // })
                 return savedBoard;
             } catch (err) {
-                console.log("addBoard (Store):", err);
+                console.log('addBoard (Store):', err);
                 throw err;
             }
         },
@@ -107,13 +118,13 @@ export const boardStore = {
             try {
                 const newBoard = await boardService.save(board);
                 console.log('updateBoard');
-                socketService.emit('update-board', newBoard)
-                socketService.off('update-board')
-                socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
-                    commit({ type: 'getBoard', board: newBoard })
+                socketService.emit('update-board', newBoard);
+                socketService.off('update-board');
+                socketService.on(SOCKET_EVENT_BOARD_UPDATED, (newBoard) => {
+                    commit({ type: 'updateBoard', board: newBoard });
                     console.log('%c updateBoard', 'background: yellow');
-                })
-
+                });
+                return newBoard;
             } catch (err) {
                 console.log('updateBoard (Store):', err);
                 throw err;
@@ -122,8 +133,11 @@ export const boardStore = {
 
         async updateBoardTitle({ commit }, { boardId, title }) {
             try {
-                const newBoard = await boardService.updateBoardTitle(boardId, title);
-                commit({ type: 'updateBoard', board: newBoard })
+                const newBoard = await boardService.updateBoardTitle(
+                    boardId,
+                    title
+                );
+                commit({ type: 'updateBoard', board: newBoard });
                 // socketService.emit('update-board', newBoard)
                 // socketService.off('update-board')
                 // socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
@@ -138,8 +152,11 @@ export const boardStore = {
 
         async addGroup({ commit }, { boardId, groupTitle }) {
             try {
-                const newBoard = await boardService.addGroup(boardId, groupTitle);
-                commit({ type: 'updateBoard', board: newBoard })
+                const newBoard = await boardService.addGroup(
+                    boardId,
+                    groupTitle
+                );
+                commit({ type: 'updateBoard', board: newBoard });
                 // socketService.emit(SOCKET_EVENT_BOARD_UPDATED, newBoard)
                 // socketService.off('update-board')
                 // socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
@@ -148,7 +165,7 @@ export const boardStore = {
                 // console.log('Got savedBoard ##$%%^&&** from socket', newBoard);
                 // })
             } catch (err) {
-                console.log("addGroup (Store):", err);
+                console.log('addGroup (Store):', err);
                 throw err;
             }
         },
@@ -156,15 +173,18 @@ export const boardStore = {
         async updateBoardBgc({ commit }, { boardId, style }) {
             // console.log('boardId store', boardId);
             try {
-                const newBoard = await boardService.updateBgcBoard(boardId, style);
-                commit({ type: 'updateBoard', board: newBoard })
-                socketService.emit(SOCKET_EVENT_BOARD_UPDATED, newBoard)
-                socketService.off('update-board')
-                socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
+                const newBoard = await boardService.updateBgcBoard(
+                    boardId,
+                    style
+                );
+                commit({ type: 'updateBoard', board: newBoard });
+                socketService.emit(SOCKET_EVENT_BOARD_UPDATED, newBoard);
+                socketService.off('update-board');
+                socketService.on(SOCKET_EVENT_BOARD_UPDATED, (newBoard) => {
                     // commit({ type: 'updateBoard', board: newBoard })
-                    commit({ type: 'getBoard', board: newBoard })
+                    commit({ type: 'getBoard', board: newBoard });
                     console.log('%c updateBoardBgc', 'background: green');
-                })
+                });
             } catch (err) {
                 console.log('updateBoard (Store):', err);
                 throw err;
@@ -183,20 +203,23 @@ export const boardStore = {
 
         async updateGroup({ commit }, { boardId, group }) {
             try {
-                const newBoard = await boardService.updateGroup(boardId, group)
-                commit({ type: 'updateBoard', board: newBoard })
+                const newBoard = await boardService.updateGroup(boardId, group);
+                commit({ type: 'updateBoard', board: newBoard });
                 console.log('updateGroup');
                 // Working with socket from updateBoard
             } catch (err) {
-                console.log("updateGroup (Store):", err);
+                console.log('updateGroup (Store):', err);
                 throw err;
             }
         },
 
         async removeGroup({ commit }, { boardId, groupId }) {
             try {
-                const newBoard = await boardService.removeGroup(boardId, groupId);
-                commit({ type: 'updateBoard', board: newBoard })
+                const newBoard = await boardService.removeGroup(
+                    boardId,
+                    groupId
+                );
+                commit({ type: 'updateBoard', board: newBoard });
                 // socketService.emit('update-board', newBoard)
                 // socketService.off('update-board')
                 // socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
@@ -210,63 +233,77 @@ export const boardStore = {
         },
         async addGroup({ commit }, { boardId, groupTitle }) {
             try {
-                const newBoard = await boardService.addGroup(boardId, groupTitle);
-                commit({ type: 'updateBoard', board: newBoard })
-                socketService.emit('update-board', newBoard)
-                socketService.off('update-board')
-                socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
-                    commit({ type: 'getBoard', board: newBoard })
+                const newBoard = await boardService.addGroup(
+                    boardId,
+                    groupTitle
+                );
+                commit({ type: 'updateBoard', board: newBoard });
+                socketService.emit('update-board', newBoard);
+                socketService.off('update-board');
+                socketService.on(SOCKET_EVENT_BOARD_UPDATED, (newBoard) => {
+                    commit({ type: 'getBoard', board: newBoard });
                     console.log('%c updateBoard', 'background: yellow');
-                })
+                });
             } catch (err) {
-                console.log("addGroup (Store):", err);
+                console.log('addGroup (Store):', err);
                 throw err;
             }
         },
 
         async addTask({ commit }, { boardId, groupId, taskTitle }) {
             try {
-                const newBoard = await boardService.addTask(boardId, groupId, taskTitle);
-                commit({ type: 'updateBoard', board: newBoard })
-                socketService.emit('update-board', newBoard)
-                socketService.off('update-board')
-                socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
-                    commit({ type: 'getBoard', board: newBoard })
+                const newBoard = await boardService.addTask(
+                    boardId,
+                    groupId,
+                    taskTitle
+                );
+                commit({ type: 'updateBoard', board: newBoard });
+                socketService.emit('update-board', newBoard);
+                socketService.off('update-board');
+                socketService.on(SOCKET_EVENT_BOARD_UPDATED, (newBoard) => {
+                    commit({ type: 'getBoard', board: newBoard });
                     console.log('%c updateBoard', 'background: yellow');
-                })
-
+                });
             } catch (err) {
-                console.log("addTask Error (Store):", err);
+                console.log('addTask Error (Store):', err);
                 throw err;
             }
         },
 
         async updateTask({ commit }, { boardId, groupId, task }) {
             try {
-                const newBoard = await boardService.updateTask(boardId, groupId, task);
-                commit({ type: 'updateBoard', board: newBoard })
-                socketService.emit('update-board', newBoard)
-                socketService.off('update-board')
-                socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
-                    commit({ type: 'getBoard', board: newBoard })
+                const newBoard = await boardService.updateTask(
+                    boardId,
+                    groupId,
+                    task
+                );
+                commit({ type: 'updateBoard', board: newBoard });
+                socketService.emit('update-board', newBoard);
+                socketService.off('update-board');
+                socketService.on(SOCKET_EVENT_BOARD_UPDATED, (newBoard) => {
+                    commit({ type: 'getBoard', board: newBoard });
                     console.log('%c updateBoard', 'background: yellow');
-                })
+                });
             } catch (err) {
-                console.log("updateTask Error (Store):", err);
+                console.log('updateTask Error (Store):', err);
                 throw err;
             }
         },
 
         async removeTask({ commit }, { boardId, groupId, task }) {
             try {
-                const newBoard = await boardService.removeTask(boardId, groupId, task);
-                commit({ type: 'updateBoard', board: newBoard })
-                socketService.emit('update-board', newBoard)
-                socketService.off('update-board')
-                socketService.on(SOCKET_EVENT_BOARD_UPDATED, newBoard => {
+                const newBoard = await boardService.removeTask(
+                    boardId,
+                    groupId,
+                    task
+                );
+                commit({ type: 'updateBoard', board: newBoard });
+                socketService.emit('update-board', newBoard);
+                socketService.off('update-board');
+                socketService.on(SOCKET_EVENT_BOARD_UPDATED, (newBoard) => {
                     //     // commit({ type: 'getBoard', board: newBoard })
                     console.log('%c updateBoard', 'background: yellow');
-                })
+                });
             } catch (err) {
                 console.log('removeGroup (Store):', err);
                 throw err;
@@ -286,15 +323,8 @@ export const boardStore = {
         //         throw err
         //     }
         // },
-
-    }
-}
-
-
-
-
-
-
+    },
+};
 
 // async updateTask({ commit }, { boardId, groupId, task }) {
 //     try {

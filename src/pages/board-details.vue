@@ -3,8 +3,8 @@
         <div v-if="!board" class="is-loading-container">
             <img
                 src="../assets/img/loading.gif"
-                width="50"
-                height="50"
+                width="40"
+                height="40"
                 frameBorder="0"
             />
         </div>
@@ -98,25 +98,26 @@
         },
 
         created() {
-            // this.loadBoard();
-            this.getBoard();
+            this.loadBoard();
+            // this.getBoard();
+            // console.log('', this.board.title);
         },
 
         methods: {
-            // async loadBoard() {
-            //     const { boardId } = this.$route.params;
-            //     try {
-            //         const board = await this.$store.dispatch({
-            //             type: 'getBoard',
-            //             boardId,
-            //         });
-            //         this.board = board;
-            //         this.boardId = boardId;
-            //     } catch (err) {
-            //         console.log('Board Loading Error (board-details):', err);
-            //         throw err;
-            //     }
-            // },
+            async loadBoard() {
+                const { boardId } = this.$route.params;
+                try {
+                    const board = await this.$store.dispatch({
+                        type: 'getBoard',
+                        boardId,
+                    });
+                    this.board = board;
+                    this.boardId = boardId;
+                } catch (err) {
+                    console.log('Board Loading Error (board-details):', err);
+                    throw err;
+                }
+            },
             getBoard() {
                 this.board = this.$store.getters.getCurrBoard;
             },
@@ -188,6 +189,7 @@
         watch: {
             '$store.getters.getCurrBoard'(board) {
                 this.board = { ...board };
+                // console.log('watch', this.board.title);
             },
         },
 

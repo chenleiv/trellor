@@ -13,6 +13,7 @@
                     v-model="userLogin.password"
                     type="password"
                 />
+                <small>{{ error }}</small>
                 <button>Login</button>
                 <button @click="googleSignup">
                     <img src="@/assets/img/icons8-google.svg" alt="" /><span
@@ -31,23 +32,22 @@
                     type="text"
                     v-model="userSignup.username"
                 />
+
                 <input
                     placeholder="fullname"
                     v-model="userSignup.fullname"
                     type="text"
                 />
-                <!-- <ValidationProvider name="password" rules="required|password">
-                    <div slot-scope="{ errors }"> -->
+
                 <input
                     placeholder="password"
                     v-model="userSignup.password"
                     type="password"
                 />
-                <!-- <p>{{ errors[0] }}</p>
-                    </div>
-                </ValidationProvider> -->
-                <!-- <img src="@/assets/img/undraw_completed_tasks_vs6q.svg" alt="" /> -->
+                <small>{{ passError }}</small>
+                <small>{{ error }}</small>
                 <button>Signup</button>
+
                 <button @click="googleSignup">
                     <img src="@/assets/img/icons8-google.svg" alt="" />Continue
                     with Google
@@ -60,10 +60,14 @@
 
 <script>
     import { ValidationProvider } from 'vee-validate';
+    import { extend } from 'vee-validate';
+
     export default {
         data() {
             return {
                 islogin: true,
+                error: '',
+                passError: '',
                 userLogin: {
                     username: null,
                     password: null,
@@ -85,22 +89,42 @@
         },
         methods: {
             async login() {
+                if (!this.userLogin.username || !this.userLogin.password) {
+                    this.error =
+                        'Please enter your username and password to continue';
+                    return;
+                }
+                this.error = '';
                 try {
                     let user = this.userLogin;
                     await this.$store.dispatch({ type: 'login', user });
                     this.$router.push('/workspace');
-                    console.log('login', user);
                 } catch (err) {
-                    console.log('Error in Login :', err);
-                    throw err;
+                    // console.log('Error in Login :', err);
+                    this.error = 'Invalid username or password';
+                    // throw err;
                 }
             },
             async signup() {
+                if (
+                    !this.userSignup.username ||
+                    !this.userSignup.password ||
+                    !this.userSignup.fullname
+                ) {
+                    this.error = 'Please enter all fields';
+                    return;
+                }
+                this.error = '';
+                if (this.userSignup.password.length < 8) {
+                    this.passError = 'Password must be atleast 8 chars';
+                    return;
+                }
+
+                this.passError = '';
                 try {
                     let user = this.userSignup;
                     await this.$store.dispatch({ type: 'signup', user });
                     this.$router.push('/workspace');
-                    console.log('signup', user);
                 } catch (err) {
                     console.log('Error in SignUp :', err);
                     throw err;
@@ -108,16 +132,14 @@
             },
             async googleSignup() {
                 const googleUser = await this.$gAuth.signIn();
-                // console.log('', googleUser.getBasicProfile());
                 try {
                     const user = googleUser.getBasicProfile();
                     this.googleUser = {
-                        username: user.pv,
-                        password: user.HW,
-                        fullname: user.jf,
+                        username: user.nv,
+                        password: user.EW,
+                        fullname: user.qf,
                         imgUrl: user.oN,
                     };
-                    // console.log('this.googleUser', this.googleUser);
                     try {
                         await this.$store.dispatch({
                             type: 'signup',
@@ -132,6 +154,9 @@
                     throw err;
                 }
             },
+        },
+        components: {
+            ValidationProvider,
         },
     };
 </script>

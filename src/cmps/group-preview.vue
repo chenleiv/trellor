@@ -98,7 +98,6 @@
 
 <script>
     import taskPreview from '@/cmps/task-preview.vue';
-    import draggable from 'vuedraggable';
     import { Container, Draggable, smoothDnD } from 'vue-smooth-dnd';
     import { applyDrag } from '@/services/util-drag.js';
 
@@ -266,8 +265,6 @@
 
         components: {
             taskPreview,
-            draggable,
-            // Sortable,
             Container,
             Draggable,
         },

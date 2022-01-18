@@ -9,6 +9,7 @@
                         :key="board._id"
                         v-if="board.isStarred"
                         :board="board"
+                        @atleastOneStarred="atleastOneStarred"
                 /></template>
             </div>
 
@@ -69,6 +70,7 @@
                         :key="board._id"
                         v-if="!board.isStarred"
                         :board="board"
+                        @atleastOneStarred="atleastOneStarred"
                 /></template>
             </div>
         </section>
@@ -92,6 +94,7 @@
                     bgColor: 'transparent',
                     bgImg: `url(${require('@/assets/img/' + '2.jpg')})`,
                 },
+                isAtleastOneStarred: true,
             };
         },
         created() {
@@ -150,6 +153,14 @@
                     this.newBoard.Title = '';
                     this.openBoardModal();
                 }
+            },
+        },
+        watch: {
+            'this.boards': {
+                async handler() {
+                    console.log('watch');
+                },
+                immediate: true,
             },
         },
 

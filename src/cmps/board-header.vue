@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section v-if="board">
         <div class="board-header move">
             <div class="left-side-header">
                 <div class="left-and-members">
@@ -148,7 +148,15 @@
 
     export default {
         name: 'boardHeader',
-        props: ['board'],
+        props: {
+            board: {
+                type: Object,
+                required: true,
+                default: function () {
+                    return { msg: 'No Board' };
+                },
+            },
+        },
 
         data() {
             return {
@@ -167,6 +175,7 @@
         created() {
             // this.boardId = this.board._id;
             this.availUsers = this.users;
+            console.log('', this.board.title);
             // console.log('', this.board.members);
             this.boardId = this.board._id;
         },

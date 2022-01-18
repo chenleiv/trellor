@@ -21,7 +21,7 @@
                     >
                     </el-input>
                 </div> -->
-                <button class="alert"></button>
+                <!-- <button class="alert"></button> -->
                 <router-link v-if="!loggedInUser" to="/login">
                     Login</router-link
                 >

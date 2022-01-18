@@ -36,6 +36,10 @@
             };
         },
         methods: {
+            clickBoard() {
+                console.log('', this.board);
+                this.$router.push(`/board/${this.board._id}`);
+            },
             updateStarBoard() {
                 this.isStarred = !this.isStarred;
                 const changedBoard = JSON.parse(JSON.stringify(this.board));
@@ -48,7 +52,6 @@
                         type: 'updateBoard',
                         board: changedBoard,
                     });
-
                     console.log(`Board changed successfully`);
                 } catch (err) {
                     console.log('Error in adding a board (workspace):', err);
