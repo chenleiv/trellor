@@ -13,16 +13,14 @@
                     v-model="userLogin.password"
                     type="password"
                 />
-                <small>{{ error }}</small>
+                <small v-if="error">{{ error }}</small>
                 <button>Login</button>
-                <button @click="googleSignup">
-                    <img src="@/assets/img/icons8-google.svg" alt="" /><span
-                        >Continue with Google</span
-                    >
-                </button>
-
-                <span @click="islogin = false">Or Sign up</span>
             </form>
+            <button class="google-btn" @click="googleSignup">
+                <img src="@/assets/img/icons8-google.svg" alt="" /><span
+                    >Continue with Google</span
+                ></button
+            ><span @click="islogin = false">Or Sign up</span>
         </div>
         <div v-else>
             <h4>Sign up</h4>
@@ -44,15 +42,14 @@
                     v-model="userSignup.password"
                     type="password"
                 />
-                <small>{{ passError }}</small>
-                <small>{{ error }}</small>
+                <small v-if="passError">{{ passError }}</small>
+                <small v-if="error">{{ error }}</small>
                 <button>Signup</button>
-
-                <button @click="googleSignup">
-                    <img src="@/assets/img/icons8-google.svg" alt="" />Continue
-                    with Google
-                </button>
             </form>
+            <button class="google-btn" @click="googleSignup">
+                <img src="@/assets/img/icons8-google.svg" alt="" />Continue with
+                Google
+            </button>
             <span @click="islogin = true">Or login</span>
         </div>
     </section>
@@ -134,20 +131,20 @@
                 const googleUser = await this.$gAuth.signIn();
                 try {
                     const user = googleUser.getBasicProfile();
+
                     this.googleUser = {
-                        username: user.nv,
-                        password: user.EW,
-                        fullname: user.qf,
-                        imgUrl: user.oN,
+                        username: user.getEmail(),
+                        password: user.getId(),
+                        fullname: user.getName(),
+                        imgUrl: user.getImageUrl(),
                     };
-                    try {
+                    if (this.googleUser.username !== '') {
                         await this.$store.dispatch({
                             type: 'signup',
                             user: this.googleUser,
                         });
+
                         this.$router.push('/workspace');
-                    } catch (err) {
-                        console.log('Error in google SignUp :', err);
                     }
                 } catch (err) {
                     console.log('Error in google SignUp :', err);

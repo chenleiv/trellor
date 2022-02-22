@@ -71,6 +71,7 @@
         flex-direction: column;
         gap: 8px;
         padding-bottom: 8px;
+        touch-action: manipulation;
         overflow-y: auto;
         overflow-x: hidden;
         &::-webkit-scrollbar {
@@ -101,7 +102,7 @@
         margin: 0 4px;
         padding: 0 4px;
         padding-bottom: 8px;
-        & > div {
+        &>div {
             width: 100%;
         }
         .add-a-task {
@@ -184,8 +185,9 @@
     // cursor: grabbing;
 }
 
-.smooth-dnd-container.vertical > .smooth-dnd-draggable-wrapper {
+.smooth-dnd-container.vertical>.smooth-dnd-draggable-wrapper {
     overflow: visible !important;
+    touch-action: manipulation;
 }
 
 .smooth-dnd-draggable-wrapper {
