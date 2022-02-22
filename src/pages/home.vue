@@ -10,7 +10,8 @@
                         dashboards to help every team do their best work
                     </p>
                 </article>
-                <router-link to="/workspace"><h2>Try Demo</h2> </router-link>
+                <button @click="goTo">Try Demo</button>
+                <!-- <router-link to="/workspace"><h2>Try Demo</h2> </router-link> -->
             </div>
 
             <img src="@/assets/img/homepage.jpg" alt="" />
@@ -26,6 +27,11 @@
 
     export default {
         name: 'home',
+        methods: {
+            goTo() {
+                this.$router.push('/workspace');
+            },
+        },
         components: {},
     };
 </script>
