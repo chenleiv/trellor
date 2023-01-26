@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { router } from '@/router';
 
 const BASE_URL =
-    process.env.NODE_ENV === 'production' ? '/api/' : 'https://trellor.onrender.com/api/';
+    process.env.NODE_ENV === 'production' ? 'https://trellor.onrender.com/api/' : '//localhost:3030/api/';
 
 var axios = Axios.create({
     withCredentials: true,
