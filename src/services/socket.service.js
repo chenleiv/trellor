@@ -6,7 +6,7 @@ export const SOCKET_EVENT_BOARD_UPDATED = 'update-board';
 // export const SOCKET_EVENT_REVIEW_ABOUT_YOU = 'review-about-you';
 
 
-const baseUrl = (process.env.NODE_ENV === 'production') ? 'https://trellor.onrender.com/api/' : '//localhost:3030'
+const baseUrl = (process.env.NODE_ENV === 'production') ? 'https://trellor.onrender.com/' : '//localhost:3030'
 export const socketService = createSocketService()
 // export const socketService = createDummySocketService()
 
